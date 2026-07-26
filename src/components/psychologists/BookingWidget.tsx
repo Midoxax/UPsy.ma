@@ -343,7 +343,7 @@ export const BookingWidget = ({
             </p>
             <p><span className="text-foreground font-medium">Duration:</span> <span className="font-mono tabular-nums">50</span> minutes</p>
             {hourlyRate && (
-              <p><span className="text-foreground font-medium">Fee:</span> <span className="font-mono tabular-nums text-foreground">{hourlyRate}</span> MAD</p>
+              <p><span className="text-foreground font-medium">Fee:</span> <span className="font-mono tabular-nums text-foreground">{Math.round((hourlyRate * 50 / 60) * 100) / 100}</span> MAD</p>
             )}
           </div>
 
