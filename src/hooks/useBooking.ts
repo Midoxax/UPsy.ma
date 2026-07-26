@@ -133,6 +133,19 @@ export const useCreateBooking = () => {
       amount_mad?: number;
     }) => {
       if (!user) throw new Error("Not authenticated");
+
+      // The bookings INSERT policy requires amount_mad to equal the psychologist's
+      // hourly rate prorated to the session duration. Always compute it from the
+      // authoritative rate instead of trusting a passed-in hourly figure.
+      const { data: psy, error: psyError } = await supabase
+        .from("psychologist_profiles")
+        .select("hourly_rate_mad")
+        .eq("id", booking.psychologist_id)
+        .maybeSingle();
+      if (psyError) throw psyError;
+      const rate = psy?.hourly_rate_mad ?? 0;
+      const amount = Math.round((rate * booking.duration_minutes / 60) * 100) / 100;
+
       const { error } = await supabase.from("bookings").insert({
         psychologist_id: booking.psychologist_id,
         patient_id: user.id,
@@ -140,7 +153,8 @@ export const useCreateBooking = () => {
         session_type: booking.session_type,
         duration_minutes: booking.duration_minutes,
         patient_notes: booking.patient_notes ?? null,
-        amount_mad: booking.amount_mad ?? null,
+        amount_mad: amount,
+        status: "pending",
       });
       if (error) throw error;
     },
