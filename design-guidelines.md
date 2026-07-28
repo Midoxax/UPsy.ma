@@ -34,7 +34,7 @@ Feels like a private museum crossed with a calm therapy room: editorial, warm, a
 - **Arabic (`:lang(ar)`, `[dir="rtl"]`):** Amiri, serif — bold (700) for headings
 - **Mono (numerals/data):** JetBrains Mono, ui-monospace, monospace
 
-All five families are loaded via Google Fonts in `index.html` — keep that link in sync whenever a weight or family here changes, or the browser silently falls back to Georgia/system-ui.
+All five families are self-hosted via `@fontsource` packages, imported directly in `src/main.tsx` (one `import` per weight/style, e.g. `@fontsource/fraunces/600.css`). Keep those imports in sync whenever a weight is added or dropped here — don't reintroduce a Google Fonts CDN link for these, it would duplicate what's already self-hosted and add an unnecessary third-party request.
 
 ### Rules
 - Max body width: ~68 characters (`.text-body` caps at `68ch`)
