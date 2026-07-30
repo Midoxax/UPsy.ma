@@ -5071,6 +5071,60 @@ export type Database = {
         }
         Relationships: []
       }
+      survey_responses: {
+        Row: {
+          ambassador_code: string | null
+          answers: Json
+          completed: boolean
+          completed_at: string | null
+          created_at: string
+          device_type: string | null
+          duration_seconds: number | null
+          id: string
+          language: string
+          last_step: number
+          referral_source: string | null
+          session_token: string
+          total_steps: number
+          track: string
+          vw_coherent: boolean | null
+        }
+        Insert: {
+          ambassador_code?: string | null
+          answers?: Json
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+          device_type?: string | null
+          duration_seconds?: number | null
+          id?: string
+          language?: string
+          last_step?: number
+          referral_source?: string | null
+          session_token?: string
+          total_steps?: number
+          track: string
+          vw_coherent?: boolean | null
+        }
+        Update: {
+          ambassador_code?: string | null
+          answers?: Json
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+          device_type?: string | null
+          duration_seconds?: number | null
+          id?: string
+          language?: string
+          last_step?: number
+          referral_source?: string | null
+          session_token?: string
+          total_steps?: number
+          track?: string
+          vw_coherent?: boolean | null
+        }
+        Relationships: []
+      }
       therapy_approaches: {
         Row: {
           created_at: string | null
@@ -5845,6 +5899,8 @@ export type Database = {
         }
         Returns: number
       }
+      observatoire_answer_stats: { Args: { _track: string }; Returns: Json }
+      observatoire_summary: { Args: never; Returns: Json }
       ops_has_workspace_access: {
         Args: { _user: string; _workspace: string }
         Returns: boolean
@@ -6008,6 +6064,23 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      survey_save: {
+        Args: {
+          _ambassador_code?: string
+          _answers: Json
+          _completed?: boolean
+          _device_type?: string
+          _duration_seconds?: number
+          _language: string
+          _last_step: number
+          _referral_source?: string
+          _session_token: string
+          _total_steps: number
+          _track: string
+          _vw_coherent?: boolean
+        }
+        Returns: undefined
       }
       validate_coupon: {
         Args: { _amount_mad: number; _applies_to: string; _code: string }
