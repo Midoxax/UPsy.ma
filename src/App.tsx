@@ -81,6 +81,7 @@ const MindfulnessForBeginners = lazy(() => import("./pages/blog/MindfulnessForBe
 const HowToImproveFocus = lazy(() => import("./pages/blog/HowToImproveFocus"));
 const HowToClearBrainFog = lazy(() => import("./pages/blog/HowToClearBrainFog"));
 const FreeScore = lazy(() => import("./pages/FreeScore"));
+const Observatoire = lazy(() => import("./pages/Observatoire"));
 const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 const MentalPerformance = lazy(() => import("./pages/MentalPerformance"));
 const MentalToughnessAthletes = lazy(() => import("./pages/MentalToughnessAthletes"));
@@ -136,6 +137,7 @@ const AppRoutes = () => (
     <Route path="psf" element={<PageTransition><PsychologuesSansFrontieres /></PageTransition>} />
     <Route path="psychologists" element={<PageTransition><Psychologists /></PageTransition>} />
     <Route path="press" element={<PageTransition><Press /></PageTransition>} />
+    <Route path="observatoire" element={<PageTransition><Observatoire /></PageTransition>} />
     <Route path="psychologists/:id" element={<PageTransition><PsychologistProfile /></PageTransition>} />
    <Route path="pricing-specialists" element={<PageTransition><SpecialistPricing /></PageTransition>} />
     <Route path="pricing" element={<PageTransition><Pricing /></PageTransition>} />

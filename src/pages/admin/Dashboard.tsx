@@ -23,6 +23,7 @@ import AnamnesisCopyEditor from "@/components/admin/AnamnesisCopyEditor";
 import PricingControl from "@/components/admin/PricingControl";
 import TransactionsTab from "@/components/admin/TransactionsTab";
 import OrgApplicationsManager from "@/components/admin/OrgApplicationsManager";
+import ObservatoireManager from "@/components/admin/ObservatoireManager";
 import CommandPalette from "@/components/admin/CommandPalette";
 import ExportCsvButton from "@/components/admin/ExportCsvButton";
 import UserDetailDrawer from "@/components/admin/UserDetailDrawer";
@@ -707,6 +708,7 @@ const AdminDashboard = () => {
           <TabsContent value="users"><UsersTab /></TabsContent>
           <TabsContent value="accreditation"><AccreditationManager /></TabsContent>
           <TabsContent value="org-applications"><OrgApplicationsManager /></TabsContent>
+          <TabsContent value="observatoire"><ObservatoireManager /></TabsContent>
           <TabsContent value="pricing"><PricingControl /></TabsContent>
           <TabsContent value="transactions"><TransactionsTab /></TabsContent>
           <TabsContent value="translations">
@@ -735,6 +737,7 @@ const SupportAwareTabs = () => {
     { value: "users", label: "Users", icon: Shield },
     { value: "accreditation", label: "Accreditation", icon: Award },
     { value: "org-applications", label: "Org. Apps", icon: Building2 },
+    { value: "observatoire", label: "Observatoire", icon: FlaskConical },
     { value: "pricing", label: "Pricing", icon: DollarSign },
     { value: "transactions", label: "Transactions", icon: Database },
     { value: "translations", label: "Translations", icon: Globe },
