@@ -298,6 +298,33 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/free-score" />
   </url>
   <url>
+    <loc>https://upsy.ma/observatoire</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/observatoire" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/observatoire" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/observatoire" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/observatoire" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/fr/observatoire</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/observatoire" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/observatoire" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/observatoire" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/observatoire" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/ar/observatoire</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/observatoire" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/observatoire" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/observatoire" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/observatoire" />
+  </url>
+  <url>
     <loc>https://upsy.ma/mental-performance</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
