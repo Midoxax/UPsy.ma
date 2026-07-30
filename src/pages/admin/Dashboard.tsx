@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import {
   Users, Activity, TrendingUp, Calendar, DollarSign, CheckCircle,
   Clock, AlertCircle, Search, ChevronDown, MoreVertical,
-  UserCheck, UserX, Eye, Zap, Globe, BookOpen, Award, BarChart3,
+  UserCheck, UserX, Eye, Zap, Globe, BookOpen, Award, BarChart3, FlaskConical,
   ArrowUpRight, ArrowDownRight, Loader2, Bell, Settings, Database,
   Shield, MessageSquare, RefreshCw, Building2, Check, X,
 } from "lucide-react";
