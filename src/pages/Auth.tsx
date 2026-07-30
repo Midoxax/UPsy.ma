@@ -117,7 +117,20 @@ const Auth = () => {
   const { t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [signupData, setSignupData] = useState({ email: "", password: "", confirmPassword: "", fullName: "" });
+  // Optional prefill from acquisition funnels (e.g. /observatoire band A).
+  // State-initialisation only — no change to sign-in, sign-up or redirect logic.
+  const [signupData, setSignupData] = useState(() => {
+    const p = new URLSearchParams(window.location.search);
+    return {
+      email: (p.get("email") || "").slice(0, 200),
+      password: "",
+      confirmPassword: "",
+      fullName: (p.get("name") || "").slice(0, 120),
+    };
+  });
+  const [defaultTab] = useState(() =>
+    new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login"
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
@@ -262,7 +275,7 @@ const Auth = () => {
           <CardDescription className="font-sans text-base">{t('auth.portalDesc')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="login" className="w-full">
+          <Tabs defaultValue={defaultTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">{t('auth.login')}</TabsTrigger>
               <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
