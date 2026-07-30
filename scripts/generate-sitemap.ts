@@ -29,6 +29,7 @@ const ROUTES: Entry[] = [
   { path: "/assessment-lab", changefreq: "monthly", priority: "0.7" },
   { path: "/assessments", changefreq: "monthly", priority: "0.6" },
   { path: "/free-score", changefreq: "monthly", priority: "0.6" },
+  { path: "/observatoire", changefreq: "monthly", priority: "0.7" },
   { path: "/mental-performance", changefreq: "monthly", priority: "0.8" },
   { path: "/mental-toughness-athletes", changefreq: "monthly", priority: "0.8" },
   { path: "/pricing", changefreq: "monthly", priority: "0.8" },
