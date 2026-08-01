@@ -101,7 +101,10 @@ export default function Observatoire() {
   );
 
   const utm = useMemo(() => readUtm(params), [params]);
-  const ambassadorCode = params.get("code") || params.get("amb") || null;
+  const storedReferral =
+    typeof sessionStorage !== "undefined" ? sessionStorage.getItem("upsy_referral_code") : null;
+  // Attribution reuses the existing /invite/:code → `referrals` mechanism.
+  const ambassadorCode = params.get("code") || params.get("amb") || storedReferral || null;
   const referralSource = params.get("ref") || utm.utm_source || null;
 
   const score = useMemo(() => computeIntentScore(answers), [answers]);
