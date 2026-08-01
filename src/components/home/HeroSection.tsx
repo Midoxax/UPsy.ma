@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { MagneticButton } from "@/lib/motion";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
@@ -23,9 +24,20 @@ const HeroSection = () => {
       <div className="absolute inset-0" aria-hidden="true">
         {!prefersReducedMotion && (
           <div className="absolute inset-0 opacity-80">
-            <Suspense fallback={null}>
-              <HeroScene />
-            </Suspense>
+            {/*
+              The 3D backdrop is purely decorative, so it must never be able to
+              take the page down with it. Without this boundary a WebGL failure
+              (no GPU, blocked context, driver crash) or a rejected asset fetch
+              propagates past Suspense to the app-level ErrorBoundary and
+              replaces the entire landing page with "Something went wrong".
+              Degrading to the gradient + vignette behind it is invisible to
+              almost everyone.
+            */}
+            <ErrorBoundary fallback={null}>
+              <Suspense fallback={null}>
+                <HeroScene />
+              </Suspense>
+            </ErrorBoundary>
           </div>
         )}
         {/* Vignette so foreground stays readable */}

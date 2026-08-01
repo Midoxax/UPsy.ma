@@ -2,6 +2,7 @@ import { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshDistortMaterial, Sphere, Stars, Environment } from "@react-three/drei";
 import * as THREE from "three";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /**
  * HeroScene — cinematic 3D orb for the marketing hero.
@@ -87,7 +88,16 @@ export default function HeroScene() {
         <Stars radius={40} depth={30} count={1500} factor={3.5} saturation={0} fade speed={0.6} />
         <CoreOrb />
         <OrbitingSatellites />
-        <Environment preset="night" />
+        {/*
+          `preset` makes drei fetch an HDR environment map from a third-party
+          CDN at runtime. On a blocked, throttled or offline network that fetch
+          rejects and takes the whole scene down, so it gets its own boundary:
+          losing the reflection map costs a little specular richness, while the
+          orb, satellites and starfield keep rendering off the lights above.
+        */}
+        <ErrorBoundary fallback={null}>
+          <Environment preset="night" />
+        </ErrorBoundary>
       </Suspense>
     </Canvas>
   );
