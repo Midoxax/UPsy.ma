@@ -29,9 +29,24 @@ const FULL = process.argv.includes("--full");
 // (needed in sandboxes that pre-install Chromium elsewhere).
 const CHROME = process.env.CHROME_PATH || undefined;
 
+// Public marketing surface.
 const ROUTES = [
   "/", "/about", "/services", "/psychologists", "/pricing",
   "/contact", "/auth", "/founder", "/resources", "/apply",
+];
+
+// Category A: the routes a beta user must be able to reach.
+//
+// Checked unauthenticated, which is the point — a protected route must
+// *redirect* to /auth, never white-screen. A guard that throws instead of
+// redirecting looks identical to a broken product from the user's side, and
+// nothing else in the pipeline would catch it. These cannot be logged into
+// from CI, so this asserts the boundary, not the flow behind it.
+const CRITICAL_ROUTES = [
+  "/auth", "/auth/mfa-setup", "/apply/wizard", "/apply/organization",
+  "/get-matched", "/dashboard", "/dashboard/client", "/dashboard/specialist",
+  "/dashboard/organization", "/my-space", "/intake", "/book-a-call",
+  "/session/test-id", "/booking/respond/test-token",
 ];
 const BREAKPOINTS = [
   { name: "phone", width: 390, height: 844 },
@@ -173,7 +188,9 @@ const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 
 const themeInit = (t) => `try{localStorage.setItem('u-psy-theme-v2','${t}')}catch(e){}`;
 
-const routes = FULL ? ROUTES.flatMap((r) => LOCALES.map((l) => l + (r === "/" ? "/" : r))) : ROUTES;
+const routes = FULL
+  ? [...ROUTES, ...CRITICAL_ROUTES].flatMap((r) => LOCALES.map((l) => l + (r === "/" ? "/" : r)))
+  : [...ROUTES, ...CRITICAL_ROUTES];
 const breakpoints = FULL ? BREAKPOINTS : [BREAKPOINTS[0], BREAKPOINTS[2]];
 
 let checked = 0;
