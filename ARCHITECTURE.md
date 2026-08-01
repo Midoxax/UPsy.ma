@@ -42,12 +42,21 @@ src/
     supabase/     generated client + database types
     lovable/      OAuth wrapper — see "Lovable coupling"
   hooks/          shared hooks
-  ops/            internal operations console (lazy, separate entry)
+  ops/            content and campaign tooling (Director, Events, Tasks,
+                  Preview). NOT the support console — despite the name. The
+                  admin surface engineers usually want is src/pages/admin
+                  (users, psychologists, bookings, transactions, support,
+                  accreditation, learning, pricing, translations).
 tests/
+  unit/           vitest: i18n resolution, theming, auth guards, event catalogue
   audit/run.mjs   browser audit: a11y, overflow, tap targets, i18n leaks
   visual/run.ts   screenshot regression harness (needs Playwright installed)
 scripts/
+  check-runtime.mjs      .nvmrc and engines.node agree, and match the running node
   check-env-safety.mjs   blocks committing secrets to a tracked .env
+  check-bundle-size.mjs  critical-path payload against bundle-budget.json
+  verify-build.mjs       dist/ is servable: assets, placeholders, robots, metadata
+  check-production.mjs   the *deployed* site: headers, auth wall, routes
   generate-sitemap.ts    runs automatically on predev/prebuild
 ```
 
@@ -98,6 +107,27 @@ warn in development.
 
 Arabic sets `dir="rtl"` on `<html>`. Use logical CSS properties (`ms-`, `me-`,
 `start-`, `end-`) rather than `ml-`/`mr-` so layouts mirror correctly.
+
+## Event backbone
+
+`platform_events` is a transactional outbox: every business event is published
+there exactly once, and CRM, warehouse, notifications and partner webhooks are
+subscribers. Domain code never learns a CRM exists — it publishes
+`booking.confirmed`.
+
+- Catalogue and routing: `src/lib/events/catalogue.ts`. Adding an event is a
+  product decision; once published, external consumers depend on its name.
+- Publisher for edge functions: `supabase/functions/_shared/events.ts`.
+- Publish in the same transaction as the business change. Outside one, pass an
+  idempotency key so a retry cannot duplicate.
+- **Payloads carry business facts only** — never PHI, never clinical content.
+  This table fans out past the clinical boundary.
+- **Clinical events never route to the CRM.** Enforced by a test, not a
+  convention.
+
+Distinct from `audit_log`, deliberately: audit answers "who did what" and is
+immutable compliance evidence; events answer "what happened" and are a delivery
+mechanism with retries and consumer state.
 
 ## Security model
 
@@ -195,5 +225,15 @@ Ordered by impact.
 5. **Header nav links measure 20px** against the 24px WCAG 2.2 target minimum,
    despite padding that should clear it. Cause not yet identified.
 6. **`/pricing` has no French or Arabic copy** — falls back to English.
-8. **68 of 78 routes unaudited.** The audit covers 10 public routes; the
+8. **Supabase migrations may not be reaching the database.** The GitHub
+   integration for project `bvhqdgiptlnfclnsybaz` reports it only watches
+   `UPsy supa/supabase`, a path that does not exist in this repository — all 96
+   migrations live in `supabase/`. The app's `.env` also points at a *different*
+   project (`vuawmihxcaewzmkuarkr`). Until this is resolved, assume no schema
+   change committed here is applied automatically, including
+   `platform_events`. **Verify before relying on any migration.**
+9. **Production sits behind Vercel Deployment Protection.** The owner's browser
+   is authenticated and sees a working site; everyone else gets an SSO wall.
+   `scripts/check-production.mjs` detects this and names it.
+10. **68 of 78 routes unaudited.** The audit covers 10 public routes; the
    authenticated dashboards and the ops console are untested.
