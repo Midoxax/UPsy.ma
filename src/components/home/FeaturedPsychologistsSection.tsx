@@ -159,7 +159,12 @@ const FeaturedPsychologistsSection = () => {
                           )}
                         </div>
                         {psych.offers_online && (
+                          // role="img" so the label is actually exposed: ARIA
+                          // prohibits aria-label on a generic span, so this
+                          // availability status was being dropped silently by
+                          // screen readers.
                           <span
+                            role="img"
                             className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-card"
                             aria-label={tf("featured.availableToday", "Available today")}
                           />

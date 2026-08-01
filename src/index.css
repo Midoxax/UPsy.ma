@@ -78,7 +78,12 @@ html.lenis body {
     --muted-foreground: 0 0% 32%;
     --accent: var(--warm-maroon);
     --accent-foreground: 36 41% 97%;
-    --destructive: 0 84% 60%;
+    /* Darkened from 0 84% 60% (#EF4444). That value is fine behind white text
+       on a button, but as *text* on our ivory surfaces it measured 3.65:1 —
+       under the 4.5:1 AA floor, and it is what the crisis-services warning in
+       the footer is rendered in. This shade clears AA as text and still pairs
+       safely with --destructive-foreground as a fill. */
+    --destructive: 0 74% 42%;
     --destructive-foreground: var(--white);
     --border: 36 20% 86%;
     --input: 36 20% 92%;

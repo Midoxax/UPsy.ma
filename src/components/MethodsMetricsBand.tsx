@@ -12,7 +12,7 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { translations } from "@/lib/i18n/translations";
 
 export const MethodsMetricsBand = () => {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const band = (translations[locale] as any).services?.methodsBand ?? (translations.en as any).services.methodsBand;
 
   return (
@@ -48,8 +48,15 @@ export const MethodsMetricsBand = () => {
                     </Badge>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <button className="ml-auto">
-                          <Info className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" strokeWidth={2} />
+                        {/* Icon-only trigger: needs a name for screen readers, and
+                            p-2/-m-2 lifts the 16px icon to a 32px tap target
+                            without shifting the layout around it. */}
+                        <button
+                          type="button"
+                          aria-label={`${t("common.learnMore") || "Learn more about"} ${method.name}`}
+                          className="ml-auto p-2 -m-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          <Info className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" strokeWidth={2} aria-hidden="true" />
                         </button>
                       </DialogTrigger>
                       <DialogContent className="bg-background">
@@ -92,8 +99,12 @@ export const MethodsMetricsBand = () => {
                     </Badge>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <button className="ml-auto">
-                          <Info className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" strokeWidth={2} />
+                        <button
+                          type="button"
+                          aria-label={`${t("common.learnMore") || "Learn more about"} ${metric.name}`}
+                          className="ml-auto p-2 -m-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          <Info className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" strokeWidth={2} aria-hidden="true" />
                         </button>
                       </DialogTrigger>
                       <DialogContent className="bg-background">

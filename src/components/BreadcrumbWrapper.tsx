@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { 
   Home, Info, Briefcase, Building, Users, User, Sparkles, 
@@ -83,7 +84,13 @@ export function BreadcrumbWrapper() {
             {showBackButton && (
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to={backLink} className="flex items-center gap-1 text-u-gray-400 hover:text-u-gold transition-colors">
+                  {/* Icon-only, so it needs an explicit name — a screen reader
+                      otherwise announces this link as nothing at all. */}
+                  <Link
+                    to={backLink}
+                    aria-label={t('nav.back') || 'Go back'}
+                    className="flex items-center gap-1 p-1 -m-1 rounded text-muted-foreground hover:text-primary transition-colors"
+                  >
                     <ChevronLeft className="w-4 h-4" />
                   </Link>
                 </BreadcrumbLink>
@@ -95,24 +102,29 @@ export function BreadcrumbWrapper() {
               const isLast = index === visibleCrumbs.length - 1;
               
               return (
-                <div key={crumb.href} className="flex items-center gap-2">
+                /*
+                  Fragment, not a <div>: BreadcrumbList renders an <ol>, which
+                  may only contain <li> children. Wrapping each crumb in a div
+                  detached every <li> from its list, breaking the semantics
+                  screen readers rely on to announce "item 2 of 3".
+                  BreadcrumbItem and BreadcrumbSeparator are both <li>, so they
+                  belong directly in the list.
+                */
+                <Fragment key={crumb.href}>
                   {index > 0 && !showBackButton && (
-                    <BreadcrumbSeparator className="text-u-gray-600" />
+                    <BreadcrumbSeparator className="text-muted-foreground/40" />
                   )}
-                  {index > 0 && showBackButton && index === 0 && (
-                    <BreadcrumbSeparator className="text-u-gray-600" />
-                  )}
-                  
+
                   <BreadcrumbItem>
                     {isLast ? (
-                      <BreadcrumbPage className="flex items-center gap-1.5 text-u-gray-100 font-semibold">
+                      <BreadcrumbPage className="flex items-center gap-1.5 py-1 text-foreground font-semibold">
                         <Icon className="w-4 h-4" strokeWidth={2} />
                         <span className={cn("w-1.5 h-1.5 rounded-full", crumb.color.replace('text-', 'bg-'))} />
                         {crumb.label}
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
-                        <Link to={crumb.href} className="flex items-center gap-1.5 text-u-gray-400 hover:text-u-gold transition-colors">
+                        <Link to={crumb.href} className="flex items-center gap-1.5 py-1 text-muted-foreground hover:text-primary transition-colors">
                           <Icon className="w-4 h-4" strokeWidth={2} />
                           <span className={cn("w-1.5 h-1.5 rounded-full", crumb.color.replace('text-', 'bg-'))} />
                           {crumb.label}
@@ -120,7 +132,7 @@ export function BreadcrumbWrapper() {
                       </BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
-                </div>
+                </Fragment>
               );
             })}
           </BreadcrumbList>

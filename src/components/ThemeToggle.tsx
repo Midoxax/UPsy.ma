@@ -7,7 +7,9 @@ interface ThemeToggleProps {
 }
 
 const ThemeToggle = ({ className }: ThemeToggleProps) => {
-  const { theme, toggleTheme } = useTheme();
+  // The icon and label describe what is on screen, which under the "system"
+  // preference is the OS's choice rather than a stored one.
+  const { resolvedTheme, toggleTheme } = useTheme();
 
   return (
     <button
@@ -18,9 +20,9 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
         "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
         className
       )}
-      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {theme === "dark" ? (
+      {resolvedTheme === "dark" ? (
         <Sun className="h-4 w-4" />
       ) : (
         <Moon className="h-4 w-4" />
