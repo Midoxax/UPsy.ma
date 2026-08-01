@@ -1,4 +1,9 @@
-# Founder Beta Playbook
+# U.Psy Clinical Pilot — Playbook
+
+> Named a **Clinical Pilot**, not a Founder Beta. A beta is software you are
+> still testing; a pilot is a service you are delivering under supervision.
+> The second framing is the accurate one, and it sets the standard everyone
+> involved holds themselves to.
 
 Operational, not architectural. Everything here is executable tonight.
 
@@ -162,21 +167,37 @@ generates support load faster than you can fix the cause.
 
 ---
 
-## 6. Incident response
+## 6. Incident response — two severities, always
 
-At five to fifty patients you are the on-call rotation. Keep it simple.
+**Every incident is scored twice: technical and clinical.** Ordinary software
+companies score availability. A mental-health service cannot, because the two
+dimensions come apart — and it is exactly when they diverge that the wrong
+thing gets prioritised.
 
-**Severity 1 — someone may be at risk.** A crisis disclosure with no response,
-or a patient unable to reach their psychologist mid-crisis.
-→ **Human response first, engineering second.** Phone the patient. Phone the
-psychologist. Fix the software afterwards. This is a clinical incident that
-happens to involve software.
+| Incident | Technical | Clinical |
+|---|---|---|
+| Stripe is down | Sev 2 | Sev 4 |
+| Homepage 500s | Sev 1 | Sev 4 |
+| Patient disclosed suicidal ideation, psychologist never notified | Sev 3 | **Sev 1** |
+| Session video fails mid-consultation | Sev 3 | **Sev 2** |
+| Clinical note saved to the wrong patient | Sev 2 | **Sev 1** |
 
-**Severity 2 — service down or payments broken.**
-→ Roll back (§5). Post a status message. Email affected users within the hour —
-people who have entrusted you with mental-health care notice silence.
+**Respond to the higher of the two.** The third row is the one that matters:
+technically a notification bug, barely worth paging anyone. Clinically it is
+the most serious thing that can happen on this platform. A single severity
+scale would rank it below a broken homepage, and that ranking is how someone
+gets hurt.
 
-**Severity 3 — a feature is broken, workaround exists.**
+**Clinical Sev 1 — someone may be at risk.**
+→ **Human first, engineering second.** Phone the patient. Phone the
+psychologist. Fix the code afterwards. This is a clinical incident that happens
+to involve software.
+
+**Technical Sev 1 / Clinical Sev 3-4 — service down, nobody at risk.**
+→ Roll back (§5). Status message. Email affected users within the hour; people
+who have entrusted you with mental-health care notice silence.
+
+**Both low — a feature is broken, workaround exists.**
 → Log it. Fix in normal hours.
 
 **For every Sev 1 or 2, write down within 24 hours:** what happened, who was
@@ -185,6 +206,36 @@ patients you will not remember, and the pattern across three incidents is what
 tells you what to fix.
 
 ---
+
+## 6b. Clinical governance — required before any patient
+
+**These are not engineering deliverables and must not be written by an
+engineer, or by an AI.** They carry clinical and legal liability, they must be
+authored or countersigned by a qualified clinician licensed in Morocco, and
+they should be reviewed against Law 09-08. Listed here because the pilot is
+blocked without them, not because the repository owns them.
+
+1. **Clinical Protocol Manual** — the minimum standard every psychologist on
+   the platform follows.
+2. **Crisis Escalation SOP** — exactly what happens on suicide risk, abuse
+   disclosure, psychosis, or medical emergency. Names, numbers, timeframes.
+3. **Consent Policy** — precisely what a patient agrees to, in the language
+   they read.
+4. **Privacy SOP** — who may access what, and how access is reviewed.
+5. **Session Documentation Standard** — so notes are consistent enough to be
+   clinically useful and legally defensible.
+6. **Incident Review Process** — every clinical incident is reviewed, not just
+   resolved.
+
+### Clinical quality assurance — monthly
+
+Software QA asks whether the system works. Clinical QA asks whether the care is
+good, and no amount of the former substitutes for the latter.
+
+Every month, review: **five anonymised cases**, documentation quality against
+the standard, protocol adherence, and patient outcomes. This is how healthcare
+organisations improve, and starting it at five patients is far easier than
+retrofitting it at five hundred.
 
 ## 7. Launch sequence
 
