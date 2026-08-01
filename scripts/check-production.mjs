@@ -80,16 +80,34 @@ console.log(`  status ${root.status}`);
 // Vercel's Deployment Protection answers 401 to unauthenticated visitors. The
 // owner's browser is authenticated and sees a working site, so this failure is
 // invisible from the dashboard — and total for everyone else.
-if (root.status === 401 || root.status === 403) {
-  failures.push(
-    `Site returns ${root.status} to an unauthenticated visitor. If Vercel ` +
-      `Deployment Protection is enabled, no patient or psychologist can reach ` +
-      `the site — only accounts logged into the Vercel team can.`
+const location = root.headers.get("location") || "";
+const isProtectionWall =
+  root.status === 401 ||
+  root.status === 403 ||
+  /vercel\.com\/sso-api|\/\.well-known\/vercel\/protection/.test(location);
+
+if (isProtectionWall) {
+  // Diagnose the actual cause and stop. Continuing would measure headers on
+  // Vercel's SSO redirect rather than on the app, and report five confusing
+  // "missing header" failures whose real cause is this one line. A gate that
+  // misdiagnoses gets distrusted, then ignored.
+  console.error("\nPRODUCTION VERIFICATION FAILED\n");
+  console.error(
+    `  - The site is behind an authentication wall.\n` +
+      `    Root returned ${root.status}${location ? ` -> ${location.slice(0, 80)}` : ""}\n\n` +
+      `    This is Vercel Deployment Protection. The owner's browser is already\n` +
+      `    signed in and sees a working site; every patient and psychologist sees\n` +
+      `    a login screen. Nothing behind it can be verified.\n\n` +
+      `    Fix: Vercel -> Settings -> Deployment Protection -> Disabled\n` +
+      `    (or "Only Preview Deployments" to keep previews private).\n`
   );
-} else if (root.status >= 400) {
+  process.exit(1);
+}
+
+if (root.status >= 400) {
   failures.push(`Root returned ${root.status}`);
 } else if (root.status >= 300) {
-  notes.push(`Root redirects to ${root.headers.get("location")}`);
+  notes.push(`Root redirects to ${location}`);
 }
 
 // --- 2. Are the security headers actually being served? ---------------------

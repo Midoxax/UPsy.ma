@@ -23,10 +23,17 @@ on:
 
 jobs:
   verify:
-    # deployment_status fires for every state; only act on a live one.
+    # Only production deployments, and only successful ones.
+    #
+    # deployment_status also fires for preview deploys, and Vercel protects
+    # previews by default — so without the environment filter this gate would
+    # fail on every pull request forever, for a reason that is correct
+    # behaviour rather than a defect. A gate that is always red is a gate
+    # everyone learns to ignore.
     if: >
       github.event_name != 'deployment_status' ||
-      github.event.deployment_status.state == 'success'
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment_status.environment == 'Production')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
