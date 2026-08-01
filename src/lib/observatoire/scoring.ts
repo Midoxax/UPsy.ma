@@ -111,8 +111,8 @@ export const buildLeadBreakdown = (
     base.top_barriers = rankBarriers(a).slice(0, 3).map((b) => b.key);
     base.org_interest = a.org_interest === true;
   } else {
-    base.years_practice = num(a.years_practice);
-    base.practice_mode = a.practice_mode ?? null;
+    // Deliberately NO psychologist demographics (years of practice, practice
+    // mode, city): low cardinality makes them re-identifying in a small market.
     base.commission_band = a.commission_band ?? null;
     base.preferred_model = a.preferred_model ?? null;
   }

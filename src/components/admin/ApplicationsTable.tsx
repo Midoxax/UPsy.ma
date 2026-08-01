@@ -86,7 +86,16 @@ const ApplicationsTable = ({ applications, onApprove, onReject }: ApplicationsTa
             ) : (
               applications.map((app) => (
                 <TableRow key={app.id}>
-                  <TableCell className="font-medium">{app.full_name}</TableCell>
+                  <TableCell className="font-medium">
+                    <div className="flex flex-col gap-1">
+                      <span>{app.full_name}</span>
+                      {app.notes?.startsWith("[Observatoire") && (
+                        <Badge variant="outline" className="w-fit text-[10px] uppercase tracking-wide">
+                          Observatoire — interest only, dossier incomplete
+                        </Badge>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell>{app.email}</TableCell>
                   <TableCell>{app.phone || "—"}</TableCell>
                   <TableCell>{app.accreditation_number ? "Yes" : "No"}</TableCell>
