@@ -24,13 +24,22 @@ jobs:
     name: Types, lint, secrets
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
+          # Single source of truth. Never hardcode a version here: a literal
+          # would silently diverge from .nvmrc and engines.node, which is the
+          # drift that broke this pipeline once already.
           node-version-file: .nvmrc
+          check-latest: false
           cache: npm
 
       - run: npm ci --no-audit --no-fund
+
+      # Asserts .nvmrc and engines.node agree, and that the interpreter running
+      # this job matches them, before any tooling can fail obscurely downstream.
+      - name: Runtime contract
+        run: node scripts/check-runtime.mjs
 
       # Cheapest and highest-signal check in the pipeline: a tracked .env is
       # one careless commit away from leaking a live service-role key.
@@ -71,13 +80,20 @@ jobs:
     name: Build and browser audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
+          # Single source of truth. Never hardcode a version here: a literal
+          # would silently diverge from .nvmrc and engines.node, which is the
+          # drift that broke this pipeline once already.
           node-version-file: .nvmrc
+          check-latest: false
           cache: npm
 
       - run: npm ci --no-audit --no-fund
+
+      - name: Runtime contract
+        run: node scripts/check-runtime.mjs
 
       - name: Build
         run: npm run build

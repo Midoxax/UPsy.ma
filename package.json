@@ -17,6 +17,7 @@
     "sitemap": "npx tsx scripts/generate-sitemap.ts",
     "test:visual": "npx tsx tests/visual/run.ts",
     "lint": "eslint .",
+    "check:runtime": "node scripts/check-runtime.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -25,7 +26,7 @@
     "check:bundle": "node scripts/check-bundle-size.mjs",
     "check:build": "node scripts/verify-build.mjs",
     "test:audit": "node tests/audit/run.mjs",
-    "verify": "npm run check:env && npm run typecheck && npm run test && npm run build && npm run check:bundle && npm run check:build",
+    "verify": "npm run check:runtime && npm run check:env && npm run typecheck && npm run test && npm run build && npm run check:bundle && npm run check:build",
     "preview": "vite preview"
   },
   "dependencies": {

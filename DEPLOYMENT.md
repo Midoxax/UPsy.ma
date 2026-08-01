@@ -5,21 +5,51 @@ work, that is a bug in this document — fix it in the same PR.
 
 ## Runtime contract
 
-One set of assumptions, enforced in four places so they cannot drift apart:
+One set of assumptions, declared once each and **checked by
+`scripts/check-runtime.mjs`**, which runs first in `npm run verify` and in both
+CI jobs. Documentation cannot fail a build; this can.
 
-| | Value | Declared in |
-|---|---|---|
-| Node | 22.x (LTS) | `.nvmrc`, `engines.node` |
-| Package manager | npm 10 | `packageManager`, `engines.npm` |
-| Install | `npm ci` | `vercel.json`, CI workflow |
-| Build | `npm run build` | `vercel.json`, CI workflow |
+| | Value | Declared in | Consumed by |
+|---|---|---|---|
+| Node | 22.x (LTS) | `.nvmrc` | local shells (`nvm use`), CI (`node-version-file`) |
+| Node | 22.x (LTS) | `engines.node` | Vercel build image, npm `EBADENGINE` |
+| Package manager | npm 10 | `packageManager`, `engines.npm` | corepack, Vercel |
+| Install | `npm ci` | `vercel.json`, CI | production and CI |
+| Build | `npm run build` | `vercel.json`, CI | production and CI |
 
-**Node 22, not 20.** Node 20 reached end of life in April 2026, so it stopped
-receiving security patches — not a runtime to hold under a platform storing
-clinical records. The bump also fixed a real CI failure: jsdom depends on
-undici, which calls `webidl.util.markAsUncloneable`, an API absent from Node
-20, so the unit suite crashed on collection in CI while passing locally on 22.
-That divergence is precisely what this table exists to prevent.
+Node is declared twice because two different consumers read two different
+files, and **nothing in npm or Vercel keeps them in sync** — a half-finished
+bump leaves local on one major and production on another with everything
+green. The guard's first check is precisely that `.nvmrc` and `engines.node`
+agree; its second is that the interpreter actually executing matches them.
+
+CI never hardcodes a version: both jobs use `node-version-file: .nvmrc` with
+`check-latest: false`, so the runner cannot drift to whatever it happens to
+ship, and there is no literal to fall out of date.
+
+### Why Node 22, and how to move off it
+
+Node 20 reached end of life in **April 2026** — it no longer receives security
+patches, which is not a runtime to hold under a platform storing clinical
+records. It also broke the build for a concrete reason: jsdom depends on
+undici, which calls `webidl.util.markAsUncloneable`, an API Node 20 lacks, so
+the unit suite crashed on collection in CI while passing locally on 22. The
+fix was to move the runtime forward, not to pin the dependency backward — an
+incompatible package gets upgraded or replaced; the runtime does not get
+downgraded to accommodate it.
+
+Node 22 is the current LTS and is supported by Vercel. Verified working on it:
+Vite 5, Vitest 2, jsdom 30, Playwright 1.62 (launching Chromium), axe-core
+4.12, and TypeScript.
+
+**To change the pinned version later:**
+
+1. Update `.nvmrc` **and** `engines.node` in the same commit — the guard fails
+   the build if they disagree, which is the point.
+2. `nvm use && npm ci` locally, then `npm run verify`.
+3. Run the browser audit, which exercises Playwright and Chromium.
+4. Confirm the target is a Vercel-supported build image before merging.
+5. Record the reason here, so the next person does not revert it as churn.
 
 **npm only.** `bun.lock` and `bun.lockb` were removed: Vercel auto-detects a
 bun lockfile when present, so production was installing through bun while CI
@@ -70,7 +100,7 @@ tracked `.env`, and runs first in CI.
 npm run verify
 ```
 
-Runs, in order: committed-secret check → type check → unit tests → production
+Runs, in order: runtime contract → committed-secret check → type check → unit tests → production
 build → bundle budget → build verification. Same steps CI runs, so a green `verify`
 means a green pipeline for everything except lint and the browser audit.
 
@@ -102,6 +132,7 @@ switched off, and everything it would have caught later goes with it.
 | Gate | Blocks on now | Tighten by |
 |---|---|---|
 | Committed secrets | any non-`VITE_` key | already strict |
+| Runtime contract | drift, or wrong running major | already strict |
 | Type check | any error | already strict |
 | Unit tests | any failure | add suites for booking and payments |
 | Security audit | high/critical in prod deps | `--audit-level=moderate` |
