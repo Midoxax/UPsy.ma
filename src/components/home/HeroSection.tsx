@@ -1,5 +1,5 @@
 // src/components/home/HeroSection.tsx — Editorial magazine hero (v7) with 3D orb backdrop
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -15,14 +15,63 @@ const prefersReducedMotion =
   typeof window !== "undefined" &&
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
+type NetworkInfo = { saveData?: boolean; effectiveType?: string };
+type CapabilityNavigator = Navigator & {
+  connection?: NetworkInfo;
+  deviceMemory?: number;
+};
+type IdleWindow = Window & {
+  requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+  cancelIdleCallback?: (handle: number) => void;
+};
+
+/**
+ * The orb costs ~850 KB of Three.js — roughly half the homepage's JavaScript —
+ * to render decoration. That is a fair trade on a laptop and a bad one on a
+ * mid-range phone over mobile data, where it delays the copy and the CTA that
+ * the page actually exists to deliver. So we ask whether this visitor can
+ * afford it rather than assuming they can.
+ */
+function canAffordHeroScene(): boolean {
+  if (prefersReducedMotion) return false;
+  if (typeof navigator === "undefined") return false;
+
+  const nav = navigator as CapabilityNavigator;
+
+  // Data Saver is an explicit request not to spend the user's bytes.
+  if (nav.connection?.saveData) return false;
+  // Below 4g, the scene alone is measured in seconds.
+  if (nav.connection?.effectiveType && nav.connection.effectiveType !== "4g") return false;
+  // Low-memory handsets struggle with WebGL even on a good connection.
+  if (typeof nav.deviceMemory === "number" && nav.deviceMemory < 4) return false;
+
+  return true;
+}
+
 const HeroSection = () => {
   const { locale } = useLocale();
   const c = getHomeCopy(locale).hero;
+  const [showScene, setShowScene] = useState(false);
+
+  useEffect(() => {
+    if (!canAffordHeroScene()) return;
+
+    // Load only once the browser is idle, so the orb never competes with the
+    // hero copy for bandwidth or main-thread time during first paint.
+    const w = window as IdleWindow;
+    if (w.requestIdleCallback) {
+      const handle = w.requestIdleCallback(() => setShowScene(true), { timeout: 2500 });
+      return () => w.cancelIdleCallback?.(handle);
+    }
+    const handle = window.setTimeout(() => setShowScene(true), 1200);
+    return () => window.clearTimeout(handle);
+  }, []);
+
   return (
     <section className="relative min-h-[100vh] flex items-center overflow-hidden bg-[#0D0406] text-[#FAFAFA] font-body selection:bg-[hsl(var(--gold-accent))] selection:text-[#0D0406]">
       {/* --- Layer 1: existing 3D orb + starfield backdrop --- */}
       <div className="absolute inset-0" aria-hidden="true">
-        {!prefersReducedMotion && (
+        {showScene && (
           <div className="absolute inset-0 opacity-80">
             {/*
               The 3D backdrop is purely decorative, so it must never be able to
