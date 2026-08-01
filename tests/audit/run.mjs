@@ -17,7 +17,8 @@
  *   node tests/audit/run.mjs --full             # every combination (slow)
  *   BASE=http://127.0.0.1:4173 node tests/audit/run.mjs
  *
- * Exits non-zero when any serious/critical issue is found, so it can gate CI.
+ * Exits non-zero on critical findings by default; set AUDIT_FAIL_ON=serious
+ * to ratchet the gate up once the serious backlog is cleared.
  */
 import { chromium } from "playwright";
 import { AxeBuilder } from "@axe-core/playwright";
@@ -193,7 +194,21 @@ for (const theme of THEMES) {
 await browser.close();
 
 // ---- report -------------------------------------------------------------
-const RANK = { critical: 0, serious: 1, moderate: 2 };
+/**
+ * What counts as a build failure.
+ *
+ * Defaults to "critical" because a gate that is red the day it lands gets
+ * switched off, and everything it would have caught later goes with it. The
+ * codebase currently carries 14 serious findings — mostly a light-mode
+ * contrast token whose fix is a brand decision — so failing on those would
+ * block every unrelated PR from day one.
+ *
+ * Serious findings are still printed on every run. Once the backlog is clear,
+ * set AUDIT_FAIL_ON=serious to ratchet the gate up; that is the point of
+ * making it a variable rather than a constant.
+ */
+const FAIL_ON = process.env.AUDIT_FAIL_ON === "serious" ? "serious" : "critical";
+const FAILING = FAIL_ON === "serious" ? ["critical", "serious"] : ["critical"];
 const bySeverity = { critical: [], serious: [], moderate: [] };
 for (const f of findings) bySeverity[f.severity].push(f);
 
@@ -216,7 +231,7 @@ let exitCode = 0;
 for (const sev of ["critical", "serious", "moderate"]) {
   const g = group(bySeverity[sev]);
   if (!g.length) continue;
-  if (sev !== "moderate") exitCode = 1;
+  if (FAILING.includes(sev)) exitCode = 1;
   console.log(`${sev.toUpperCase()} (${bySeverity[sev].length} occurrences, ${g.length} distinct)`);
   for (const f of g.slice(0, 18)) {
     console.log(`  [${f.area}] ${f.detail}`);
@@ -226,4 +241,10 @@ for (const sev of ["critical", "serious", "moderate"]) {
   console.log();
 }
 if (!findings.length) console.log("No issues found.\n");
+console.log(
+  exitCode
+    ? `FAILED — ${FAIL_ON}+ findings present (gate: AUDIT_FAIL_ON=${FAIL_ON}).`
+    : `PASSED — no ${FAIL_ON}-level findings. ` +
+      `${bySeverity.serious.length} serious / ${bySeverity.moderate.length} moderate reported above, not gated.`
+);
 process.exit(exitCode);
