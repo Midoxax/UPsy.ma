@@ -37,6 +37,7 @@ export default function GrowthLeads() {
   const [pillar, setPillar] = useState<Pillar | "all">("all");
   const [maxScore, setMaxScore] = useState<string>("");
   const [stage, setStage] = useState<string>("all");
+  const [source, setSource] = useState<string>("all");
 
   const { data: leads = [], isLoading, refetch, isRefetching } = useQuery({
     queryKey: ["admin-growth-leads"],
@@ -58,6 +59,7 @@ export default function GrowthLeads() {
     return leads.filter((l) => {
       if (q && !`${l.email} ${l.full_name ?? ""} ${l.phone ?? ""}`.toLowerCase().includes(q)) return false;
       if (stage !== "all" && l.nurture_stage !== stage) return false;
+      if (source !== "all" && l.source !== source) return false;
       if (pillar !== "all") {
         const score = Number(l.score_breakdown?.[pillar] ?? NaN);
         if (!Number.isFinite(score)) return false;
@@ -67,7 +69,12 @@ export default function GrowthLeads() {
       }
       return true;
     });
-  }, [leads, search, pillar, maxScore, stage]);
+  }, [leads, search, pillar, maxScore, stage, source]);
+
+  const sources = useMemo(
+    () => Array.from(new Set(leads.map((l) => l.source).filter(Boolean))).sort(),
+    [leads]
+  );
 
   if (loading) return <div className="p-8"><Loader2 className="animate-spin" /></div>;
   if (!isAdmin) return <Navigate to="/" replace />;
@@ -113,6 +120,15 @@ export default function GrowthLeads() {
       </div>
 
       <Card className="p-4 mb-4 grid gap-3 md:grid-cols-4">
+        <Select value={source} onValueChange={setSource}>
+          <SelectTrigger><SelectValue placeholder="Source" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All sources</SelectItem>
+            {sources.map((s) => (
+              <SelectItem key={s} value={s}>{s}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <div className="relative md:col-span-2">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
