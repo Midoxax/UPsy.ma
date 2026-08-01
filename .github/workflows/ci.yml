@@ -47,6 +47,19 @@ jobs:
         run: npm run lint
         continue-on-error: true
 
+      # Blocks on high/critical advisories only. Moderate and low are reported
+      # by the same command without failing, because transitive dev-only
+      # advisories are constant background noise and would make this gate
+      # meaningless. Tighten with --audit-level=moderate once the tree is clean.
+      - name: Security audit
+        run: |
+          npm audit --audit-level=high --omit=dev || {
+            echo "::error::High or critical advisory in production dependencies"
+            exit 1
+          }
+      - name: Security audit (full report, non-blocking)
+        run: npm audit || true
+
   audit:
     name: Build and browser audit
     runs-on: ubuntu-latest
@@ -61,6 +74,19 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # Ratchet: budgets are pinned to today's output, so any growth on the
+      # critical path fails and has to be justified by raising the number in
+      # the same PR. Landing an optimisation means lowering it in the same PR
+      # so the win cannot be silently spent again later.
+      - name: Bundle budget
+        run: node scripts/check-bundle-size.mjs
+
+      # Catches a build that succeeds but ships something unservable: a missing
+      # entry chunk, an unreplaced {{TOKEN}} placeholder, or an absent
+      # robots.txt/sitemap that would quietly cost indexing.
+      - name: Verify production output
+        run: node scripts/verify-build.mjs
 
       # Kept out of package.json deliberately: this repo carries both bun and
       # npm lockfiles, and adding devDependencies without being able to update

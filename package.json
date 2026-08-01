@@ -2,9 +2,11 @@
   "name": "upsy-platform",
   "private": true,
   "version": "1.0.0",
+  "packageManager": "npm@10.9.2",
   "type": "module",
   "engines": {
-    "node": "20.x"
+    "node": "20.x",
+    "npm": ">=10 <11"
   },
   "scripts": {
     "predev": "npx tsx scripts/generate-sitemap.ts",
@@ -17,8 +19,10 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "check:env": "node scripts/check-env-safety.mjs",
+    "check:bundle": "node scripts/check-bundle-size.mjs",
+    "check:build": "node scripts/verify-build.mjs",
     "test:audit": "node tests/audit/run.mjs",
-    "verify": "npm run check:env && npm run typecheck && npm run build",
+    "verify": "npm run check:env && npm run typecheck && npm run build && npm run check:bundle && npm run check:build",
     "preview": "vite preview"
   },
   "dependencies": {

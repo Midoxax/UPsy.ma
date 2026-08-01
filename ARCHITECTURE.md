@@ -169,10 +169,10 @@ npm install --no-save playwright @axe-core/playwright
 npm run test:audit
 ```
 
-Audit tooling is intentionally **not** in `package.json`: the repo carries both
-`bun.lock` and `package-lock.json`, and adding devDependencies without being
-able to regenerate `bun.lock` risks breaking the deploy install. Resolving that
-to one package manager is the prerequisite for making it a normal devDependency.
+Audit tooling is installed on demand rather than declared as a devDependency,
+to keep the default install lean. Now that the repo is standardised on npm this
+could reasonably become a normal devDependency; it has been left as-is because
+CI installs it in seconds and nothing else needs it.
 
 ## Known debt
 
@@ -194,7 +194,6 @@ Ordered by impact.
    these yet; ratchet to blocking once cleared.
 5. **Header nav links measure 20px** against the 24px WCAG 2.2 target minimum,
    despite padding that should clear it. Cause not yet identified.
-6. **Three lockfiles** (`bun.lock`, `bun.lockb`, `package-lock.json`).
-7. **`/pricing` has no French or Arabic copy** — falls back to English.
+6. **`/pricing` has no French or Arabic copy** — falls back to English.
 8. **68 of 78 routes unaudited.** The audit covers 10 public routes; the
    authenticated dashboards and the ops console are untested.
