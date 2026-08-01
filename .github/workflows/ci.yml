@@ -40,6 +40,13 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit -p tsconfig.app.json
 
+      # Behavioural coverage. Every other gate checks the shape of the output;
+      # these assert what the code actually does — i18n fallback resolution,
+      # theme resolution, and route authorization. Each suite is mutation-
+      # verified: breaking the implementation fails a test.
+      - name: Unit tests
+        run: npm test
+
       # Not blocking yet: the repo carries ~450 pre-existing lint problems,
       # so failing on them would make CI red on arrival and train people to
       # ignore it. Ratchet this to a hard failure once the backlog is cleared.
@@ -88,9 +95,8 @@ jobs:
       - name: Verify production output
         run: node scripts/verify-build.mjs
 
-      # Kept out of package.json deliberately: this repo carries both bun and
-      # npm lockfiles, and adding devDependencies without being able to update
-      # bun.lock risks breaking the deploy install. Installed just-in-time here.
+      # Installed just-in-time rather than declared: nothing else in the repo
+      # needs a browser driver, and CI fetches it in seconds.
       - name: Install audit tooling
         run: |
           npm install --no-save playwright @axe-core/playwright --no-audit --no-fund
