@@ -9,10 +9,17 @@ One set of assumptions, enforced in four places so they cannot drift apart:
 
 | | Value | Declared in |
 |---|---|---|
-| Node | 20.x | `.nvmrc`, `engines.node` |
+| Node | 22.x (LTS) | `.nvmrc`, `engines.node` |
 | Package manager | npm 10 | `packageManager`, `engines.npm` |
 | Install | `npm ci` | `vercel.json`, CI workflow |
 | Build | `npm run build` | `vercel.json`, CI workflow |
+
+**Node 22, not 20.** Node 20 reached end of life in April 2026, so it stopped
+receiving security patches — not a runtime to hold under a platform storing
+clinical records. The bump also fixed a real CI failure: jsdom depends on
+undici, which calls `webidl.util.markAsUncloneable`, an API absent from Node
+20, so the unit suite crashed on collection in CI while passing locally on 22.
+That divergence is precisely what this table exists to prevent.
 
 **npm only.** `bun.lock` and `bun.lockb` were removed: Vercel auto-detects a
 bun lockfile when present, so production was installing through bun while CI
@@ -63,8 +70,8 @@ tracked `.env`, and runs first in CI.
 npm run verify
 ```
 
-Runs, in order: committed-secret check → type check → production build →
-bundle budget → build verification. Same steps CI runs, so a green `verify`
+Runs, in order: committed-secret check → type check → unit tests → production
+build → bundle budget → build verification. Same steps CI runs, so a green `verify`
 means a green pipeline for everything except lint and the browser audit.
 
 For the full browser audit:
@@ -80,8 +87,8 @@ npm run test:audit
 
 `.github/workflows/ci.yml`, on every pull request. Two parallel jobs:
 
-**Types, lint, secrets** — committed-secret check, `tsc --noEmit`, ESLint,
-`npm audit`.
+**Types, lint, secrets** — committed-secret check, `tsc --noEmit`, unit tests,
+ESLint, `npm audit`.
 
 **Build and browser audit** — production build, bundle budget, build
 verification, then the browser audit against a real preview server.
@@ -96,6 +103,7 @@ switched off, and everything it would have caught later goes with it.
 |---|---|---|
 | Committed secrets | any non-`VITE_` key | already strict |
 | Type check | any error | already strict |
+| Unit tests | any failure | add suites for booking and payments |
 | Security audit | high/critical in prod deps | `--audit-level=moderate` |
 | Bundle budget | >1% or 2 KB over `bundle-budget.json` | lower the numbers |
 | Build verification | missing assets, placeholders, robots/sitemap | already strict |
