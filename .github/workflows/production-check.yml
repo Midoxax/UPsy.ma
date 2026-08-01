@@ -16,6 +16,11 @@ on:
   # Fires after a production deploy so a broken release is caught in minutes.
   deployment_status:
   workflow_dispatch:
+    inputs:
+      url:
+        description: "URL to verify (defaults to the PROD_URL repo variable)"
+        required: false
+        type: string
   schedule:
     # Daily. Catches drift from dashboard changes made outside the repo —
     # a toggled protection setting leaves no commit behind.
@@ -45,16 +50,29 @@ jobs:
       - name: Resolve target URL
         id: target
         env:
-          # Prefer the URL Vercel reports for this deployment; fall back to the
-          # repo variable so manual and scheduled runs have a target.
+          # Order matters. Prefer the stable production alias over the URL
+          # Vercel reports for the individual deployment.
+          #
+          # deployment_status.target_url is a per-deployment address
+          # (upsy-<hash>-<team>.vercel.app). Vercel treats those differently
+          # from the production alias: disabling Deployment Protection makes
+          # the alias public while per-deployment URLs can stay behind SSO. So
+          # checking target_url can report an auth wall that no real visitor
+          # ever meets — a false alarm on the one signal this job exists to
+          # give. The alias is what users actually load, so verify that.
+          MANUAL_URL: ${{ inputs.url }}
+          PROD_ALIAS: ${{ vars.PROD_URL }}
           DEPLOY_URL: ${{ github.event.deployment_status.target_url }}
-          FALLBACK: ${{ vars.PROD_URL }}
         run: |
-          URL="${DEPLOY_URL:-$FALLBACK}"
+          URL="${MANUAL_URL:-${PROD_ALIAS:-$DEPLOY_URL}}"
           if [ -z "$URL" ]; then
-            echo "::error::No target. Set repository variable PROD_URL (Settings → Secrets and variables → Actions → Variables)."
+            echo "::error::No target. Set repository variable PROD_URL to the production alias (Settings → Secrets and variables → Actions → Variables), or pass one via workflow_dispatch."
             exit 1
           fi
+          case "$URL" in
+            *-*-*.vercel.app)
+              echo "::warning::Verifying a per-deployment URL ($URL). These can stay behind Deployment Protection even when the production alias is public. Set PROD_URL to the alias for an accurate result." ;;
+          esac
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "Verifying $URL"
 
