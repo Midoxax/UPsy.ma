@@ -24,7 +24,9 @@ import { AxeBuilder } from "@axe-core/playwright";
 
 const BASE = process.env.BASE || "http://127.0.0.1:4173";
 const FULL = process.argv.includes("--full");
-const CHROME = process.env.CHROME_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
+// Let Playwright resolve its own browser unless a path is given explicitly
+// (needed in sandboxes that pre-install Chromium elsewhere).
+const CHROME = process.env.CHROME_PATH || undefined;
 
 const ROUTES = [
   "/", "/about", "/services", "/psychologists", "/pricing",
@@ -166,7 +168,7 @@ async function auditPage(ctx, route, bp, theme) {
   await page.close();
 }
 
-const browser = await chromium.launch({ executablePath: CHROME });
+const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 
 const themeInit = (t) => `try{localStorage.setItem('u-psy-theme-v2','${t}')}catch(e){}`;
 

@@ -15,6 +15,10 @@
     "sitemap": "npx tsx scripts/generate-sitemap.ts",
     "test:visual": "npx tsx tests/visual/run.ts",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "check:env": "node scripts/check-env-safety.mjs",
+    "test:audit": "node tests/audit/run.mjs",
+    "verify": "npm run check:env && npm run typecheck && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {

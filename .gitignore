@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local environment overrides.
+# .env itself is tracked and must hold only VITE_* values, which Vite inlines
+# into the client bundle and are public by definition. Real secrets belong
+# here or in the hosting provider's environment settings — never in .env.
+# Enforced by scripts/check-env-safety.mjs in CI.
+.env.local
+.env.*.local
+
+# Test and audit artefacts
+tests/visual/current/
+tests/visual/diff/
+playwright-report/

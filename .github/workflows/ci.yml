@@ -1,0 +1,91 @@
+name: CI
+
+# Every merge gate the repository has, in one place. Before this, nothing
+# stopped a type error, an accessibility regression or a committed credential
+# from reaching main — the only automation was a daily curl against six URLs,
+# which runs *after* a bad deploy is already live.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  # A superseded run tells you nothing; cancel it and save the minutes.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The audit drives a real browser; never let npm try to fetch its own copy.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+
+jobs:
+  static:
+    name: Types, lint, secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      # Cheapest and highest-signal check in the pipeline: a tracked .env is
+      # one careless commit away from leaking a live service-role key.
+      - name: Committed secret check
+        run: node scripts/check-env-safety.mjs
+
+      - name: Type check
+        run: npx tsc --noEmit -p tsconfig.app.json
+
+      # Not blocking yet: the repo carries ~450 pre-existing lint problems,
+      # so failing on them would make CI red on arrival and train people to
+      # ignore it. Ratchet this to a hard failure once the backlog is cleared.
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+  audit:
+    name: Build and browser audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      # Kept out of package.json deliberately: this repo carries both bun and
+      # npm lockfiles, and adding devDependencies without being able to update
+      # bun.lock risks breaking the deploy install. Installed just-in-time here.
+      - name: Install audit tooling
+        run: |
+          npm install --no-save playwright @axe-core/playwright --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Serve production build
+        run: |
+          npx vite preview --host 127.0.0.1 --port 4173 &
+          for i in $(seq 1 30); do
+            if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then
+              echo "preview up"; exit 0
+            fi
+            sleep 1
+          done
+          echo "preview server never became ready"; exit 1
+
+      # Fails on critical/serious findings only — WCAG violations, crashes,
+      # mobile overflow, leaked i18n keys. Moderate issues are reported but
+      # do not block, so the gate stays actionable.
+      - name: Accessibility and responsive audit
+        env:
+          BASE: http://127.0.0.1:4173
+          CHROME_PATH: ""
+        run: node tests/audit/run.mjs
