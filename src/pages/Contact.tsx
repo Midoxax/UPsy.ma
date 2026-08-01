@@ -82,7 +82,14 @@ const Contact = () => {
       {/* Main Content */}
       <section className="section-spacing">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12">
+          {/*
+            [&>*]:min-w-0 — a grid track is min-width:auto by default, so it
+            refuses to shrink below its content's min-content width. On a 390px
+            phone that pushed this card to 424px and gave the whole page 58px of
+            horizontal scroll. Letting the items shrink lets the w-full fields
+            size to the column instead of forcing it open.
+          */}
+          <div className="grid lg:grid-cols-2 gap-12 [&>*]:min-w-0">
             {/* Contact Form */}
             <ScrollReveal direction="left">
               <Card className="hover-lift">
