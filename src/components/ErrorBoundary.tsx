@@ -35,7 +35,11 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      if (this.props.fallback) {
+      // Compared against undefined rather than truthiness so that an explicit
+      // `fallback={null}` means "render nothing" — the right behaviour for
+      // decorative subtrees that should fail silently. A truthiness check
+      // would send those to the full-page error UI instead.
+      if (this.props.fallback !== undefined) {
         return this.props.fallback;
       }
 

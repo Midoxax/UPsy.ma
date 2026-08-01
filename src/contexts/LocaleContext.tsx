@@ -108,15 +108,28 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     const override = overrides[locale]?.[key];
     if (override !== undefined) return override;
 
-    // Fall back to static translations
-    const keys = key.split('.');
-    let value: any = translations[locale];
-    
-    for (const k of keys) {
-      value = value?.[k];
+    const lookup = (loc: Locale): string | undefined => {
+      let value: unknown = translations[loc];
+      for (const k of key.split('.')) {
+        value = (value as Record<string, unknown> | undefined)?.[k];
+      }
+      return typeof value === 'string' ? value : undefined;
+    };
+
+    // Requested locale, then English as the fallback locale — a missing
+    // Arabic or French string should show the English copy, not a raw key.
+    const resolved = lookup(locale) ?? (locale === 'en' ? undefined : lookup('en'));
+    if (resolved !== undefined) return resolved;
+
+    // Genuinely missing everywhere. Return an empty string rather than the key
+    // so the widespread `t("some.key") || "Inline default"` call sites resolve
+    // to their inline default — returning the key made those `||` branches
+    // dead code, which is how raw identifiers like "pricing.heroTitle" ended up
+    // rendering as page headings.
+    if (import.meta.env.DEV) {
+      console.warn(`[i18n] missing translation for "${key}" (locale: ${locale})`);
     }
-    
-    return typeof value === 'string' ? value : key;
+    return '';
   };
 
   return (

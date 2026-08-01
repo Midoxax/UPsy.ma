@@ -72,7 +72,9 @@ const Footer = () => {
               </p>
               <p className="text-muted-foreground">
                 <span className="text-foreground font-medium">{t('footer.whatsapp')}:</span>{" "}
-                <a href="https://wa.me/212668594699" className="text-primary hover:underline font-mono tabular-nums" target="_blank" rel="noopener noreferrer">
+                {/* text-foreground, not text-primary: --primary is gold in light
+                    mode, which lands at 1.74:1 on the ivory background. */}
+                <a href="https://wa.me/212668594699" className="text-foreground hover:text-primary hover:underline font-mono tabular-nums" target="_blank" rel="noopener noreferrer">
                   +212 668-594699
                 </a>
               </p>
@@ -133,7 +135,10 @@ const Footer = () => {
         <div className="mt-10 pt-6 border-t border-border/40">
           <div className="glass-card !p-4 !shadow-none !transform-none hover:!transform-none text-center">
             <p className="text-muted-foreground text-xs">
-              <strong className="text-primary">⚠ Important:</strong> {t('footer.crisis') || 'If you are in immediate danger, please call emergency services. U.Psy is not a crisis service.'}
+              {/* Crisis guidance must never be the least readable text on the
+                  page — gold on ivory measured 1.74:1. destructive is both
+                  semantically right and high-contrast in either theme. */}
+              <strong className="text-destructive">⚠ Important:</strong> {t('footer.crisis') || 'If you are in immediate danger, please call emergency services. U.Psy is not a crisis service.'}
             </p>
           </div>
         </div>

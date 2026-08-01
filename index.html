@@ -15,6 +15,30 @@
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Theme, applied before first paint.
+         React cannot do this: its first commit happens after the browser has
+         already painted, so a dark-mode visitor would see a white flash on
+         every cold load. This runs synchronously in <head> instead.
+         Must stay in sync with src/contexts/ThemeContext.tsx (same storage
+         key, same resolution order). -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('u-psy-theme-v2');
+          var pref = saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system';
+          var dark =
+            pref === 'dark' ||
+            (pref === 'system' &&
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', dark);
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        } catch (e) {
+          /* storage blocked — fall back to the light default in CSS */
+        }
+      })();
+    </script>
     <title>U.Psy — Performance Psychology Platform for Morocco</title>
     <meta name="description" content="Book accredited psychologists worldwide. Video sessions in any timezone, or in-person in select cities. Free rebook if not the right fit.">
     <meta name="keywords" content="Mehdi Felji, UPsy, U.Psy, mental health platform, psychology platform, therapy, find psychologist, online therapy, mental health support, self assessment psychology, therapy matching, digital mental health">
@@ -33,11 +57,6 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="mask-icon" href="/favicon.png" color="#6B1F2A" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="preconnect" href="https://vuawmihxcaewzmkuarkr.supabase.co" crossorigin>
 
     <meta property="og:type" content="website" />

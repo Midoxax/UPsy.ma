@@ -1,0 +1,141 @@
+name: CI
+
+# Every merge gate the repository has, in one place. Before this, nothing
+# stopped a type error, an accessibility regression or a committed credential
+# from reaching main — the only automation was a daily curl against six URLs,
+# which runs *after* a bad deploy is already live.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  # A superseded run tells you nothing; cancel it and save the minutes.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The audit drives a real browser; never let npm try to fetch its own copy.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+
+jobs:
+  static:
+    name: Types, lint, secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          # Single source of truth. Never hardcode a version here: a literal
+          # would silently diverge from .nvmrc and engines.node, which is the
+          # drift that broke this pipeline once already.
+          node-version-file: .nvmrc
+          check-latest: false
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      # Asserts .nvmrc and engines.node agree, and that the interpreter running
+      # this job matches them, before any tooling can fail obscurely downstream.
+      - name: Runtime contract
+        run: node scripts/check-runtime.mjs
+
+      # Cheapest and highest-signal check in the pipeline: a tracked .env is
+      # one careless commit away from leaking a live service-role key.
+      - name: Committed secret check
+        run: node scripts/check-env-safety.mjs
+
+      - name: Type check
+        run: npx tsc --noEmit -p tsconfig.app.json
+
+      # Behavioural coverage. Every other gate checks the shape of the output;
+      # these assert what the code actually does — i18n fallback resolution,
+      # theme resolution, and route authorization. Each suite is mutation-
+      # verified: breaking the implementation fails a test.
+      - name: Unit tests
+        run: npm test
+
+      # Not blocking yet: the repo carries ~450 pre-existing lint problems,
+      # so failing on them would make CI red on arrival and train people to
+      # ignore it. Ratchet this to a hard failure once the backlog is cleared.
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      # Blocks on high/critical advisories only. Moderate and low are reported
+      # by the same command without failing, because transitive dev-only
+      # advisories are constant background noise and would make this gate
+      # meaningless. Tighten with --audit-level=moderate once the tree is clean.
+      - name: Security audit
+        run: |
+          npm audit --audit-level=high --omit=dev || {
+            echo "::error::High or critical advisory in production dependencies"
+            exit 1
+          }
+      - name: Security audit (full report, non-blocking)
+        run: npm audit || true
+
+  audit:
+    name: Build and browser audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          # Single source of truth. Never hardcode a version here: a literal
+          # would silently diverge from .nvmrc and engines.node, which is the
+          # drift that broke this pipeline once already.
+          node-version-file: .nvmrc
+          check-latest: false
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Runtime contract
+        run: node scripts/check-runtime.mjs
+
+      - name: Build
+        run: npm run build
+
+      # Ratchet: budgets are pinned to today's output, so any growth on the
+      # critical path fails and has to be justified by raising the number in
+      # the same PR. Landing an optimisation means lowering it in the same PR
+      # so the win cannot be silently spent again later.
+      - name: Bundle budget
+        run: node scripts/check-bundle-size.mjs
+
+      # Catches a build that succeeds but ships something unservable: a missing
+      # entry chunk, an unreplaced {{TOKEN}} placeholder, or an absent
+      # robots.txt/sitemap that would quietly cost indexing.
+      - name: Verify production output
+        run: node scripts/verify-build.mjs
+
+      # Installed just-in-time rather than declared: nothing else in the repo
+      # needs a browser driver, and CI fetches it in seconds.
+      - name: Install audit tooling
+        run: |
+          npm install --no-save playwright @axe-core/playwright --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Serve production build
+        run: |
+          npx vite preview --host 127.0.0.1 --port 4173 &
+          for i in $(seq 1 30); do
+            if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then
+              echo "preview up"; exit 0
+            fi
+            sleep 1
+          done
+          echo "preview server never became ready"; exit 1
+
+      # Gates on critical findings — crashes, blank pages, critical WCAG
+      # violations. Serious and moderate findings are printed on every run but
+      # do not block: the codebase carries ~14 serious ones, mostly a
+      # light-mode contrast token whose fix is a brand decision, and a gate
+      # that is red the day it lands gets switched off.
+      # Set AUDIT_FAIL_ON=serious to ratchet up once that backlog is clear.
+      - name: Accessibility and responsive audit
+        env:
+          BASE: http://127.0.0.1:4173
+        run: node tests/audit/run.mjs
