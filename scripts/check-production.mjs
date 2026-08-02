@@ -69,12 +69,51 @@ const REQUIRED_HEADERS = {
   },
 };
 
-async function fetchDoc(path) {
-  const res = await fetch(URL_BASE + path, {
-    redirect: "manual",
-    headers: { "user-agent": "upsy-production-check" },
-  });
-  return res;
+/** Registrable-ish site key, so apex and www count as the same site. */
+const siteOf = (u) => new URL(u).hostname.replace(/^www\./, "");
+
+/**
+ * Fetch a document, following a redirect that stays on the same site.
+ *
+ * `redirect: "manual"` is deliberate — it is how the Vercel SSO wall is
+ * detected, since that redirects *off* site to vercel.com/sso-api. But leaving
+ * it fully manual made this check measure the wrong response: an apex that
+ * 308s to www returns a redirect carrying only the headers Vercel attaches at
+ * the domain level, not the ones vercel.json applies to served routes. The
+ * result was four "MISSING" security headers on a site that serves all of
+ * them — the same misdiagnosis this script exists to prevent, one hop earlier.
+ *
+ * So: same-site redirects are followed (apex → www is a routing detail, not a
+ * finding), cross-site ones are returned untouched for the protection-wall
+ * check to interpret.
+ */
+async function fetchDoc(path, { maxHops = 3 } = {}) {
+  let url = URL_BASE + path;
+  const hops = [];
+
+  for (let i = 0; i <= maxHops; i++) {
+    const res = await fetch(url, {
+      redirect: "manual",
+      headers: { "user-agent": "upsy-production-check" },
+    });
+
+    const location = res.headers.get("location");
+    const isRedirect = res.status >= 300 && res.status < 400 && location;
+    if (!isRedirect) {
+      res.hops = hops;
+      return res;
+    }
+
+    const next = new URL(location, url).toString();
+    // Off-site: hand it back so the caller can recognise an auth wall.
+    if (siteOf(next) !== siteOf(url)) {
+      res.hops = hops;
+      return res;
+    }
+    hops.push(`${res.status} ${url} -> ${next}`);
+    url = next;
+  }
+  throw new Error(`More than ${maxHops} same-site redirects from ${URL_BASE}${path} — likely a loop`);
 }
 
 console.log(`Verifying ${URL_BASE}\n`);
@@ -139,10 +178,18 @@ if (isProtectionWall) {
   process.exit(1);
 }
 
+for (const hop of root.hops ?? []) notes.push(`Followed same-site redirect: ${hop}`);
+
 if (root.status >= 400) {
   failures.push(`Root returned ${root.status}`);
 } else if (root.status >= 300) {
-  notes.push(`Root redirects to ${location}`);
+  // Still a redirect after same-site following means it points off-site and
+  // was not an auth wall — worth naming, since headers below describe the
+  // redirect rather than the app.
+  failures.push(
+    `Root redirects off-site to ${location}. Everything measured below describes ` +
+      `that redirect, not the application. Verify the destination directly.`
+  );
 }
 
 // --- 2. Are the security headers actually being served? ---------------------

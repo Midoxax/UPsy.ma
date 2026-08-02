@@ -2,7 +2,7 @@
   "name": "upsy-platform",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://upsy-ma.vercel.app",
+  "homepage": "https://www.upsy.ma",
   "packageManager": "npm@10.9.2",
   "type": "module",
   "engines": {

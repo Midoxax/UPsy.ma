@@ -63,9 +63,17 @@ function allows(directive: string, origin: string): boolean {
   });
 }
 
-/** Origins the app is configured to talk to, read from the tracked .env. */
+/**
+ * Third-party origins the app is configured to talk to, read from the tracked
+ * .env.
+ *
+ * The site's own origin is excluded: `connect-src 'self'` already covers
+ * same-origin requests, and requiring an explicit entry for it would demand a
+ * redundant CSP source that changes every time the domain does.
+ */
 function configuredOrigins(): Array<{ key: string; origin: string }> {
   const env = readFileSync(resolve(ROOT, ".env"), "utf8");
+  const ownOrigin = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8")).homepage;
   const out: Array<{ key: string; origin: string }> = [];
   for (const line of env.split("\n")) {
     const trimmed = line.trim();
@@ -76,7 +84,10 @@ function configuredOrigins(): Array<{ key: string; origin: string }> {
     // an origin the browser will be asked to reach.
     const value = m[2].trim();
     const url = value.match(/https:\/\/(?:[^@\s/]*@)?([^/\s]+)/);
-    if (url) out.push({ key: m[1], origin: `https://${url[1]}` });
+    if (!url) continue;
+    const origin = `https://${url[1]}`;
+    if (origin === ownOrigin) continue; // covered by 'self'
+    out.push({ key: m[1], origin });
   }
   return out;
 }
