@@ -212,26 +212,49 @@ supabase gen types typescript --project-id vuawmihxcaewzmkuarkr > src/integratio
 Regenerate the types and clear the matching `pending-migrations.json` entries in
 the same commit, so the repository's record of the schema moves with it.
 
+### Where the database actually lives
+
+**Project `vuawmihxcaewzmkuarkr` is provisioned and managed by Lovable.** It
+belongs to Lovable project `355cf905-7152-433f-b59d-dda69a853e16` ("Super
+UPsy.ma", workspace "MEHDI's Lovable"), which is why it does not appear in the
+owner's own Supabase account and cannot be opened from the Supabase dashboard
+directly. Reach it through Lovable.
+
+`bvhqdgiptlnfclnsybaz` is a *different*, directly-owned project. It is not the
+production database and nothing reads from it.
+
+This matters beyond bookkeeping: the production database of a clinical platform
+sits in an account the responsible party cannot browse. Migrating off Lovable's
+managed Supabase — or at minimum obtaining direct access — is the real fix, and
+is tracked as part of the Lovable coupling in ARCHITECTURE.md.
+
 ### The 2026-08 wiring fault
 
 The Supabase GitHub integration was configured to watch `UPsy supa/supabase` —
-a path that has never existed in this repository — on project
-`bvhqdgiptlnfclnsybaz`, while the application connects to
-`vuawmihxcaewzmkuarkr`. Both halves were wrong, so no commit-triggered migration
-could ever have applied.
+a path that has never existed in this repository — on `bvhqdgiptlnfclnsybaz`
+rather than the project the app connects to. Both halves were wrong, so no
+commit-triggered migration could ever have applied, and **that is still true**:
+merging a migration does not apply it.
 
-What was *not* wrong: the schema itself. Of the 130 tables the migrations
-create, 128 are present in the generated types, and no table exists in the
-database without a migration creating it. The historical path — Lovable applying
-its own migrations to its own project — kept them in sync. The gap is exactly
-the two tables from `20260801120000_platform_events.sql`, the first migration
-committed straight to GitHub, bypassing that path.
+What was *not* wrong: the schema. Every table the migrations create is present,
+and no table exists in the database without a migration creating it. The
+historical path — Lovable applying its own migrations to its own project — kept
+them in sync. The only gap was `20260801120000_platform_events.sql`, the first
+migration committed straight to GitHub, which bypassed that path.
 
-The repair is in the Supabase dashboard, not in this repository: Integrations →
-GitHub → set the supabase directory to `supabase` and the project to the one the
-app uses, or disconnect it and apply migrations with the CLI as above.
-`npm run check:supabase` now fails on the project-mismatch half of that fault,
-which is the half that lives in these files.
+**Resolved 2026-08-02.** The two tables were confirmed absent by querying the
+database (128 tables, `profiles` present, `platform_events` missing), then
+applied: two tables, nine indexes, RLS enabled on both, two admin-read policies,
+and `publish_event` with EXECUTE revoked from `anon`/`authenticated` and granted
+to `service_role`. Verified afterwards at 130 tables with `anon` unable to
+execute the publisher. Generated types were updated to match and
+`pending-migrations.json` emptied, so the gate covers all 130 tables again.
+
+The integration itself is still misconfigured and remains a dashboard fix:
+Integrations → GitHub → set the supabase directory to `supabase` and the project
+to the one the app uses, or disconnect it and use the CLI as above.
+`npm run check:supabase` fails on the project-mismatch half — the half that
+lives in these files.
 
 ### Rollback
 

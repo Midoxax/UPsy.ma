@@ -230,26 +230,29 @@ Ordered by impact.
 5. **Header nav links measure 20px** against the 24px WCAG 2.2 target minimum,
    despite padding that should clear it. Cause not yet identified.
 6. **`/pricing` has no French or Arabic copy** — falls back to English.
-8. **Commit-triggered Supabase migrations do not run — but the schema is not
-   adrift.** The GitHub integration watches `UPsy supa/supabase`, a path that
-   has never existed here (all 96 migrations live in `supabase/`), on project
-   `bvhqdgiptlnfclnsybaz` rather than the `vuawmihxcaewzmkuarkr` the app
-   connects to. Both halves are wrong, so that path has never applied anything.
+8. **Commit-triggered Supabase migrations do not run.** The GitHub integration
+   watches `UPsy supa/supabase`, a path that has never existed here (all 96
+   migrations live in `supabase/`), on project `bvhqdgiptlnfclnsybaz` rather
+   than the `vuawmihxcaewzmkuarkr` the app connects to. Both halves are wrong,
+   so that path has never applied anything, and **a merged migration still does
+   not reach the database on its own.**
 
-   The damage is narrower than it looks. Diffing the migrations against
-   `src/integrations/supabase/types.ts` — generated *from the live database* —
-   shows 128 of the 130 tables the migrations create are present, and **no**
-   table exists that a migration does not create. The historical path (Lovable
-   applying its own migrations to its own project) kept them in sync. The gap is
-   exactly the two tables from `20260801120000_platform_events.sql`, the first
-   migration committed straight to GitHub, which bypassed it.
+   The schema itself is not adrift. All 130 tables the migrations create are
+   present, and **no** table exists that a migration does not create.
+   `platform_events` and `platform_event_deliveries` were applied manually on
+   2026-08-02 after being confirmed absent; everything else arrived through
+   Lovable. `npm run check:supabase` guards the repo half on every PR and
+   `npm run check:database` settles the rest against the live database.
 
-   So: `platform_events` and `platform_event_deliveries` are unverified and
-   recorded in `supabase/pending-migrations.json`; everything older is
-   corroborated. `npm run check:supabase` guards this on every PR and
-   `npm run check:database` settles it against the live database. The
-   integration itself must be repaired in the Supabase dashboard — see
-   DEPLOYMENT.md.
+   **The database is Lovable-managed, which is why it is not in the owner's
+   Supabase account.** Project `vuawmihxcaewzmkuarkr` is provisioned by Lovable
+   for project `355cf905-7152-433f-b59d-dda69a853e16` ("Super UPsy.ma",
+   workspace "MEHDI's Lovable") and is reached through Lovable, not the Supabase
+   dashboard directly. `bvhqdgiptlnfclnsybaz` — the one the GitHub integration
+   points at — is a separate, directly-owned project, which is almost certainly
+   how the two got confused. This is the sharpest edge of the Lovable coupling:
+   the production database is not in the account of the person responsible
+   for it.
 9. **Production sits behind Vercel Deployment Protection.** The owner's browser
    is authenticated and sees a working site; everyone else gets an SSO wall.
    `scripts/check-production.mjs` detects this and names it.

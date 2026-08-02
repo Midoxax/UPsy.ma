@@ -11,18 +11,9 @@
     "",
     "To clear an entry: apply the migration, regenerate types with",
     "`supabase gen types typescript --project-id <id> > src/integrations/supabase/types.ts`,",
-    "then delete the entry in the same commit."
+    "then delete the entry in the same commit.",
+    "",
+    "Empty is the healthy state: every migration is corroborated by the database."
   ],
-  "pending": [
-    {
-      "table": "platform_events",
-      "migration": "20260801120000_platform_events.sql",
-      "reason": "Committed straight to GitHub on 2026-08-01, bypassing the path that has applied every earlier migration. Unverified against the database — see DEPLOYMENT.md."
-    },
-    {
-      "table": "platform_event_deliveries",
-      "migration": "20260801120000_platform_events.sql",
-      "reason": "Same migration as platform_events."
-    }
-  ]
+  "pending": []
 }
