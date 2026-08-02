@@ -57,6 +57,8 @@ scripts/
   check-bundle-size.mjs  critical-path payload against bundle-budget.json
   verify-build.mjs       dist/ is servable: assets, placeholders, robots, metadata
   check-production.mjs   the *deployed* site: headers, auth wall, routes
+  check-supabase-sync.mjs  one project named consistently; migrations vs types
+  check-database.mjs     does a committed migration actually exist in the DB
   generate-sitemap.ts    runs automatically on predev/prebuild
 ```
 
@@ -143,7 +145,10 @@ Vercel's environment settings or `.env.local` (gitignored).
 
 Security headers — CSP, HSTS with preload, `frame-ancestors 'none'`,
 Permissions-Policy — are in `vercel.json`. Adding a third-party script or API
-means updating the CSP there.
+means updating the CSP there. `tests/unit/csp.test.ts` asserts that every
+external origin configured in `.env` is present in `connect-src`, and that the
+load-bearing directives have not been weakened — a missing entry fails silently
+in production only, which is the worst way for a security control to break.
 
 ## Performance model
 
@@ -225,13 +230,26 @@ Ordered by impact.
 5. **Header nav links measure 20px** against the 24px WCAG 2.2 target minimum,
    despite padding that should clear it. Cause not yet identified.
 6. **`/pricing` has no French or Arabic copy** — falls back to English.
-8. **Supabase migrations may not be reaching the database.** The GitHub
-   integration for project `bvhqdgiptlnfclnsybaz` reports it only watches
-   `UPsy supa/supabase`, a path that does not exist in this repository — all 96
-   migrations live in `supabase/`. The app's `.env` also points at a *different*
-   project (`vuawmihxcaewzmkuarkr`). Until this is resolved, assume no schema
-   change committed here is applied automatically, including
-   `platform_events`. **Verify before relying on any migration.**
+8. **Commit-triggered Supabase migrations do not run — but the schema is not
+   adrift.** The GitHub integration watches `UPsy supa/supabase`, a path that
+   has never existed here (all 96 migrations live in `supabase/`), on project
+   `bvhqdgiptlnfclnsybaz` rather than the `vuawmihxcaewzmkuarkr` the app
+   connects to. Both halves are wrong, so that path has never applied anything.
+
+   The damage is narrower than it looks. Diffing the migrations against
+   `src/integrations/supabase/types.ts` — generated *from the live database* —
+   shows 128 of the 130 tables the migrations create are present, and **no**
+   table exists that a migration does not create. The historical path (Lovable
+   applying its own migrations to its own project) kept them in sync. The gap is
+   exactly the two tables from `20260801120000_platform_events.sql`, the first
+   migration committed straight to GitHub, which bypassed it.
+
+   So: `platform_events` and `platform_event_deliveries` are unverified and
+   recorded in `supabase/pending-migrations.json`; everything older is
+   corroborated. `npm run check:supabase` guards this on every PR and
+   `npm run check:database` settles it against the live database. The
+   integration itself must be repaired in the Supabase dashboard — see
+   DEPLOYMENT.md.
 9. **Production sits behind Vercel Deployment Protection.** The owner's browser
    is authenticated and sees a working site; everyone else gets an SSO wall.
    `scripts/check-production.mjs` detects this and names it.

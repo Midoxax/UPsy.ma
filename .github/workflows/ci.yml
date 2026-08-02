@@ -46,6 +46,16 @@ jobs:
       - name: Committed secret check
         run: node scripts/check-env-safety.mjs
 
+      # A migration can be merged and deployed without ever reaching a
+      # database, and until this landed nothing noticed: the Supabase GitHub
+      # integration was pointed at a directory that does not exist in this
+      # repository, on a different project from the one the app connects to.
+      # This asserts the repo half of that wiring and diffs the migrations
+      # against the generated types, which are the only in-repo evidence of
+      # what the database actually contains.
+      - name: Supabase wiring and schema sync
+        run: node scripts/check-supabase-sync.mjs
+
       - name: Type check
         run: npx tsc --noEmit -p tsconfig.app.json
 

@@ -41,9 +41,13 @@ in `package.json` and `installCommand` in `vercel.json` — in that order.
 Then confirm the environment is real, not a preview stub:
 
 - [ ] `VITE_SUPABASE_URL` points at **production**, not a dev project
-- [ ] `VITE_SENTRY_DSN` is set — otherwise errors vanish silently
-- [ ] `SMOKE_URL` in repo secrets points at the production domain, not the
-      Lovable preview it currently defaults to
+- [ ] `VITE_SENTRY_DSN` is set — otherwise errors vanish silently. It is set in
+      `.env`; confirm events actually arrive by triggering one, because a DSN
+      with no matching CSP entry fails silently in exactly the same way as no
+      DSN at all
+- [ ] `npm run check:production` passes — headers served, site public, routes up
+- [ ] `npm run check:database` passes — the committed migrations are really
+      in the database, not just in git
 - [ ] Load the site, open DevTools, confirm no console errors on the homepage
 
 ---

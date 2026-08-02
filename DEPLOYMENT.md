@@ -84,7 +84,7 @@ which is safe because row-level security is what actually protects the data.
 | `VITE_SUPABASE_URL` | yes | Supabase project URL |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | yes | Anon key (public by design) |
 | `VITE_SUPABASE_PROJECT_ID` | yes | Project identifier |
-| `VITE_SENTRY_DSN` | no | Error tracking; SDK is not bundled without it |
+| `VITE_SENTRY_DSN` | set | Error tracking; SDK is not bundled without it |
 | `VITE_POSTHOG_KEY` / `VITE_POSTHOG_HOST` | no | Analytics; both required together |
 | `VITE_APP_VERSION` | no | Release tag on Sentry events |
 
@@ -100,9 +100,10 @@ tracked `.env`, and runs first in CI.
 npm run verify
 ```
 
-Runs, in order: runtime contract → committed-secret check → type check → unit tests → production
-build → bundle budget → build verification. Same steps CI runs, so a green `verify`
-means a green pipeline for everything except lint and the browser audit.
+Runs, in order: runtime contract → committed-secret check → Supabase wiring and
+schema sync → type check → unit tests → production build → bundle budget →
+build verification. Same steps CI runs, so a green `verify` means a green
+pipeline for everything except lint and the browser audit.
 
 For the full browser audit:
 
@@ -117,8 +118,8 @@ npm run test:audit
 
 `.github/workflows/ci.yml`, on every pull request. Two parallel jobs:
 
-**Types, lint, secrets** — committed-secret check, `tsc --noEmit`, unit tests,
-ESLint, `npm audit`.
+**Types, lint, secrets** — committed-secret check, Supabase wiring and schema
+sync, `tsc --noEmit`, unit tests, ESLint, `npm audit`.
 
 **Build and browser audit** — production build, bundle budget, build
 verification, then the browser audit against a real preview server.
@@ -133,6 +134,7 @@ switched off, and everything it would have caught later goes with it.
 |---|---|---|
 | Committed secrets | any non-`VITE_` key | already strict |
 | Runtime contract | drift, or wrong running major | already strict |
+| Supabase sync | project mismatch, unrecorded schema drift | empty `pending-migrations.json` |
 | Type check | any error | already strict |
 | Unit tests | any failure | add suites for booking and payments |
 | Security audit | high/critical in prod deps | `--audit-level=moderate` |
@@ -166,7 +168,70 @@ Already configured in `vercel.json`, no action needed:
 
 Adding a third-party script, font or API host means adding it to the CSP in
 `vercel.json`, or the browser will block it in production while it works fine
-locally.
+locally. `tests/unit/csp.test.ts` now asserts that every external origin
+configured in `.env` appears in `connect-src`, because the failure mode is
+silent: error reporting in particular breaks by going quiet, so the first
+symptom of a missing CSP entry is a suspiciously clean dashboard.
+
+## Database and migrations
+
+Migrations live in `supabase/migrations/`, at the repository root. That path is
+not arbitrary — the CLI and every Supabase integration resolve it relative to
+the root, and pointing anything at a different directory strands every
+migration silently.
+
+**A migration reaching `main` does not mean it reached the database.** There is
+no build step that applies it and nothing fails when it does not: the schema
+change simply is not there, and the first symptom is a runtime error against a
+missing table. Two checks exist because one cannot do the job alone:
+
+| Check | Runs | Answers |
+|---|---|---|
+| `npm run check:supabase` | every PR, offline | Do `config.toml`, `.env` and the URL name the same project? Do the migrations and the generated types agree? |
+| `npm run check:database` | production check, needs egress | Does the table actually exist in the database? |
+
+The offline check works by diffing the tables the migrations create against
+`src/integrations/supabase/types.ts`, which is generated *from the live
+database* and is therefore the only in-repo evidence of what that database
+contains. It cannot distinguish "never applied" from "types are stale" — only
+the online check settles that, which is why both exist.
+
+A table the offline check cannot yet corroborate is recorded in
+`supabase/pending-migrations.json` with a reason. This keeps the gate precise
+rather than merely tolerant, and it closes itself: once a pending table appears
+in regenerated types, the check **fails** until the entry is removed.
+
+### Applying a migration by hand
+
+```bash
+supabase link --project-ref vuawmihxcaewzmkuarkr
+supabase db push
+supabase gen types typescript --project-id vuawmihxcaewzmkuarkr > src/integrations/supabase/types.ts
+```
+
+Regenerate the types and clear the matching `pending-migrations.json` entries in
+the same commit, so the repository's record of the schema moves with it.
+
+### The 2026-08 wiring fault
+
+The Supabase GitHub integration was configured to watch `UPsy supa/supabase` —
+a path that has never existed in this repository — on project
+`bvhqdgiptlnfclnsybaz`, while the application connects to
+`vuawmihxcaewzmkuarkr`. Both halves were wrong, so no commit-triggered migration
+could ever have applied.
+
+What was *not* wrong: the schema itself. Of the 130 tables the migrations
+create, 128 are present in the generated types, and no table exists in the
+database without a migration creating it. The historical path — Lovable applying
+its own migrations to its own project — kept them in sync. The gap is exactly
+the two tables from `20260801120000_platform_events.sql`, the first migration
+committed straight to GitHub, bypassing that path.
+
+The repair is in the Supabase dashboard, not in this repository: Integrations →
+GitHub → set the supabase directory to `supabase` and the project to the one the
+app uses, or disconnect it and apply migrations with the CLI as above.
+`npm run check:supabase` now fails on the project-mismatch half of that fault,
+which is the half that lives in these files.
 
 ### Rollback
 
@@ -180,18 +245,44 @@ client mid-session may hold the old one until then.
 
 ## Health checks
 
-`.github/workflows/smoke-test.yml` runs daily and on demand, checking that key
-routes return 200 against `SMOKE_URL` (defaults to the Lovable preview domain —
-**point this at the real production domain**). It runs after deploy, so treat
-it as monitoring, not a gate.
+`.github/workflows/production-check.yml` verifies the **deployed site**, which
+nothing else does: every gate in `ci.yml` inspects `dist/`, and `dist/` cannot
+tell you whether Vercel is applying `vercel.json`'s headers or whether
+Deployment Protection is hiding the site from everyone who is not signed in.
+It runs unauthenticated, from a runner with real egress — the vantage point of
+an actual visitor — after each production deploy, daily, and on demand.
+
+It checks, in order: the site is reachable without authentication, the five
+security headers are actually served, hashed assets are immutable, the routes a
+pilot user needs respond, `robots.txt`/`sitemap.xml` exist, and the pending
+migrations reached the database. Then it runs the accessibility audit against
+production.
+
+```bash
+npm run check:production      # same check, from your machine
+```
+
+**The target URL needs no setup.** It resolves from `workflow_dispatch` input →
+the `PROD_URL` repository variable → `homepage` in `package.json` → the
+deployment URL. The committed `homepage` is what makes it runnable out of the
+box: this job used to hard-fail when `PROD_URL` was unset, which meant the only
+check that verifies the CSP and HSTS are really being served was switched off by
+an empty dashboard field. Set `PROD_URL` only to override.
+
+The production **alias** is preferred over `deployment_status.target_url` on
+purpose. Per-deployment URLs (`upsy-<hash>-<team>.vercel.app`) can stay behind
+SSO even when the alias is public, so checking one reports an authentication
+wall no real visitor meets — a false alarm on the single signal this job exists
+to give.
 
 ## Known deployment gaps
 
 1. **No staging environment.** Preview deployments are per-PR; there is no
    long-lived pre-production environment against production-like data.
-2. **No uptime or performance monitoring.** Sentry captures errors when a DSN
-   is set; nothing watches availability or Core Web Vitals in the field.
+2. **No uptime or performance monitoring.** Sentry now has a DSN and captures
+   errors; nothing watches availability or Core Web Vitals in the field.
 3. **No automated rollback trigger.** Rollback is a human action.
-4. **Smoke test targets the preview domain** by default.
-5. **The daily smoke test is the only post-deploy verification.** No synthetic
-   check of authenticated flows.
+4. **No synthetic check of authenticated flows.** The production check covers
+   public routes only — booking and payment are unverified end to end.
+5. **Migrations are not applied by the pipeline.** Nothing applies a merged
+   migration; `check:database` reports the gap but cannot close it.
