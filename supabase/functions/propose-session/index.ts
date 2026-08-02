@@ -4,6 +4,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { createLogger } from "../_shared/logger.ts";
+import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -268,7 +269,7 @@ Deno.serve(async (req) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            from: "U.Psy <onboarding@resend.dev>",
+            from: sender(),
             to: [email],
             subject: `Session invitation from ${psyName.replace(/[\r\n<>]/g, " ")}`,
             html,

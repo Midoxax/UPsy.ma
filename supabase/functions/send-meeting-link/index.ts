@@ -3,6 +3,7 @@
 // video_room_id via trigger) and emails the client a single "Join session" link.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -305,7 +306,7 @@ Deno.serve(async (req) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            from: "U.Psy <onboarding@resend.dev>",
+            from: sender(),
             to: [email],
             subject: `Video session with ${psyName.replace(/[\r\n<>]/g, " ")} — Join link`,
             html,

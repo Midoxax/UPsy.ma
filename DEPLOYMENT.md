@@ -173,6 +173,76 @@ configured in `.env` appears in `connect-src`, because the failure mode is
 silent: error reporting in particular breaks by going quiet, so the first
 symptom of a missing CSP entry is a suspiciously clean dashboard.
 
+## Email
+
+Platform mail goes out through Resend from the edge functions. Sender identity
+resolves in one place, `supabase/functions/_shared/sender.ts`, configured by
+`MAIL_FROM_DOMAIN` and `MAIL_FROM_NAME` in the Supabase function secrets.
+
+**Nothing delivers until the sending domain is verified in Resend.** That is
+deliberate: there is no fallback to a sandbox sender, so an unverified domain
+fails loudly in the logs instead of succeeding into a void.
+
+### Verify the sending subdomain, not the root domain
+
+Use **`notify.upsy.ma`**, which is what `SENDER_DOMAIN` in the mail functions
+already anticipated. Two reasons, and the second is the one that matters
+operationally:
+
+1. **Reputation isolation.** If transactional mail gets marked as spam, it
+   damages the subdomain's reputation, not the root domain that Google
+   Workspace uses for real human correspondence. A psychologist's reply to a
+   patient should not land in spam because a reminder cron misfired.
+
+2. **It avoids editing the root SPF record.** A domain may have exactly one
+   SPF TXT record; adding a second is a permanent error that fails *all* mail
+   for that domain, Google Workspace included. Verifying a subdomain means
+   adding records for a name that has none, so the root zone's existing
+   `v=spf1 include:_spf.google.com ~all` is never touched. An additive change
+   instead of a risky edit.
+
+Then set `MAIL_FROM_DOMAIN=notify.upsy.ma` in the Supabase function secrets.
+
+### DNS records required
+
+Resend generates its own values when the domain is added — use those, not
+copies from anywhere else. Expect roughly:
+
+| Type | Name | Purpose |
+|---|---|---|
+| TXT | `notify` (or as Resend specifies) | domain verification |
+| TXT / CNAME | `resend._domainkey.notify` | DKIM signing |
+| TXT | `send.notify` | SPF for the subdomain only |
+| TXT | `_dmarc` | policy for the whole domain — see below |
+
+Independently of Resend, the root domain is missing two records that matter:
+
+- **DMARC.** `_dmarc.upsy.ma` does not exist, so anyone can spoof `@upsy.ma`.
+  For a mental-health service that is a patient-safety issue, not only a
+  deliverability one: a forged "your session is cancelled" wears the clinic's
+  name. Start in observe-only mode and tighten once the reports are clean:
+  `v=DMARC1; p=none; rua=mailto:contact@upsy.ma`
+- **DKIM for Google Workspace.** Absent, so human mail is SPF-only and fails
+  whenever a message is forwarded. Enable it in the Google Admin console,
+  which produces the TXT to paste.
+
+One record in the zone is dead and can be removed: `CNAME mail.upsy.ma →
+mx.upsy.ma`, whose target does not exist.
+
+### Why this section exists
+
+Ten of the thirteen mail functions sent from `onboarding@resend.dev` — Resend's
+shared sandbox, which only delivers to the Resend account owner's own address.
+Every message to a real patient or psychologist was rejected, including session
+video links and appointment reminders, and nothing surfaced it: the function
+returns normally and the recipient simply never hears from us. A missed session
+reads as a no-show.
+
+Authentication mail was separately branded `upsydot-frontend-kit`, a scaffold
+placeholder, and session proposals as `My Personal Psychologist`. On a clinical
+platform the From line is the first trust signal a patient sees, and an
+unfamiliar name on a password reset is indistinguishable from phishing.
+
 ## Database and migrations
 
 Migrations live in `supabase/migrations/`, at the repository root. That path is
