@@ -122,3 +122,54 @@ describe("CSP keeps its load-bearing directives", () => {
     expect(directiveOf("connect-src")).not.toContain("*");
   });
 });
+
+/**
+ * SEO origin consistency.
+ *
+ * The canonical origin was hardcoded in 21 files and pointed at a host with no
+ * DNS record. A canonical tag is an instruction to search engines — naming an
+ * unreachable host tells Google the indexable version of every page does not
+ * exist, which suppresses indexing rather than merely misattributing it. The
+ * same literal in og:image is why link previews did not render.
+ *
+ * Nothing in a build catches this: the site renders perfectly, and the damage
+ * is entirely off-site and invisible until traffic never arrives.
+ */
+describe("SEO origin is internally consistent", () => {
+  const html = readFileSync(resolve(ROOT, "index.html"), "utf8");
+  const robots = readFileSync(resolve(ROOT, "public/robots.txt"), "utf8");
+  const homepage: string = JSON.parse(
+    readFileSync(resolve(ROOT, "package.json"), "utf8")
+  ).homepage;
+
+  it("package.json declares a homepage", () => {
+    expect(homepage, "homepage drives the sitemap, robots and production check").toMatch(
+      /^https:\/\/[^/]+$/
+    );
+  });
+
+  it("the static canonical and og:url match the declared homepage", () => {
+    const canonical = html.match(/rel="canonical" href="([^"]+)"/)?.[1];
+    const ogUrl = html.match(/property="og:url" content="([^"]+)"/)?.[1];
+    for (const [name, value] of [["canonical", canonical], ["og:url", ogUrl]] as const) {
+      expect(value, `${name} is absent from index.html`).toBeTruthy();
+      expect(
+        new URL(value!).origin,
+        `${name} points at ${value}, but the site is served from ${homepage}`
+      ).toBe(homepage);
+    }
+  });
+
+  it("robots.txt advertises the sitemap on that same origin", () => {
+    const advertised = robots.match(/^Sitemap:\s*(\S+)/m)?.[1];
+    expect(advertised, "robots.txt has no Sitemap line").toBeTruthy();
+    expect(new URL(advertised!).origin).toBe(homepage);
+  });
+
+  it("no absolute URL in index.html points at a different origin than the site", () => {
+    // Third-party hosts are expected; a *different* first-party origin is the bug.
+    const origins = [...html.matchAll(/https:\/\/[a-z0-9.-]+/g)].map((m) => m[0]);
+    const strayFirstParty = origins.filter((o) => /upsy/i.test(o) && o !== homepage);
+    expect(strayFirstParty, "a stale first-party origin is still hardcoded").toEqual([]);
+  });
+});
