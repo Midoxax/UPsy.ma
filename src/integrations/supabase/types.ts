@@ -3352,6 +3352,98 @@ export type Database = {
         }
         Relationships: []
       }
+      platform_event_deliveries: {
+        Row: {
+          attempts: number
+          consumer: string
+          created_at: string
+          delivered_at: string | null
+          event_id: string
+          id: string
+          last_error: string | null
+          next_attempt_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          consumer: string
+          created_at?: string
+          delivered_at?: string | null
+          event_id: string
+          id?: string
+          last_error?: string | null
+          next_attempt_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          consumer?: string
+          created_at?: string
+          delivered_at?: string | null
+          event_id?: string
+          id?: string
+          last_error?: string | null
+          next_attempt_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_event_deliveries_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "platform_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      platform_events: {
+        Row: {
+          actor_id: string | null
+          correlation_id: string | null
+          created_at: string
+          event_type: string
+          event_version: number
+          id: string
+          idempotency_key: string | null
+          occurred_at: string
+          payload: Json
+          subject_id: string | null
+          subject_type: string
+          tenant_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          event_type: string
+          event_version?: number
+          id?: string
+          idempotency_key?: string | null
+          occurred_at?: string
+          payload?: Json
+          subject_id?: string | null
+          subject_type: string
+          tenant_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          event_type?: string
+          event_version?: number
+          id?: string
+          idempotency_key?: string | null
+          occurred_at?: string
+          payload?: Json
+          subject_id?: string | null
+          subject_type?: string
+          tenant_id?: string | null
+        }
+        Relationships: []
+      }
       platform_pricing_config: {
         Row: {
           commission_rate: number

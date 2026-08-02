@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { sender } from "../_shared/sender.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -133,7 +134,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send notification to admin
     const adminEmailResponse = await resend.emails.send({
-      from: "My Personal Psychologist <onboarding@resend.dev>",
+      from: sender(),
       to: ["mypersonalpsychologist212@gmail.com"],
       subject: `New Proposal Request from ${organizationName}`,
       html: `
@@ -161,7 +162,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation to client
     const clientEmailResponse = await resend.emails.send({
-      from: "My Personal Psychologist <onboarding@resend.dev>",
+      from: sender(),
       to: [email],
       subject: "We received your proposal request!",
       html: `
@@ -179,7 +180,7 @@ const handler = async (req: Request): Promise<Response> => {
           <li>WhatsApp: +212 668-594699</li>
         </ul>
         
-        <p>Best regards,<br>The My Personal Psychologist Team</p>
+        <p>Best regards,<br>The U.Psy Team</p>
       `,
     });
 

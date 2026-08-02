@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
+import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -83,7 +84,7 @@ serve(async (req) => {
     // Send email
     if (email) {
       await resend.emails.send({
-        from: "U.Psy <onboarding@resend.dev>",
+        from: sender(),
         to: [email],
         subject: `Prépare ta première séance avec ${psyName}`,
         html: `

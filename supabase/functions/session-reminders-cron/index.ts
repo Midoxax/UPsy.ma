@@ -5,6 +5,7 @@
 // Dedupe: booking_reminders_sent (booking_id, reminder_type, recipient_role, channel).
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -101,7 +102,7 @@ async function sendEmail(opts: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "U.Psy <onboarding@resend.dev>",
+        from: sender(),
         to: [opts.to],
         subject: opts.subject,
         html: opts.html,

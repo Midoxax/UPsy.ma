@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { buildApprovalEmail } from "../_shared/email-templates/accreditation/approval.ts";
+import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -297,7 +298,7 @@ serve(async (req) => {
           tempPassword: isNewUser ? tempPassword : undefined,
         });
         const { error } = await resend.emails.send({
-          from: "U.Psy <onboarding@resend.dev>",
+          from: sender(),
           to: [application.email],
           subject,
           html,

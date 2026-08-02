@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocale } from '@/contexts/LocaleContext';
 import { stripLocalePrefix } from '@/lib/i18n/utils';
+import { SITE_URL, absoluteUrl } from '@/config/site';
 
 interface SEOHeadProps {
   path: string;
@@ -13,12 +14,12 @@ interface SEOHeadProps {
 
 const DEFAULT_TITLE = 'U.Psy — Performance Psychology Platform for Morocco';
 const DEFAULT_DESCRIPTION = "Book accredited psychologists worldwide. Video sessions in any timezone, or in-person in select cities. Free rebook if not the right fit.";
-const DEFAULT_OG_IMAGE = 'https://upsy.ma/__l5e/assets-v1/2edf1a4b-29b9-4195-8a74-121993b46fe3/upsy-logo.png';
+const DEFAULT_OG_IMAGE = absoluteUrl('/__l5e/assets-v1/2edf1a4b-29b9-4195-8a74-121993b46fe3/upsy-logo.png');
 
 const SEOHead = ({ path, title, description, ogImage, ogType = 'website', jsonLd }: SEOHeadProps) => {
   const { locale } = useLocale();
   const basePath = stripLocalePrefix(path);
-  const baseUrl = 'https://upsy.ma';
+  const baseUrl = SITE_URL;
 
   useEffect(() => {
     document.documentElement.lang = locale;

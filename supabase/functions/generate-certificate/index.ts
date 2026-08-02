@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -275,7 +276,7 @@ Deno.serve(async (req) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            from: "U.Psy Certificates <onboarding@resend.dev>",
+            from: sender("documents"),
             to: [user.email],
             subject: `🎓 Your ${TYPE_LABELS[certificate_type]} Certificate — ${escapeHtml(title)}`,
             html: emailHtml,
