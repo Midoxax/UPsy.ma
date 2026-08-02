@@ -1,8 +1,7 @@
 import { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Sphere, Stars, Environment } from "@react-three/drei";
+import { Float, MeshDistortMaterial, Sphere, Stars } from "@react-three/drei";
 import * as THREE from "three";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /**
  * HeroScene — cinematic 3D orb for the marketing hero.
@@ -89,15 +88,28 @@ export default function HeroScene() {
         <CoreOrb />
         <OrbitingSatellites />
         {/*
-          `preset` makes drei fetch an HDR environment map from a third-party
-          CDN at runtime. On a blocked, throttled or offline network that fetch
-          rejects and takes the whole scene down, so it gets its own boundary:
-          losing the reflection map costs a little specular richness, while the
-          orb, satellites and starfield keep rendering off the lights above.
+          There was an <Environment preset="night" /> here. `preset` makes drei
+          fetch an HDR environment map from raw.githack.com at runtime, and that
+          fetch has never once succeeded in production: `connect-src` does not
+          allow the host, so the browser blocks it on every load. Sentry logged
+          it from www.upsy.ma as soon as error reporting went live.
+
+          It was already wrapped in its own ErrorBoundary, so the scene kept
+          rendering — which is why nobody noticed. The reflection map has simply
+          never existed for any visitor; the orb has always been lit by the
+          ambient and point lights above.
+
+          Removing it is therefore a visual no-op that stops an error firing on
+          every homepage load. The alternative — allowing raw.githack.com in the
+          CSP — trades a decorative reflection for a connect-src entry to a
+          service that proxies arbitrary GitHub repositories, which is a poor
+          bargain on a platform holding clinical records. githack also asks not
+          to be used for production traffic.
+
+          To restore image-based lighting, self-host it: `npm i @pmndrs/assets`
+          and pass `files={...}` so the HDR is served from this origin, covered
+          by 'self' and dependent on nothing external.
         */}
-        <ErrorBoundary fallback={null}>
-          <Environment preset="night" />
-        </ErrorBoundary>
       </Suspense>
     </Canvas>
   );
