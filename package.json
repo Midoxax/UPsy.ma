@@ -2,6 +2,7 @@
   "name": "upsy-platform",
   "private": true,
   "version": "1.0.0",
+  "homepage": "https://upsy-ma.vercel.app",
   "packageManager": "npm@10.9.2",
   "type": "module",
   "engines": {
@@ -25,8 +26,11 @@
     "check:env": "node scripts/check-env-safety.mjs",
     "check:bundle": "node scripts/check-bundle-size.mjs",
     "check:build": "node scripts/verify-build.mjs",
+    "check:supabase": "node scripts/check-supabase-sync.mjs",
+    "check:database": "node scripts/check-database.mjs",
+    "check:production": "node scripts/check-production.mjs",
     "test:audit": "node tests/audit/run.mjs",
-    "verify": "npm run check:runtime && npm run check:env && npm run typecheck && npm run test && npm run build && npm run check:bundle && npm run check:build",
+    "verify": "npm run check:runtime && npm run check:env && npm run check:supabase && npm run typecheck && npm run test && npm run build && npm run check:bundle && npm run check:build",
     "preview": "vite preview"
   },
   "dependencies": {

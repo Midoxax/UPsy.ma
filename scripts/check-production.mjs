@@ -19,12 +19,25 @@
  * the vantage point of a real visitor.
  *
  * Usage:
- *   PROD_URL=https://upsy-ma.vercel.app node scripts/check-production.mjs
+ *   npm run check:production                  # uses package.json "homepage"
+ *   PROD_URL=https://staging.example node scripts/check-production.mjs
  */
+import { readFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const URL_BASE = (process.env.PROD_URL || "").replace(/\/$/, "");
+// The production alias is committed in package.json rather than supplied only
+// by the environment, so this check is runnable by anyone who clones the repo
+// without first being told a URL. PROD_URL still overrides it, which is what
+// CI passes when verifying a specific deployment.
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const homepage = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8")).homepage ?? "";
+
+const URL_BASE = (process.env.PROD_URL || homepage).replace(/\/$/, "");
 if (!URL_BASE) {
-  console.error("PROD_URL is not set. Nothing to verify.");
+  console.error(
+    'No target. Set "homepage" in package.json or pass PROD_URL=https://... — nothing to verify.'
+  );
   process.exit(1);
 }
 
@@ -81,10 +94,32 @@ console.log(`  status ${root.status}`);
 // owner's browser is authenticated and sees a working site, so this failure is
 // invisible from the dashboard — and total for everyone else.
 const location = root.headers.get("location") || "";
-const isProtectionWall =
-  root.status === 401 ||
-  root.status === 403 ||
-  /vercel\.com\/sso-api|\/\.well-known\/vercel\/protection/.test(location);
+
+// Only Vercel can put up Vercel's auth wall. Every response Vercel serves —
+// including the SSO wall — carries an x-vercel-id, so its absence on a 401/403
+// means something in front of the site answered instead: a corporate proxy, an
+// egress allowlist, a WAF. Blaming Deployment Protection for those sends the
+// reader to a dashboard toggle that is already correct, and a check that
+// misdiagnoses gets distrusted and then ignored.
+const servedByVercel =
+  root.headers.has("x-vercel-id") || /vercel/i.test(root.headers.get("server") || "");
+const namesVercelSso = /vercel\.com\/sso-api|\/\.well-known\/vercel\/protection/.test(location);
+const isBlocked = root.status === 401 || root.status === 403;
+const isProtectionWall = namesVercelSso || (isBlocked && servedByVercel);
+
+if (isBlocked && !isProtectionWall) {
+  console.error("\nCANNOT VERIFY — blocked before reaching the site\n");
+  console.error(
+    `  ${URL_BASE} answered ${root.status}, but the response did not come from\n` +
+      `  Vercel (no x-vercel-id header). Something between this machine and the\n` +
+      `  site answered on its behalf — commonly an egress allowlist, a corporate\n` +
+      `  proxy, or a WAF.\n\n` +
+      `  This is not a verdict on the deployment: nothing about the site was\n` +
+      `  reached, so nothing about it is proven. Re-run from a network with\n` +
+      `  direct outbound access, such as a GitHub-hosted runner.\n`
+  );
+  process.exit(1);
+}
 
 if (isProtectionWall) {
   // Diagnose the actual cause and stop. Continuing would measure headers on
