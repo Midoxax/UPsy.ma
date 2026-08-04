@@ -119,7 +119,13 @@ npm run test:audit
 `.github/workflows/ci.yml`, on every pull request. Two parallel jobs:
 
 **Types, lint, secrets** — committed-secret check, Supabase wiring and schema
-sync, `tsc --noEmit`, unit tests, ESLint, `npm audit`.
+sync, `tsc --noEmit`, `deno check` over the edge functions, unit tests, ESLint,
+`npm audit`.
+
+The Deno step exists because `tsconfig.app.json` includes only `src`, so `tsc`
+has never seen `supabase/functions` — 33 functions covering mail, crisis
+screening and clinical briefs, with nothing validating them until a user hit
+them. It is non-blocking until the backlog it finds is cleared.
 
 **Build and browser audit** — production build, bundle budget, build
 verification, then the browser audit against a real preview server.
@@ -135,7 +141,8 @@ switched off, and everything it would have caught later goes with it.
 | Committed secrets | any non-`VITE_` key | already strict |
 | Runtime contract | drift, or wrong running major | already strict |
 | Supabase sync | project mismatch, unrecorded schema drift | empty `pending-migrations.json` |
-| Type check | any error | already strict |
+| Type check (`src`) | any error | already strict |
+| Type check (edge functions) | nothing yet — backlog unmeasured | drop `continue-on-error` once clean |
 | Unit tests | any failure | add suites for booking and payments |
 | Security audit | high/critical in prod deps | `--audit-level=moderate` |
 | Bundle budget | >1% or 2 KB over `bundle-budget.json` | lower the numbers |
