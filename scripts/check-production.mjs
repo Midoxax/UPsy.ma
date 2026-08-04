@@ -180,8 +180,28 @@ if (isProtectionWall) {
 
 for (const hop of root.hops ?? []) notes.push(`Followed same-site redirect: ${hop}`);
 
+// Nothing is served here at all. Stop, for the same reason the auth wall stops:
+// headers and routes measured against a 404 describe the error page, and
+// reporting five missing security headers hides the one fact that matters. A
+// 404 on the *root* of a deployment almost never means "one page is missing" —
+// it means this URL is not attached to the project, which is exactly what
+// happened when the production alias was left pointing at a retired
+// *.vercel.app address after the custom domain was added.
 if (root.status >= 400) {
-  failures.push(`Root returned ${root.status}`);
+  console.error("\nPRODUCTION VERIFICATION FAILED\n");
+  console.error(
+    `  - Nothing is served at ${URL_BASE} — the root returned ${root.status}.\n\n` +
+      (root.status === 404
+        ? `    A 404 on the root is a routing fact, not a content one: the host\n` +
+          `    resolves, something answers, and that something does not know about\n` +
+          `    this project. Usually the domain is not attached to the deployment.\n\n` +
+          `    Check Vercel -> Settings -> Domains and confirm this exact hostname\n` +
+          `    is listed, then point "homepage" in package.json at one that is.\n`
+        : `    The deployment is failing to serve its root document.\n`) +
+      `\n    Header and route results are omitted deliberately: measured against an\n` +
+      `    error page they describe the error page, not the application.\n`
+  );
+  process.exit(1);
 } else if (root.status >= 300) {
   // Still a redirect after same-site following means it points off-site and
   // was not an auth wall — worth naming, since headers below describe the
