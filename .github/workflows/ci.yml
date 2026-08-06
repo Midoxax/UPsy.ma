@@ -81,8 +81,14 @@ jobs:
       # the day it lands gets switched off along with everything it would have
       # caught. Read the output, fix what it finds, then drop
       # continue-on-error — same ratchet as lint.
+      # --node-modules-dir=auto because the functions import npm packages by
+      # bare specifier (`npm:resend@2.0.0`). Without it Deno 2 refuses to
+      # resolve them and aborts on the first file it meets, which is what the
+      # first run of this step did: it stopped at anamnesis-reminder-cron and
+      # checked nothing else. The flag lives here rather than in a deno.json so
+      # nothing about how Supabase deploys these functions changes.
       - name: Type check edge functions
-        run: deno check supabase/functions/*/index.ts supabase/functions/_shared/*.ts
+        run: deno check --node-modules-dir=auto supabase/functions/*/index.ts supabase/functions/_shared/*.ts
         continue-on-error: true
 
       # Behavioural coverage. Every other gate checks the shape of the output;
