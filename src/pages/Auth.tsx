@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Brain, Sparkles, Eye, EyeOff, Check, X } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { hasAnyOAuth, isOAuthEnabled } from "@/config/auth";
 
 
 const emailSchema = z.string().email("Invalid email address");
@@ -73,8 +74,15 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
   isGoogleLoading: boolean;
   isAppleLoading: boolean;
   t: (key: string) => string;
-}) => (
+}) => {
+  // Nothing is rendered for a provider this deployment cannot actually
+  // complete a sign-in with. See src/config/auth.ts — the buttons were live
+  // and failing for every visitor before this.
+  if (!hasAnyOAuth()) return null;
+
+  return (
   <div className="space-y-3">
+    {isOAuthEnabled("google") && (
     <Button type="button" variant="outline" className="w-full" onClick={onGoogle} disabled={isGoogleLoading}>
       {isGoogleLoading ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -88,6 +96,8 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
       )}
       {t('auth.continueWithGoogle')}
     </Button>
+    )}
+    {isOAuthEnabled("apple") && (
     <Button type="button" variant="outline" className="w-full" onClick={onApple} disabled={isAppleLoading}>
       {isAppleLoading ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -98,6 +108,7 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
       )}
       {t('auth.continueWithApple') || 'Continue with Apple'}
     </Button>
+    )}
     <div className="relative">
       <div className="absolute inset-0 flex items-center">
         <span className="w-full border-t border-border" />
@@ -107,7 +118,8 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const Auth = () => {
   const navigate = useNavigate();

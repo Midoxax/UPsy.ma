@@ -49,3 +49,35 @@ describe("OAuth does not depend on Lovable hosting", () => {
     expect(client).toMatch(/detectSessionInUrl:\s*true/);
   });
 });
+
+/**
+ * A social sign-in button must not be shown unless it can succeed.
+ *
+ * Supabase answered /authorize with 400 `validation_failed — missing OAuth
+ * secret`: no client credentials were configured for the provider. That is a
+ * dashboard fault, not a code one, and no code change can fix it — but showing
+ * a button that always fails is a choice the code does make.
+ *
+ * Someone arriving to book a first session with a psychologist should not meet
+ * a broken door. Email and password sign-in works; the social buttons stay
+ * hidden until a provider is deliberately enabled.
+ */
+describe("social sign-in buttons are gated on real configuration", () => {
+  it("shows no provider by default", async () => {
+    const { OAUTH_PROVIDERS, hasAnyOAuth } = await import("@/config/auth");
+    expect(
+      OAUTH_PROVIDERS,
+      "an unset VITE_OAUTH_PROVIDERS must render no social buttons — the providers are unconfigured in Supabase"
+    ).toEqual([]);
+    expect(hasAnyOAuth()).toBe(false);
+  });
+
+  it("renders each button behind its own enablement check", () => {
+    const auth = read("src/pages/Auth.tsx");
+    expect(auth).toMatch(/isOAuthEnabled\("google"\)\s*&&/);
+    expect(auth).toMatch(/isOAuthEnabled\("apple"\)\s*&&/);
+    expect(auth, "the whole block should disappear when nothing is enabled").toMatch(
+      /if\s*\(!hasAnyOAuth\(\)\)\s*return null/
+    );
+  });
+});
