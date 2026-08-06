@@ -45,16 +45,24 @@ Deno.serve(async (req) => {
     const userClient = createClient(SUPABASE_URL_AUTH, SUPABASE_ANON_KEY, {
       global: { headers: { Authorization: authHeader } },
     });
-    const { data: claimsData, error: claimsErr } = await userClient.auth.getClaims(
+    // getUser, not getClaims. This function pins supabase-js 2.45.0, whose
+    // bundled auth-js (2.64.4) has no getClaims — so the call was `undefined`
+    // and threw on every invocation, failing the auth gate and 500-ing the
+    // accept/decline path for session proposals. Nothing caught it: the
+    // frontend builds fine and tsc never sees this directory.
+    //
+    // getUser validates the token against the auth server rather than parsing
+    // claims locally. Marginally slower, available in every 2.x, and stricter.
+    const { data: claimsData, error: claimsErr } = await userClient.auth.getUser(
       authHeader.replace("Bearer ", ""),
     );
-    if (claimsErr || !claimsData?.claims?.sub) {
+    if (claimsErr || !claimsData?.user?.id) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    const callerId = claimsData.claims.sub as string;
+    const callerId = claimsData.user.id;
 
     const body = (await req.json()) as Body;
     if (!body?.booking_id || !["accept", "decline"].includes(body.action)) {
