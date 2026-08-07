@@ -273,12 +273,15 @@ describe("SPA deep links are served, not 404ed", () => {
     ).toBe(true);
   });
 
-  it("does not swallow /api requests", () => {
-    // A bare /(.*) would capture API paths too. vercel.json sets no-store
-    // caching for /api/*, so something is expected to live there.
+  it("uses a source form Vercel actually accepts", () => {
+    // A negative-lookahead source ("/((?!api/).*)") was tried first and the
+    // rule was silently ignored in production — every route except / kept
+    // 404ing while the headers from the same file applied. Vercel parses
+    // `source` with path-to-regexp; keep it to the plain catch-all it
+    // unambiguously supports. There is no api/ directory to exclude.
     const catchAll = (vercel.rewrites ?? []).find(
       (r: { destination: string }) => r.destination === "/index.html"
     );
-    expect(catchAll.source).toMatch(/api/);
+    expect(catchAll.source).toBe("/(.*)");
   });
 });
