@@ -119,7 +119,13 @@ npm run test:audit
 `.github/workflows/ci.yml`, on every pull request. Two parallel jobs:
 
 **Types, lint, secrets** — committed-secret check, Supabase wiring and schema
-sync, `tsc --noEmit`, unit tests, ESLint, `npm audit`.
+sync, `tsc --noEmit`, `deno check` over the edge functions, unit tests, ESLint,
+`npm audit`.
+
+The Deno step exists because `tsconfig.app.json` includes only `src`, so `tsc`
+has never seen `supabase/functions` — 33 functions covering mail, crisis
+screening and clinical briefs, with nothing validating them until a user hit
+them. It is non-blocking until the backlog it finds is cleared.
 
 **Build and browser audit** — production build, bundle budget, build
 verification, then the browser audit against a real preview server.
@@ -135,7 +141,8 @@ switched off, and everything it would have caught later goes with it.
 | Committed secrets | any non-`VITE_` key | already strict |
 | Runtime contract | drift, or wrong running major | already strict |
 | Supabase sync | project mismatch, unrecorded schema drift | empty `pending-migrations.json` |
-| Type check | any error | already strict |
+| Type check (`src`) | any error | already strict |
+| Type check (edge functions) | nothing yet — backlog unmeasured | drop `continue-on-error` once clean |
 | Unit tests | any failure | add suites for booking and payments |
 | Security audit | high/critical in prod deps | `--audit-level=moderate` |
 | Bundle budget | >1% or 2 KB over `bundle-budget.json` | lower the numbers |
@@ -172,6 +179,43 @@ locally. `tests/unit/csp.test.ts` now asserts that every external origin
 configured in `.env` appears in `connect-src`, because the failure mode is
 silent: error reporting in particular breaks by going quiet, so the first
 symptom of a missing CSP entry is a suspiciously clean dashboard.
+
+## Social sign-in
+
+**Google and Apple sign-in do not work, and the buttons are hidden until they
+do.** Two separate faults sat on the same path:
+
+1. `@lovable.dev/cloud-auth-js` navigated to `/~oauth/initiate`, a route served
+   only by Lovable's hosting — a 404 on Vercel. Removed; sign-in now uses
+   `supabase.auth.signInWithOAuth`.
+2. Supabase answers `/authorize` with `400 validation_failed — missing OAuth
+   secret`. **No client credentials are configured for the provider.** No code
+   change fixes this.
+
+`VITE_OAUTH_PROVIDERS` is empty, so the buttons do not render. Email and
+password sign-in works and is the only path offered. A button that cannot
+succeed is worse than no button, particularly as a first impression of a
+mental-health service.
+
+### Enabling Google
+
+1. **Google Cloud Console** → APIs & Services → Credentials → Create OAuth
+   client ID, type **Web application**.
+2. **Authorised redirect URI** — the step that is usually wrong. It is
+   *Supabase's* callback, not this site's:
+   `https://vuawmihxcaewzmkuarkr.supabase.co/auth/v1/callback`
+3. **Supabase** → Authentication → Providers → Google: paste the client ID and
+   secret, enable.
+4. **Supabase** → Authentication → URL Configuration → Redirect URLs: add
+   `https://www.upsy.ma` (and any preview origin that needs working sign-in).
+5. Set `VITE_OAUTH_PROVIDERS="google"` and deploy.
+6. **Complete one real sign-in before telling anyone it works.** CI cannot prove
+   this — it needs a browser and an external provider — so a human doing it once
+   is the only evidence that exists.
+
+Apple additionally requires a paid Apple Developer account and a signing key.
+Shipping with Google alone is reasonable; leave `apple` out of the list until it
+is genuinely configured.
 
 ## Email
 

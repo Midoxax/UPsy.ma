@@ -16,4 +16,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://upsy-ma.vercel.app/sitemap.xml
+Sitemap: https://www.upsy.ma/sitemap.xml

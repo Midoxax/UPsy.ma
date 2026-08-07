@@ -13,5 +13,12 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
+    // Load-bearing for OAuth, and stated explicitly rather than left to the
+    // default. Google and Apple sign-in return the user to the site with the
+    // session in the URL; this is what reads it and establishes the session.
+    // It defaults to true, so omitting it works — right up until someone sets
+    // it to false for an unrelated reason and social sign-in silently stops
+    // completing, with no error and no failed request to point at.
+    detectSessionInUrl: true,
   }
 });

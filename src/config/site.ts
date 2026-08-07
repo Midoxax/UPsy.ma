@@ -21,30 +21,34 @@
  * them and moving the domain later meant finding them again. It resolves here
  * instead, and moving to the real domain is one environment variable.
  *
- * SWITCHING TO upsy.ma
+ * WHY www AND NOT THE APEX
  *
- * When the domain is registered and pointed at Vercel:
+ * `upsy.ma` answers 308 and redirects to `www.upsy.ma`, so www is where a
+ * visitor actually lands. A canonical tag should name the URL that serves the
+ * page, not one that bounces to it — an extra hop on every crawl, and two URLs
+ * competing to represent one page.
  *
- *   1. Add the domain in Vercel → Settings → Domains, and wait for DNS.
- *   2. Confirm it serves the site: `PROD_URL=https://upsy.ma npm run check:production`
- *   3. Set `VITE_SITE_URL=https://upsy.ma` in `.env` (it is a public value) and
- *      `homepage` in package.json to match.
- *   4. Only then submit the sitemap to Search Console. Submitting a sitemap
- *      full of non-resolving URLs teaches Google the site is broken, and that
- *      impression is slow to undo.
+ * Do not point this at a host before it serves the site. This file exists
+ * because all of it named `upsy.ma` while that domain had no DNS record at all,
+ * and a canonical pointing somewhere dead suppresses indexing rather than
+ * merely misfiling it.
  *
- * Do not point this at a domain before it serves the site. A canonical pointing
- * somewhere dead is worse than one pointing at an ugly-but-working URL.
+ * IF THE ORIGIN CHANGES AGAIN
+ *
+ * Set `VITE_SITE_URL` and `homepage` in package.json together, then re-run
+ * `npm run sitemap`. `tests/unit/csp.test.ts` fails if index.html, robots.txt
+ * and package.json stop agreeing, so a half-finished change cannot ship.
+ * Confirm with `PROD_URL=https://www.upsy.ma npm run check:production` first.
  */
 
 /**
  * Public origin, no trailing slash.
  *
- * Defaults to the Vercel deployment because it is the only origin that
- * currently resolves. `VITE_SITE_URL` overrides it without a code change.
+ * `VITE_SITE_URL` overrides the default without a code change; both are kept
+ * in step with package.json `homepage` by the SEO origin tests.
  */
 export const SITE_URL = (
-  (import.meta.env.VITE_SITE_URL as string | undefined) || "https://upsy-ma.vercel.app"
+  (import.meta.env.VITE_SITE_URL as string | undefined) || "https://www.upsy.ma"
 ).replace(/\/$/, "");
 
 /** Absolute URL for a root-relative path. */

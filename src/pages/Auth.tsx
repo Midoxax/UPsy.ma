@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Brain, Sparkles, Eye, EyeOff, Check, X } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
+import { hasAnyOAuth, isOAuthEnabled } from "@/config/auth";
 
 
 const emailSchema = z.string().email("Invalid email address");
@@ -74,8 +74,15 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
   isGoogleLoading: boolean;
   isAppleLoading: boolean;
   t: (key: string) => string;
-}) => (
+}) => {
+  // Nothing is rendered for a provider this deployment cannot actually
+  // complete a sign-in with. See src/config/auth.ts — the buttons were live
+  // and failing for every visitor before this.
+  if (!hasAnyOAuth()) return null;
+
+  return (
   <div className="space-y-3">
+    {isOAuthEnabled("google") && (
     <Button type="button" variant="outline" className="w-full" onClick={onGoogle} disabled={isGoogleLoading}>
       {isGoogleLoading ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -89,6 +96,8 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
       )}
       {t('auth.continueWithGoogle')}
     </Button>
+    )}
+    {isOAuthEnabled("apple") && (
     <Button type="button" variant="outline" className="w-full" onClick={onApple} disabled={isAppleLoading}>
       {isAppleLoading ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -99,6 +108,7 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
       )}
       {t('auth.continueWithApple') || 'Continue with Apple'}
     </Button>
+    )}
     <div className="relative">
       <div className="absolute inset-0 flex items-center">
         <span className="w-full border-t border-border" />
@@ -108,7 +118,8 @@ const OAuthButtons = ({ onGoogle, onApple, isGoogleLoading, isAppleLoading, t }:
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -167,11 +178,23 @@ const Auth = () => {
       try {
         sessionStorage.setItem("upsy:post-oauth-redirect", safe);
       } catch {}
-      const { error } = await lovable.auth.signInWithOAuth(provider, {
-        redirect_uri: window.location.origin,
+      // Supabase Auth directly, not Lovable's cloud-auth wrapper.
+      //
+      // The wrapper navigated to `/~oauth/initiate`, a path served by Lovable's
+      // own hosting and by nothing else. On Vercel it is a 404, so every Google
+      // and Apple sign-in on www.upsy.ma dead-ended on an error page. Sign-in
+      // is not a surface that can afford a second auth system.
+      //
+      // `redirectTo` must be listed under Supabase -> Authentication -> URL
+      // Configuration -> Redirect URLs, or Supabase refuses the round trip.
+      // Using window.location.origin rather than a constant keeps preview
+      // deployments working, provided their origins are allow-listed too.
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: { redirectTo: window.location.origin },
       });
       if (error) {
-        toast({ title: t('auth.loginFailed'), description: String(error), variant: "destructive" });
+        toast({ title: t('auth.loginFailed'), description: error.message, variant: "destructive" });
       }
     } catch {
       toast({ title: t('auth.loginFailed'), description: `${provider} sign-in failed`, variant: "destructive" });

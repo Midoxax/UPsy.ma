@@ -59,6 +59,38 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit -p tsconfig.app.json
 
+      # The other half of the backend.
+      #
+      # tsconfig.app.json includes only `src`, so `tsc` never sees
+      # supabase/functions — 33 Deno functions, including every one that sends
+      # mail, screens for crisis, or generates a clinical brief. Nothing in this
+      # pipeline has ever type-checked them. A wrong import path or a renamed
+      # export surfaces when a patient does not receive an appointment reminder,
+      # which is the worst possible place to discover it.
+      #
+      # Scoped to function entrypoints and the shared .ts modules. The .tsx
+      # email templates need their own JSX configuration and are left for a
+      # follow-up rather than bolted on here.
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      # Non-blocking on arrival, deliberately. These files have never been
+      # checked, so the size of the backlog is unknown, and a gate that is red
+      # the day it lands gets switched off along with everything it would have
+      # caught. Read the output, fix what it finds, then drop
+      # continue-on-error — same ratchet as lint.
+      # --node-modules-dir=auto because the functions import npm packages by
+      # bare specifier (`npm:resend@2.0.0`). Without it Deno 2 refuses to
+      # resolve them and aborts on the first file it meets, which is what the
+      # first run of this step did: it stopped at anamnesis-reminder-cron and
+      # checked nothing else. The flag lives here rather than in a deno.json so
+      # nothing about how Supabase deploys these functions changes.
+      - name: Type check edge functions
+        run: deno check --node-modules-dir=auto supabase/functions/*/index.ts supabase/functions/_shared/*.ts
+        continue-on-error: true
+
       # Behavioural coverage. Every other gate checks the shape of the output;
       # these assert what the code actually does — i18n fallback resolution,
       # theme resolution, and route authorization. Each suite is mutation-

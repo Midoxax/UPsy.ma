@@ -171,16 +171,36 @@ This repository originated in Lovable. Remaining ties:
 
 | Reference | Impact |
 |---|---|
-| `@lovable.dev/cloud-auth-js` in `integrations/lovable` | **Hard runtime dependency — OAuth sign-in** |
 | `lovable-tagger` in `vite.config.ts` | Dev-only, harmless |
-| `ai.gateway.lovable.dev` in the CSP | Allowlist entry |
+| `ai.gateway.lovable.dev` in the CSP | Allowlist entry — used by the edge functions via `LOVABLE_API_KEY` |
 | `lovableproject.com` hostname check in `main.tsx` | Environment detection |
+| The Supabase project itself | **Provisioned and managed by Lovable — see DEPLOYMENT.md** |
 
-Only the first matters. OAuth routes through Lovable's cloud auth while
-everything else uses Supabase Auth — two auth systems for one product. Migrating
-to `supabase.auth.signInWithOAuth` removes the dependency, but **requires the
-OAuth providers to be configured in the Supabase dashboard first**; changing the
-code before that breaks sign-in.
+**The OAuth dependency is gone.** `@lovable.dev/cloud-auth-js` used to handle
+Google and Apple sign-in, and it navigated to `/~oauth/initiate` — a path served
+by Lovable's hosting and by nothing else. That made it a latent failure the
+moment the app moved to Vercel, and it was not latent for long: every social
+sign-in on www.upsy.ma returned a 404 page. The failure was invisible from the
+code, because the call succeeded and the browser navigated; only the destination
+was missing.
+
+Sign-in now goes through `supabase.auth.signInWithOAuth`, so there is one auth
+system rather than two. This requires, in the Supabase dashboard:
+
+- **Authentication → Providers** — Google and Apple enabled with their client
+  credentials.
+- **Authentication → URL Configuration → Redirect URLs** — `https://www.upsy.ma`,
+  plus any preview origin that needs working sign-in.
+
+`tests/unit/auth-oauth.test.ts` holds the structural properties: no Lovable auth
+package, no import of the wrapper, and `detectSessionInUrl` left enabled, which
+is what completes the round trip. A real OAuth flow cannot be exercised in CI —
+it needs a browser and an external provider — so the first genuine proof is a
+human completing a Google sign-in.
+
+The remaining ties are cosmetic except the last: the production database lives in
+a Lovable-managed Supabase project, which is the coupling that actually still
+matters.
 
 ## Verification
 
