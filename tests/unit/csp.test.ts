@@ -17,7 +17,7 @@
  * having are still present.
  */
 import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(__dirname, "../..");
@@ -182,5 +182,58 @@ describe("SEO origin is internally consistent", () => {
     const origins = [...html.matchAll(/https:\/\/[a-z0-9.-]+/g)].map((m) => m[0]);
     const strayFirstParty = origins.filter((o) => /upsy/i.test(o) && o !== homepage);
     expect(strayFirstParty, "a stale first-party origin is still hardcoded").toEqual([]);
+  });
+});
+
+/**
+ * The social preview image must exist and be what it claims to be.
+ *
+ * Two separate faults lived here. The og:image pointed at a Lovable-published
+ * path absent from the Vercel build, so every share requested a 404. And the
+ * asset that *should* have been used, public/og-image.png, is a JPEG carrying a
+ * .png extension — served as image/png under `X-Content-Type-Options: nosniff`,
+ * which tells the client not to correct the mismatch.
+ *
+ * Neither is visible from the app: link previews are rendered by other people's
+ * crawlers, so the only symptom is that shares look broken somewhere you never
+ * look.
+ */
+describe("og:image is real and correctly typed", () => {
+  const html = readFileSync(resolve(ROOT, "index.html"), "utf8");
+  const ogImage = html.match(/property="og:image" content="([^"]+)"/)?.[1] ?? "";
+  const declaredType = html.match(/property="og:image:type" content="([^"]+)"/)?.[1] ?? "";
+
+  /** Magic bytes, because the extension has already lied once. */
+  function sniff(buf: Buffer): "png" | "jpeg" | "unknown" {
+    if (buf.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return "png";
+    if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "jpeg";
+    return "unknown";
+  }
+
+  it("points at a file that ships in public/", () => {
+    expect(ogImage, "index.html declares no og:image").toBeTruthy();
+    const path = new URL(ogImage).pathname;
+    expect(
+      existsSync(resolve(ROOT, "public", path.replace(/^\//, ""))),
+      `og:image points at ${path}, which is not in public/ — every share will request a 404`
+    ).toBe(true);
+  });
+
+  it("declares the content type the bytes actually are", () => {
+    const path = new URL(ogImage).pathname.replace(/^\//, "");
+    const actual = sniff(readFileSync(resolve(ROOT, "public", path)));
+    const declared = declaredType.split("/")[1]?.replace("jpg", "jpeg");
+    expect(
+      actual,
+      `${path} contains ${actual} bytes but og:image:type says ${declaredType}. ` +
+        `nosniff is set, so the client is told not to correct this.`
+    ).toBe(declared);
+  });
+
+  it("has an extension matching its bytes, so the server sends the right MIME", () => {
+    const path = new URL(ogImage).pathname.replace(/^\//, "");
+    const actual = sniff(readFileSync(resolve(ROOT, "public", path)));
+    const ext = path.split(".").pop()?.replace("jpg", "jpeg");
+    expect(actual, `${path} is ${actual} data — rename it so its extension matches`).toBe(ext);
   });
 });
