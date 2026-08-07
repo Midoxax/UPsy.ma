@@ -237,3 +237,48 @@ describe("og:image is real and correctly typed", () => {
     expect(actual, `${path} is ${actual} data — rename it so its extension matches`).toBe(ext);
   });
 });
+
+/**
+ * Client-side routes must survive a direct request.
+ *
+ * This is a single-page app: the server has one document, and every route below
+ * `/` exists only once React has booted. Without an explicit rewrite, a request
+ * straight to /pricing asks Vercel for a file that does not exist, and Vercel
+ * answers 404 — correctly, and catastrophically.
+ *
+ * It happened. The production check against www.upsy.ma returned 200 for `/`
+ * and 404 for every other route: shared links, refreshes, and every one of the
+ * 103 URLs in the sitemap. Only visitors who typed the bare domain saw a site.
+ *
+ * Vercel's `framework: "vite"` preset normally supplies this fallback, which is
+ * why nothing declared it. That preset was not applying — the project's
+ * Framework Settings are overridden in the dashboard. Relying on a setting that
+ * lives outside the repository, and that no test can see, is what made this
+ * invisible. The rewrite is now declared here, where it is version-controlled
+ * and asserted.
+ */
+describe("SPA deep links are served, not 404ed", () => {
+  const vercel = JSON.parse(readFileSync(resolve(ROOT, "vercel.json"), "utf8"));
+
+  it("declares a catch-all rewrite to index.html", () => {
+    const rewrites: Array<{ source: string; destination: string }> = vercel.rewrites ?? [];
+    expect(
+      rewrites.length,
+      "vercel.json has no rewrites — every route except / will 404 if the " +
+        "framework preset is not applied, and the dashboard can disable that preset"
+    ).toBeGreaterThan(0);
+    expect(
+      rewrites.some((r) => r.destination === "/index.html"),
+      "no rewrite targets /index.html, so client routes have nothing to fall back to"
+    ).toBe(true);
+  });
+
+  it("does not swallow /api requests", () => {
+    // A bare /(.*) would capture API paths too. vercel.json sets no-store
+    // caching for /api/*, so something is expected to live there.
+    const catchAll = (vercel.rewrites ?? []).find(
+      (r: { destination: string }) => r.destination === "/index.html"
+    );
+    expect(catchAll.source).toMatch(/api/);
+  });
+});
