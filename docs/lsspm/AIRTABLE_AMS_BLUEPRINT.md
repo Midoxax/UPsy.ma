@@ -428,3 +428,70 @@ Give it Phase 1 only, as a schema request, with the explicit instruction *"no
 automations, no interfaces"*. Then verify every link field by hand before moving
 on. Phases 2–5 the same way, one prompt each. Interfaces and automations are
 faster built manually than repaired after a one-shot generation.
+
+---
+
+# Implementation log — what is now live in the base
+
+Base: **LSSPM Association Management System** (`appzYnIb5WmWjUYDg`).
+
+The base already had 16 linked tables when this work started — further along than the
+earlier Airtable AI error suggested. What it did not have was any computed field, any
+automation, and any way to tell a cotisation from a formation payment. Everything below
+was added on top of the existing structure; no table was renamed, restructured or deleted.
+
+## Fields added
+
+**Payments** — `Nature` (Cotisation / Formation / Don / Autre), `Document Type` (formula,
+derived from Nature), `Paid At`, `Fiscal Year`, `Document Generated` (idempotency guard),
+`Amount Confirmed` (formula: zero unless Verified and not refunded), `Member Email` (lookup).
+
+**Registrations** — `Net Amount Due`, `Amount Paid` (rollup of confirmed payments),
+`Balance Due`, `Payment State`, `Is Active`, `Is Confirmed`, `Participant Email`,
+`Confirmation Sent`.
+
+**Trainings / Workshops / Conferences** — `Registered Count`, `Confirmed Count`,
+`Seats Left`, `Revenue` (and `Outstanding` on Trainings).
+
+**Members** — `Total Paid`, `Outstanding Balance`, `Days Until Expiry`,
+`Membership State`, `Certificate Count`, `Events Registered`.
+
+Every rollup aggregates `Amount Confirmed`, never raw `Amount`, so an unverified or
+refunded payment can never inflate revenue or close out a balance.
+
+## Automations created (all six saved as drafts, switched OFF)
+
+1. **Paiement vérifié → confirmation + horodatage** — emails the payer, stamps `Paid At`,
+   closes the `Document Generated` guard.
+2. **Relance adhésions arrivant à expiration** — daily 09:00 Casablanca, members expiring
+   within 30 days.
+3. **Inscription soldée → confirmation participant** — fires on computed `Payment State`,
+   syncs the manual status fields, guards against double-send.
+4. **Relance hebdomadaire des inscriptions impayées** — Mondays 08:00; weekly, not daily,
+   so members are not spammed.
+5. **Présence validée + éligible → création du certificat** — creates the linked
+   certificate and flips the registration to Issued.
+6. **Rapport mensuel du trésorier** — 1st of the month, verified payments and outstanding
+   balances as tables.
+
+Airtable saves automations off by design, forcing a human review. Open each one and enable
+it after checking the sender address and the treasurer recipient on #6.
+
+## Known gaps — these cannot be done through the API and need a UI edit
+
+1. **Sequential receipt numbering.** The automation expression language has no arithmetic
+   functions (no `add`, no `max`), so a running counter cannot be computed in an automation.
+   The correct fix is better than an automation anyway: add an **autoNumber** field named
+   `Seq` to `Payments` in the UI, then make `Receipt Number` a formula —
+   `"REC-" & DATETIME_FORMAT({Paid At},"YYYY") & "-" & RIGHT("0000" & {Seq}, 5)`.
+   That is gapless, immutable and needs no automation at all. autoNumber fields cannot be
+   created through the API, which is the only reason this is a manual step.
+2. **Card payment methods.** `Payment Method` offers only Cash / Bank Transfer / Cheque /
+   Other. Add `Carte (Stripe)` and `Carte (CMI)` in the UI — the API can change a field's
+   formula but cannot add select choices, and a webhook cannot write a choice that does
+   not exist.
+3. **PDF rendering** for receipts and certificates still needs Make.com or a Docs/Placid
+   template; Airtable automations can create and email the records, not render the PDF.
+4. **Members vs Participants remain separate tables.** Merging them is destructive and was
+   not done unilaterally — see the Phase 1 rationale above. `Participants.Linked Member`
+   is the bridge in the meantime; run a periodic duplicate-email check across both.
