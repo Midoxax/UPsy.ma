@@ -6005,6 +6005,20 @@ export type Database = {
         Args: { _org_id: string; _survey_id?: string }
         Returns: Json
       }
+      publish_event: {
+        Args: {
+          p_actor_id?: string
+          p_consumers?: string[]
+          p_correlation_id?: string
+          p_event_type: string
+          p_idempotency_key?: string
+          p_payload?: Json
+          p_subject_id?: string
+          p_subject_type: string
+          p_tenant_id?: string
+        }
+        Returns: string
+      }
       quest_increment: {
         Args: { _delta?: number; _quest_slug: string; _step_id: string }
         Returns: {
