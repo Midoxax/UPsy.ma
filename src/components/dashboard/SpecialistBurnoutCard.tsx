@@ -79,8 +79,8 @@ const SpecialistBurnoutCard = () => {
   if (loading || !metrics) {
     return (
       <Card className="p-5 animate-pulse">
-        <div className="h-4 w-32 bg-muted rounded mb-3" />
-        <div className="h-2 w-full bg-muted rounded" />
+        <div className="h-4 w-32 bg-muted rounded-sm mb-3" />
+        <div className="h-2 w-full bg-muted rounded-sm" />
       </Card>
     );
   }

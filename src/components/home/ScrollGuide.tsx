@@ -66,7 +66,7 @@ const ScrollGuide = memo(({ message, position = "right", variant = "wave" }: Scr
 
       {/* Speech bubble */}
       <motion.div
-        className={`relative rounded-2xl px-4 py-2.5 text-sm font-medium text-foreground/80 bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm ${
+        className={`relative rounded-2xl px-4 py-2.5 text-sm font-medium text-foreground/80 bg-card/80 backdrop-blur-sm border border-border/50 shadow-xs ${
           isLeft ? "rounded-bl-sm" : "rounded-br-sm"
         }`}
         initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.8 }}

@@ -89,8 +89,8 @@ const SmartSchedulingCard = () => {
   if (loading) {
     return (
       <Card className="p-5 animate-pulse">
-        <div className="h-4 w-40 bg-muted rounded mb-3" />
-        <div className="h-3 w-full bg-muted rounded" />
+        <div className="h-4 w-40 bg-muted rounded-sm mb-3" />
+        <div className="h-3 w-full bg-muted rounded-sm" />
       </Card>
     );
   }

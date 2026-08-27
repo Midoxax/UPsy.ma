@@ -508,7 +508,7 @@ const BookingsTab = () => {
                         .every((b: any) => selected.has(b.id))
                     }
                     onChange={toggleAllVisible}
-                    className="rounded border-border"
+                    className="rounded-sm border-border"
                   />
                 </th>
                 <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wide">Patient</th>
@@ -528,7 +528,7 @@ const BookingsTab = () => {
                       disabled={b.status !== "proposed"}
                       checked={selected.has(b.id)}
                       onChange={() => toggleRow(b.id)}
-                      className="rounded border-border disabled:opacity-30"
+                      className="rounded-sm border-border disabled:opacity-30"
                     />
                   </td>
                   <td className="px-4 py-3 font-medium">{b.patient_name ?? "–"}</td>

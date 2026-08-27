@@ -64,10 +64,10 @@ const AdminStats = () => {
           {[...Array(8)].map((_, i) => (
             <Card key={i}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+                <div className="h-4 w-24 bg-muted animate-pulse rounded-sm" />
               </CardHeader>
               <CardContent>
-                <div className="h-8 w-16 bg-muted animate-pulse rounded" />
+                <div className="h-8 w-16 bg-muted animate-pulse rounded-sm" />
               </CardContent>
             </Card>
           ))}

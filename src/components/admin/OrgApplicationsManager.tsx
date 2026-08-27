@@ -112,7 +112,7 @@ const OrgApplicationsManager = () => {
                       {a.message && (
                         <div>
                           <p className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Message</p>
-                          <p className="text-sm bg-muted/40 rounded p-2">{a.message}</p>
+                          <p className="text-sm bg-muted/40 rounded-sm p-2">{a.message}</p>
                         </div>
                       )}
                       <div>

@@ -49,7 +49,7 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
           <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium capitalize">
             {resource.category ?? resource.topic_slug ?? "General"}
           </span>
-          <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded inline-flex items-center gap-1">
+          <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-sm inline-flex items-center gap-1">
             <Icon className="w-3 h-3" /> {FORMAT_LABELS[resource.format]}
           </span>
         </div>
@@ -145,7 +145,7 @@ const Resources = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search resources..."
-                  className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground py-2"
+                  className="flex-1 bg-transparent border-none outline-hidden text-foreground placeholder:text-muted-foreground py-2"
                 />
               </div>
             </ScrollReveal>

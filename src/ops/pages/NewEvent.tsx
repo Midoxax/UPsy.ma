@@ -359,7 +359,7 @@ export const NewEvent = () => {
                         {genPhases.map((_, i) => (
                           <div
                             key={i}
-                            className={`h-1 rounded ${i <= genStage ? "bg-[hsl(var(--ops-accent))]" : "bg-white/10"}`}
+                            className={`h-1 rounded-sm ${i <= genStage ? "bg-[hsl(var(--ops-accent))]" : "bg-white/10"}`}
                           />
                         ))}
                       </div>

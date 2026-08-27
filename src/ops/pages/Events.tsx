@@ -144,7 +144,7 @@ export const Events = () => {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`ops-mono text-[9px] tracking-[0.15em] px-1.5 py-0.5 rounded border ${meta.glow} ${meta.color}`}>
+                          <span className={`ops-mono text-[9px] tracking-[0.15em] px-1.5 py-0.5 rounded-sm border ${meta.glow} ${meta.color}`}>
                             {meta.label}
                           </span>
                           <span className="ops-mono text-[10px] text-white/30 uppercase">{e.event_type.replace(/_/g, " ")}</span>

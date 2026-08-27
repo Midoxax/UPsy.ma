@@ -62,7 +62,7 @@ export const EventDetail = () => {
           <span className="ops-mono text-[10px] tracking-[0.2em] text-white/30 uppercase">
             {event.event_type.replace(/_/g, " ")}
           </span>
-          <span className={`ops-mono text-[9px] tracking-[0.15em] px-2 py-0.5 rounded border border-white/10 ${statusMeta.color}`}>
+          <span className={`ops-mono text-[9px] tracking-[0.15em] px-2 py-0.5 rounded-sm border border-white/10 ${statusMeta.color}`}>
             {statusMeta.label}
           </span>
         </div>

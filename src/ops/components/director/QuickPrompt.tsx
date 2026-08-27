@@ -66,7 +66,7 @@ export const QuickPrompt = ({ workspaceId, workspaceSlug }: { workspaceId?: stri
                 <Sparkles className="h-4 w-4 ops-accent shrink-0" />
                 <textarea
                   rows={1}
-                  className="flex-1 bg-transparent outline-none resize-none text-sm text-white/90 placeholder:text-white/30 py-2 max-h-32"
+                  className="flex-1 bg-transparent outline-hidden resize-none text-sm text-white/90 placeholder:text-white/30 py-2 max-h-32"
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => {

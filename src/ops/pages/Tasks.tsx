@@ -110,7 +110,7 @@ export const Tasks = () => {
                         <div className="flex gap-1 mt-2 flex-wrap opacity-0 group-hover:opacity-100 transition-opacity">
                           {col.key !== "completed" && col.key !== "escalated" && (
                             <button
-                              className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-300/80 hover:bg-emerald-500/20 transition"
+                              className="text-[10px] px-2 py-0.5 rounded-sm bg-emerald-500/10 border border-emerald-500/20 text-emerald-300/80 hover:bg-emerald-500/20 transition"
                               onClick={() => updateTaskState(t.id, "completed")}
                             >
                               ✓ done
@@ -118,7 +118,7 @@ export const Tasks = () => {
                           )}
                           {col.key === "active" && (
                             <button
-                              className="text-[10px] px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-yellow-300/80 hover:bg-yellow-500/20 transition"
+                              className="text-[10px] px-2 py-0.5 rounded-sm bg-yellow-500/10 border border-yellow-500/20 text-yellow-300/80 hover:bg-yellow-500/20 transition"
                               onClick={() => updateTaskState(t.id, "blocked")}
                             >
                               blocked
@@ -127,13 +127,13 @@ export const Tasks = () => {
                           {col.key === "blocked" && (
                             <>
                               <button
-                                className="text-[10px] px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20 text-red-300/80 hover:bg-red-500/20 transition"
+                                className="text-[10px] px-2 py-0.5 rounded-sm bg-red-500/10 border border-red-500/20 text-red-300/80 hover:bg-red-500/20 transition"
                                 onClick={() => updateTaskState(t.id, "escalated")}
                               >
                                 escalate
                               </button>
                               <button
-                                className="text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 transition"
+                                className="text-[10px] px-2 py-0.5 rounded-sm bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 transition"
                                 onClick={() => updateTaskState(t.id, "active")}
                               >
                                 resume
@@ -142,7 +142,7 @@ export const Tasks = () => {
                           )}
                           {col.key === "escalated" && (
                             <button
-                              className="text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 transition"
+                              className="text-[10px] px-2 py-0.5 rounded-sm bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 transition"
                               onClick={() => updateTaskState(t.id, "active")}
                             >
                               resolve
