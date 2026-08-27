@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { NourEmergence, Pulse } from "@/lib/motion";
+import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 
 type Msg = { role: "user" | "assistant"; content: string; id: string };
 
@@ -432,8 +433,9 @@ const AIAssistant = () => {
       <div className="border-t border-border bg-background/80 backdrop-blur-xl sticky bottom-0">
         <div className="container-custom max-w-2xl py-4">
           {!user && (
-            <div className="flex items-center justify-between p-3 mb-3 rounded-xl border border-amber-500/30 bg-amber-500/5 text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2 p-3 mb-3 rounded-xl border border-amber-500/30 bg-amber-500/5 text-xs">
               <p className="text-amber-600">Sign in to save your conversations and unlock memory.</p>
+              <div className="w-40"><SocialAuthButtons /></div>
               <Button variant="outline" size="sm" asChild className="text-xs h-7">
                 <Link to="/auth">Sign in</Link>
               </Button>
