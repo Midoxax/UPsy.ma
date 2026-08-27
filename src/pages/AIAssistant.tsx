@@ -361,7 +361,7 @@ const AIAssistant = () => {
                     className={cn(
                       "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all",
                       active
-                        ? "bg-primary text-primary-foreground shadow-sm"
+                        ? "bg-primary text-primary-foreground shadow-xs"
                         : "text-muted-foreground hover:text-foreground",
                     )}
                     title={PERSONALITY_META[p].subtitle[l]}

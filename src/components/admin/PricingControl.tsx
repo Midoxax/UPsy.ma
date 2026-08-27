@@ -267,10 +267,10 @@ const PricingControl = () => {
                 <div key={h.id} className="flex items-start justify-between gap-4 p-3 rounded-lg bg-surface border border-border text-sm">
                   <div className="space-y-1 min-w-0">
                     <div className="flex flex-wrap gap-2 text-xs">
-                      <span className="px-2 py-0.5 rounded bg-primary/10 text-primary">Commission {h.commission_rate}%</span>
-                      <span className="px-2 py-0.5 rounded bg-primary/10 text-primary">Acompte {h.deposit_percentage}%</span>
-                      <span className="px-2 py-0.5 rounded bg-primary/10 text-primary">TVA {h.vat_rate}%</span>
-                      <span className="px-2 py-0.5 rounded bg-primary/10 text-primary">{h.min_session_price_mad}–{h.max_session_price_mad} MAD</span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">Commission {h.commission_rate}%</span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">Acompte {h.deposit_percentage}%</span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">TVA {h.vat_rate}%</span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">{h.min_session_price_mad}–{h.max_session_price_mad} MAD</span>
                     </div>
                     {h.change_reason && (
                       <p className="text-xs text-muted-foreground truncate">{h.change_reason}</p>

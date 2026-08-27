@@ -23,7 +23,7 @@ const LANGUAGES: ReadonlyArray<{ code: Locale; short: string; name: string }> = 
 const OPTION_CLASSES =
   // px-2 py-1 keeps the hit area at the 24px WCAG 2.2 minimum; the labels
   // themselves are only ~20px tall.
-  'rounded px-2 py-1 transition-colors focus:outline-none focus-visible:ring-2 ' +
+  'rounded-sm px-2 py-1 transition-colors focus:outline-hidden focus-visible:ring-2 ' +
   'focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 
 const LanguageSwitcher = ({ compact = false, className }: LanguageSwitcherProps) => {

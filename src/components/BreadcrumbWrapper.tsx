@@ -89,7 +89,7 @@ export function BreadcrumbWrapper() {
                   <Link
                     to={backLink}
                     aria-label={t('nav.back') || 'Go back'}
-                    className="flex items-center gap-1 p-1 -m-1 rounded text-muted-foreground hover:text-primary transition-colors"
+                    className="flex items-center gap-1 p-1 -m-1 rounded-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </Link>

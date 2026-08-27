@@ -70,7 +70,7 @@ export const ProvisioningAuditTab = ({ applicationId }: { applicationId?: string
                   {(a.steps || []).map((s, i) => (
                     <span
                       key={i}
-                      className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] border ${
+                      className={`inline-flex items-center gap-1 rounded-sm px-1.5 py-0.5 text-[10px] border ${
                         s.ok ? (s.skipped ? "border-muted text-muted-foreground" : "border-emerald-500/40 text-emerald-600") : "border-destructive/40 text-destructive"
                       }`}
                       title={s.error || ""}

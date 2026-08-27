@@ -125,7 +125,7 @@ const Header = () => {
           <Link
             to="/"
             aria-label="U.Psy — Go to homepage"
-            className="flex items-center min-w-0 focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
+            className="flex items-center min-w-0 focus:outline-hidden focus:ring-2 focus:ring-ring rounded-md"
           >
             <img
               src={logo}

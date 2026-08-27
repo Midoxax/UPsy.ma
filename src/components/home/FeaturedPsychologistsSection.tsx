@@ -138,7 +138,7 @@ const FeaturedPsychologistsSection = () => {
 
               return (
                 <StaggerItem key={psych.id}>
-                  <article className="group h-full flex flex-col rounded-3xl bg-card border border-border/60 shadow-sm hover:shadow-lg hover:border-primary/40 transition-all duration-300 overflow-hidden">
+                  <article className="group h-full flex flex-col rounded-3xl bg-card border border-border/60 shadow-xs hover:shadow-lg hover:border-primary/40 transition-all duration-300 overflow-hidden">
                     {/* Header: face + presence */}
                     <div className="flex items-start gap-4 p-5">
                       <div className="relative shrink-0">

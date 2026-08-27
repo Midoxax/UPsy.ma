@@ -14,7 +14,7 @@ const META: Record<OpsTaskState, { label: string; cls: string }> = {
 export const StateBadge = ({ state }: { state: OpsTaskState }) => {
   const m = META[state];
   return (
-    <span className={`ops-mono inline-flex items-center px-2 py-[3px] rounded border text-[10px] tracking-[0.12em] ${m.cls}`}>
+    <span className={`ops-mono inline-flex items-center px-2 py-[3px] rounded-sm border text-[10px] tracking-[0.12em] ${m.cls}`}>
       {m.label}
     </span>
   );

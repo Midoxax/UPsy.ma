@@ -37,7 +37,7 @@ const ProgramsSection = () => {
             tabIndex={0}
             role="group"
             aria-label={t("programs.title") || "Mental Health Programs"}
-            className="scroll-carousel md:!grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:overflow-visible md:snap-none md:pb-0 md:mx-0 md:px-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg">
+            className="scroll-carousel md:!grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:overflow-visible md:snap-none md:pb-0 md:mx-0 md:px-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring rounded-lg">
             {programs.map((program) => (
               <StaggerItem key={program.fallbackTitle}>
                 <div className="card-tilt">

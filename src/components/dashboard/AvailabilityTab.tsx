@@ -287,7 +287,7 @@ export const AvailabilityTab = () => {
                                 onChange={(e) =>
                                   updateRange(day, idx, { start: e.target.value })
                                 }
-                                className="bg-transparent outline-none text-xs w-[70px]"
+                                className="bg-transparent outline-hidden text-xs w-[70px]"
                               />
                               <span className="text-muted-foreground text-xs">–</span>
                               <input
@@ -296,7 +296,7 @@ export const AvailabilityTab = () => {
                                 onChange={(e) =>
                                   updateRange(day, idx, { end: e.target.value })
                                 }
-                                className="bg-transparent outline-none text-xs w-[70px]"
+                                className="bg-transparent outline-hidden text-xs w-[70px]"
                               />
                               <button
                                 type="button"

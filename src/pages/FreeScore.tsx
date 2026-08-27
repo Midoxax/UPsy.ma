@@ -265,7 +265,7 @@ export default function FreeScore() {
                     key={p}
                     to={matchHref(p)}
                     onClick={() => captureEvent("free_score_pillar_click", { pillar: p, score: pillarScores[p] })}
-                    className="block space-y-1 rounded-md px-2 py-1 -mx-2 hover:bg-muted/40 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
+                    className="block space-y-1 rounded-md px-2 py-1 -mx-2 hover:bg-muted/40 transition-colors focus:outline-hidden focus:ring-2 focus:ring-primary/40"
                   >
                     <div className="flex justify-between text-sm items-center">
                       <span className="flex items-center gap-2">

@@ -302,7 +302,7 @@ const PsychologistProfile = () => {
             {/* About */}
             {psychologist.bio && (
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+                <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                   <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                     <User className="w-5 h-5 text-primary" />
                     {t('profile.about')}
@@ -315,7 +315,7 @@ const PsychologistProfile = () => {
             {/* Specialties */}
             {psychologist.specialties.length > 0 && (
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+                <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                   <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                     <Shield className="w-5 h-5 text-primary" />
                     {t('profile.specialties')}
@@ -334,7 +334,7 @@ const PsychologistProfile = () => {
             {/* Methods / Therapy Approaches */}
             {therapyApproaches.length > 0 && (
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+                <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                   <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                     <Brain className="w-5 h-5 text-primary" />
                     {t('profile.therapyApproach')}
@@ -353,7 +353,7 @@ const PsychologistProfile = () => {
 
             {therapyApproaches.length === 0 && (
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+                <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                   <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                     <Brain className="w-5 h-5 text-primary" />
                     {t('profile.therapyApproach')}
@@ -380,7 +380,7 @@ const PsychologistProfile = () => {
             {/* Weekly Availability */}
             {availabilitySlots.length > 0 && (
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+                <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                   <div className="flex items-center justify-between mb-5">
                     <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                       <Clock className="w-5 h-5 text-primary" />
@@ -419,7 +419,7 @@ const PsychologistProfile = () => {
 
             {/* Experience & Training */}
             <ScrollReveal>
-              <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+              <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                 <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-primary" />
                   {t('profile.experienceTraining')}
@@ -443,7 +443,7 @@ const PsychologistProfile = () => {
             {/* Session Fees */}
             {psychologist.hourly_rate_mad && (
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+                <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                   <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
                     <Clock className="w-5 h-5 text-primary" />
                     {t('profile.sessionFees')}
@@ -476,7 +476,7 @@ const PsychologistProfile = () => {
 
             {/* Session Options */}
             <ScrollReveal>
-              <div className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+              <div className="rounded-2xl border border-border bg-card p-7 shadow-xs">
                 <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                   <Globe className="w-5 h-5 text-primary" />
                   {t('profile.sessionOptions')}
@@ -509,7 +509,7 @@ const PsychologistProfile = () => {
 
             {/* Final CTA */}
             <ScrollReveal>
-              <div className="rounded-2xl border border-primary/20 p-10 text-center shadow-sm" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.04), hsl(var(--accent) / 0.04))' }}>
+              <div className="rounded-2xl border border-primary/20 p-10 text-center shadow-xs" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.04), hsl(var(--accent) / 0.04))' }}>
                 <Calendar className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-foreground mb-2">{t('booking.readyToBook')}</h2>
                 <p className="text-muted-foreground mb-6 text-sm max-w-md mx-auto">

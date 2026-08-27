@@ -46,8 +46,8 @@ const OrgPsychologistsTab = () => {
             <Card key={i} className="animate-pulse">
               <CardContent className="pt-6 space-y-3">
                 <div className="h-12 w-12 rounded-full bg-muted" />
-                <div className="h-4 w-32 bg-muted rounded" />
-                <div className="h-3 w-48 bg-muted rounded" />
+                <div className="h-4 w-32 bg-muted rounded-sm" />
+                <div className="h-3 w-48 bg-muted rounded-sm" />
               </CardContent>
             </Card>
           ))}

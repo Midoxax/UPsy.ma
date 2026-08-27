@@ -54,7 +54,7 @@ export const MethodsMetricsBand = () => {
                         <button
                           type="button"
                           aria-label={`${t("common.learnMore") || "Learn more about"} ${method.name}`}
-                          className="ml-auto p-2 -m-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className="ml-auto p-2 -m-2 rounded-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           <Info className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" strokeWidth={2} aria-hidden="true" />
                         </button>
@@ -102,7 +102,7 @@ export const MethodsMetricsBand = () => {
                         <button
                           type="button"
                           aria-label={`${t("common.learnMore") || "Learn more about"} ${metric.name}`}
-                          className="ml-auto p-2 -m-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className="ml-auto p-2 -m-2 rounded-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           <Info className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" strokeWidth={2} aria-hidden="true" />
                         </button>

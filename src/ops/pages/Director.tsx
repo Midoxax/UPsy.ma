@@ -187,7 +187,7 @@ export const Director = () => {
             <textarea
               ref={textareaRef}
               rows={1}
-              className="flex-1 bg-transparent outline-none resize-none text-sm text-white/90 placeholder:text-white/30 py-3 max-h-40"
+              className="flex-1 bg-transparent outline-hidden resize-none text-sm text-white/90 placeholder:text-white/30 py-3 max-h-40"
               value={input}
               onChange={e => {
                 setInput(e.target.value);

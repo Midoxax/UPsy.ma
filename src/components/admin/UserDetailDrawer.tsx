@@ -140,7 +140,7 @@ export default function UserDetailDrawer({ userId, onClose }: Props) {
                       onClick={() => revokeRole.mutate({ userId: userId!, role: r }, {
                         onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-user-detail", userId] }),
                       })}
-                      className="hover:bg-destructive/20 rounded p-0.5"
+                      className="hover:bg-destructive/20 rounded-sm p-0.5"
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -188,7 +188,7 @@ export default function UserDetailDrawer({ userId, onClose }: Props) {
                   <h4 className="text-sm font-semibold mb-2">Recent audit events</h4>
                   <div className="space-y-1">
                     {activity.data.audit_tail.slice(0, 10).map((a: any) => (
-                      <div key={a.id} className="text-xs flex justify-between border rounded px-2 py-1">
+                      <div key={a.id} className="text-xs flex justify-between border rounded-sm px-2 py-1">
                         <span>{a.action} · {a.resource_type}</span>
                         <span className="text-muted-foreground">{format(new Date(a.created_at), "PP p")}</span>
                       </div>

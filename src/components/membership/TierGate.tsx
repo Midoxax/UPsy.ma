@@ -29,8 +29,8 @@ export const TierGate = ({ tier, children, fallback, showPreview, reason }: Prop
   if (loading) {
     return (
       <div className="rounded-u-md border border-border/40 bg-card/40 p-6 animate-pulse">
-        <div className="h-4 w-32 bg-muted rounded mb-3" />
-        <div className="h-3 w-48 bg-muted rounded" />
+        <div className="h-4 w-32 bg-muted rounded-sm mb-3" />
+        <div className="h-3 w-48 bg-muted rounded-sm" />
       </div>
     );
   }
@@ -70,7 +70,7 @@ export const TierGate = ({ tier, children, fallback, showPreview, reason }: Prop
 
   return (
     <div className="relative">
-      <div className="pointer-events-none select-none blur-sm opacity-50">{children}</div>
+      <div className="pointer-events-none select-none blur-xs opacity-50">{children}</div>
       <div className="absolute inset-0 flex items-center justify-center p-6">{upgrade}</div>
     </div>
   );

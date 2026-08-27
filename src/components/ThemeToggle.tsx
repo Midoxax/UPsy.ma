@@ -17,7 +17,7 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
       className={cn(
         "relative p-2 rounded-lg transition-colors",
         "text-muted-foreground hover:text-primary",
-        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
+        "focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
         className
       )}
       aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}

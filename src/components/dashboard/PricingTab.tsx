@@ -138,11 +138,11 @@ export const PricingTab = () => {
             </p>
             {rateNum > 0 && (
               <div className="grid grid-cols-2 gap-2 pt-2 text-sm">
-                <div className="p-2 rounded bg-surface">
+                <div className="p-2 rounded-sm bg-surface">
                   <p className="text-xs text-muted-foreground">Deposit collected</p>
                   <p className="font-semibold text-foreground">{depositAmt} MAD</p>
                 </div>
-                <div className="p-2 rounded bg-surface">
+                <div className="p-2 rounded-sm bg-surface">
                   <p className="text-xs text-muted-foreground">Balance after session</p>
                   <p className="font-semibold text-foreground">{balanceAmt} MAD</p>
                 </div>
@@ -163,15 +163,15 @@ export const PricingTab = () => {
             <div className="p-4 bg-background rounded-lg space-y-3">
               <p className="text-sm font-medium">Calculated Session Rates:</p>
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="p-3 bg-surface rounded border border-border">
+                <div className="p-3 bg-surface rounded-sm border border-border">
                   <p className="text-xs text-muted-foreground">30 minutes</p>
                   <p className="text-lg font-semibold text-primary">{calculatedRates.thirtyMin} MAD</p>
                 </div>
-                <div className="p-3 bg-surface rounded border border-primary">
+                <div className="p-3 bg-surface rounded-sm border border-primary">
                   <p className="text-xs text-muted-foreground">60 minutes</p>
                   <p className="text-lg font-semibold text-primary">{calculatedRates.sixtyMin} MAD</p>
                 </div>
-                <div className="p-3 bg-surface rounded border border-border">
+                <div className="p-3 bg-surface rounded-sm border border-border">
                   <p className="text-xs text-muted-foreground">90 minutes</p>
                   <p className="text-lg font-semibold text-primary">{calculatedRates.ninetyMin} MAD</p>
                 </div>
