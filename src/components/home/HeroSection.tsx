@@ -1,6 +1,6 @@
 // src/components/home/HeroSection.tsx — Editorial magazine hero (v7) with 3D orb backdrop
 import { lazy, Suspense, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";

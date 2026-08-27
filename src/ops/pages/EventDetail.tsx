@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "@/lib/router-compat";
 import { useOpsEvent, updateTaskState, type OpsTaskState } from "../hooks/useOps";
 import StateBadge from "../components/StateBadge";
 import { motion } from "framer-motion";
 import { ShieldAlert, ChevronLeft, CheckCircle2, Circle, Clock, AlertTriangle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 
 const NEXT: Partial<Record<OpsTaskState, OpsTaskState>> = {
   pending: "active", active: "completed", blocked: "active", delayed: "active", escalated: "active",

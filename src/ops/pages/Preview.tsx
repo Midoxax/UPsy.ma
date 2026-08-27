@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Activity, Brain, Zap, Shield, Radio, Database, Cpu, Layers, Lock, Quote, Target, Compass, Flag, Mail, Phone, Globe, Linkedin, Instagram, Youtube } from "lucide-react";
 import "./preview.css";

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { ArrowRight, Check, Loader2, Sparkles } from "lucide-react";

@@ -37,7 +37,7 @@ export const MethodsMetricsBand = () => {
               <h4 className="font-semibold text-foreground">{band.methodsTitle}</h4>
             </div>
             <div className="space-y-3">
-              {band.methods.map((method, index) => (
+              {band.methods.map((method: any, index: number) => (
                 <div key={index} className="group">
                   <div className="flex items-start gap-2">
                     <Badge
@@ -88,7 +88,7 @@ export const MethodsMetricsBand = () => {
               <h4 className="font-semibold text-foreground">{band.metricsTitle}</h4>
             </div>
             <div className="space-y-3">
-              {band.metrics.map((metric, index) => (
+              {band.metrics.map((metric: any, index: number) => (
                 <div key={index} className="group">
                   <div className="flex items-start gap-2">
                     <Badge

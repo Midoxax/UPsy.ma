@@ -1,6 +1,6 @@
 import { useDailyChallenge, useCompleteDailyChallenge } from "@/hooks/useGamification";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { CheckCircle2, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Ember } from "@/lib/motion";

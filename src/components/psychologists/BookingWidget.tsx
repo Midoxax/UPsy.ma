@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { format, addDays, startOfDay, isSameDay, isPast } from "date-fns";
 import { fr, ar } from "date-fns/locale";
 import { Calendar, Clock, Video, MapPin, Phone, ChevronLeft, ChevronRight, Loader2, CheckCircle, ShieldCheck, Lock } from "lucide-react";

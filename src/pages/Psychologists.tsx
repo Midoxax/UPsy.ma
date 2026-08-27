@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "@/lib/router-compat";
 import { Sparkles, X } from "lucide-react";
 import { FilterState } from "@/types/psychologist";
 import { usePsychologists } from "@/hooks/usePsychologists";
@@ -28,7 +28,7 @@ import { Users, Search, Shield, Globe, FlaskConical, SlidersHorizontal, BarChart
 import { ClipboardCheck, MessageCircle, CalendarCheck, Repeat, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
 import SEOHead from "@/components/SEOHead";
 

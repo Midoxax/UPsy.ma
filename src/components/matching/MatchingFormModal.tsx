@@ -31,7 +31,7 @@ const formSchema = z.object({
   languages_preferred: z.array(z.string()).min(1, "Please select at least one language"),
   budget_max: z.string().optional(),
   location_city: z.string().optional(),
-  prefers_online: z.boolean().default(false),
+  prefers_online: z.boolean(),
   notes: z.string().optional(),
 });
 

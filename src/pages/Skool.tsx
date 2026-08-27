@@ -1,7 +1,7 @@
 import { useLocale } from "@/contexts/LocaleContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { Users, MessageCircle, BookOpen, Video, Star, ArrowRight, Globe, Award, Calendar, Sparkles } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";

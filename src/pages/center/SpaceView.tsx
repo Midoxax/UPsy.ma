@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate } from "@/lib/router-compat";
 import { Heart, MessageCircle, Users, ArrowLeft, Send } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Card } from "@/components/ui/card";

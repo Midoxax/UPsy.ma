@@ -7,7 +7,7 @@ import { ClipboardList, ChevronRight, Download, Bell, AlertCircle } from "lucide
 import { useAuth } from "@/contexts/AuthContext";
 import { useAnamnesis } from "@/hooks/useAnamnesis";
 import AnamnesisDrawer from "@/components/anamnesis/AnamnesisDrawer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
 import jsPDF from "jspdf";
 import { supabase } from "@/integrations/supabase/client";

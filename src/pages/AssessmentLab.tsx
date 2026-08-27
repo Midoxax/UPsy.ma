@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -59,7 +59,7 @@ const AssessmentLab = () => {
 
   useEffect(() => {
     supabase.from("assessments").select("*").eq("is_published", true).order("category").then(({ data }) => {
-      if (data) setAssessments(data);
+      if (data) setAssessments(data as Assessment[]);
     });
   }, []);
 

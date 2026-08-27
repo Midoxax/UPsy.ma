@@ -109,7 +109,7 @@ export const LeadsTab = () => {
                     </p>
                   )}
                   <p className="text-xs text-muted-foreground">
-                    Received: {format(new Date(lead.created_at), "PPp")}
+                    Received: {format(new Date(lead.created_at ?? 0), "PPp")}
                   </p>
                 </div>
 

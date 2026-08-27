@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +18,7 @@ import {
 import { useValidateCoupon, type CouponValidation } from "@/hooks/useCoupons";
 import { useToast } from "@/hooks/use-toast";
 
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, ComponentType<{ className?: string }>> = {
   search_boost: TrendingUp,
   spotlight: Star,
   homepage_feature: Home,

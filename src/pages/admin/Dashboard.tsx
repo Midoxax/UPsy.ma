@@ -1,7 +1,8 @@
+import type { ComponentType } from "react";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "@/lib/router-compat";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { format } from "date-fns";
 import {
@@ -123,7 +124,7 @@ interface StatCardProps {
   sub?: string;
   trend?: "up" | "down" | "neutral";
   trendValue?: string;
-  icon: React.ElementType;
+  icon: ComponentType<{ className?: string }>;
   accent?: string;
 }
 

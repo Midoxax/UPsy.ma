@@ -45,11 +45,11 @@ export default function TodaysStateCard({ onLogged }: Props) {
     if (!data) return;
 
     const today = new Date().toDateString();
-    setTodayLogged(data.some((e) => new Date(e.recorded_at).toDateString() === today));
+    setTodayLogged(data.some((e) => new Date(e.recorded_at ?? 0).toDateString() === today));
 
     // Streak: consecutive days from today backwards
     let s = 0;
-    const days = new Set(data.map((e) => new Date(e.recorded_at).toDateString()));
+    const days = new Set(data.map((e) => new Date(e.recorded_at ?? 0).toDateString()));
     for (let i = 0; i < 30; i++) {
       const d = new Date();
       d.setDate(d.getDate() - i);

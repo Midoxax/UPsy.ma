@@ -13,7 +13,7 @@ import {
   FileText, PenSquare, User, CreditCard,
 } from "lucide-react";
 import { ListChecks, LogOut, ShieldCheck } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import UpcomingSessionsCard from "@/components/dashboard/UpcomingSessionsCard";
 import PendingInvitationsCard from "@/components/dashboard/PendingInvitationsCard";
@@ -86,7 +86,7 @@ const PatientDashboard = () => {
       supabase.from("assessment_results").select("*, assessment:assessments(title, category)").eq("user_id", user!.id).order("completed_at", { ascending: false }).limit(5),
       supabase.from("course_enrollments").select("*, course:courses(title, category, duration_hours)").eq("user_id", user!.id).order("created_at", { ascending: false }).limit(5),
     ]);
-    if (moodRes.data) setEntries(moodRes.data);
+    if (moodRes.data) setEntries(moodRes.data as MoodEntry[]);
     if (assessRes.data) setAssessmentResults(assessRes.data);
     if (enrollRes.data) setEnrollments(enrollRes.data);
   };

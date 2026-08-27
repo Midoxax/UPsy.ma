@@ -27,7 +27,7 @@ const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
         .eq("psychologist_id", psychologistId)
         .order("created_at", { ascending: false })
         .limit(20);
-      setReviews(data || []);
+      setReviews((data ?? []) as Review[]);
       setLoading(false);
     };
     fetch();

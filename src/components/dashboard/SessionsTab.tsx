@@ -17,7 +17,7 @@ import {
   XCircle,
   FileText,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { format, isPast } from "date-fns";
 import { useState as useStateReact } from "react";
 import AnamnesisDrawer from "@/components/anamnesis/AnamnesisDrawer";

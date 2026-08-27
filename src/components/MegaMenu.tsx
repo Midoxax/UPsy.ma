@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@/lib/router-compat";
 import { useEffect, useRef } from "react";
 import { 
   Users, Sparkles, Briefcase, Building, Award, 

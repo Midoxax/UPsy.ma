@@ -12,8 +12,8 @@ import {
   Send, Loader2, Plus, Wind, BookOpen, Heart, Brain,
   Sparkles, Moon, Target, Lock, Heart as HeartIcon, Activity, GraduationCap, Notebook,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
+import { useSearchParams } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 import { NourEmergence, Pulse } from "@/lib/motion";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";

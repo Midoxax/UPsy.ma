@@ -84,7 +84,7 @@ const MatchingRequestsManager = () => {
                     <Badge variant="outline" className="ml-2">Online</Badge>
                   )}
                 </TableCell>
-                <TableCell>{format(new Date(request.created_at), "MMM d, yyyy")}</TableCell>
+                <TableCell>{format(new Date(request.created_at ?? 0), "MMM d, yyyy")}</TableCell>
                 <TableCell>
                   <Button size="sm" variant="outline">
                     Assign

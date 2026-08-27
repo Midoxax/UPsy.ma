@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { useAuth } from "@/contexts/AuthContext";
 import HeroSection from "@/components/home/HeroSection";
 import { useIntentSignals } from "@/hooks/useIntentSignals";

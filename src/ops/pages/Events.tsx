@@ -1,5 +1,6 @@
+import type { ComponentType } from "react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "@/lib/router-compat";
 import { useOpsWorkspaces, useOpsEvents } from "../hooks/useOps";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -14,7 +15,7 @@ const STATUS_META: Record<string, { label: string; color: string; glow: string }
   archived:  { label: "ARCHIVED",  color: "text-white/30",     glow: "border-white/10" },
 };
 
-const TYPE_ICON: Record<string, React.ElementType> = {
+const TYPE_ICON: Record<string, ComponentType<{ className?: string }>> = {
   trauma_workshop: Target,
   national_conference: Users,
   athletic_camp: Activity,

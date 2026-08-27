@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, Calendar, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import ScrollReveal from "@/components/ScrollReveal";
 import NeuralConnector from "@/components/ui/neural-connector";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -247,7 +247,7 @@ const Contact = () => {
           </ScrollReveal>
           
           <div className="max-w-3xl mx-auto space-y-4">
-            {faqQuestions.map((faq, index) => (
+            {faqQuestions.map((faq: any, index: number) => (
               <ScrollReveal key={index} delay={0.1 * (index + 1)}>
                 <Card>
                   <CardHeader>

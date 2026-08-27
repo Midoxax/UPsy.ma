@@ -58,7 +58,7 @@ const ClientProgressTab = ({ role }: Props) => {
 
     setMoodData(
       (moodRes.data || []).map((m) => ({
-        date: format(new Date(m.recorded_at), "MMM d"),
+        date: format(new Date(m.recorded_at ?? 0), "MMM d"),
         mood: m.mood_score,
         stress: m.stress_level,
       }))

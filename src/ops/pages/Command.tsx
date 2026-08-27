@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "@/lib/router-compat";
 import { useOpsWorkspaces, useOpsEvents, useOpsWorkspaceTasks } from "../hooks/useOps";
 import { motion, AnimatePresence } from "framer-motion";
 import StateBadge from "../components/StateBadge";
@@ -102,7 +102,7 @@ export const Command = () => {
               <k.icon className={`h-4 w-4 ${k.color}`} />
             </div>
             <div className="ops-display text-4xl mt-3 tabular-nums">
-              <span ref={el => (kpiRefs.current[i] = el)}>0</span>
+              <span ref={el => { kpiRefs.current[i] = el; }}>0</span>
             </div>
           </motion.div>
         ))}

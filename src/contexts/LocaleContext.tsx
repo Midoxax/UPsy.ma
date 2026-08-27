@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from '@/lib/router-compat';
 import { translations } from '@/lib/i18n/translations';
 import { getCookie, setCookie, getLocaleFromPath, stripLocalePrefix, addLocalePrefix, type Locale } from '@/lib/i18n/utils';
 import { supabase } from '@/integrations/supabase/client';
@@ -15,12 +15,19 @@ const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
 export const LocaleProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    const cookieLocale = getCookie('lng');
-    if (cookieLocale === 'fr' || cookieLocale === 'en' || cookieLocale === 'ar' || cookieLocale === 'ber') return cookieLocale;
-    return getLocaleFromPath(location.pathname);
-  });
+  // SSR-deterministic initial locale: derive from the URL only, so the server
+  // and client render the same markup. The cookie preference is applied after
+  // hydration in the effect below.
+  const [locale, setLocaleState] = useState<Locale>(() => getLocaleFromPath(location.pathname));
   const [overrides, setOverrides] = useState<Record<string, Record<string, string>>>({});
+
+  // Apply the cookie-stored language preference after hydration
+  useEffect(() => {
+    const cookieLocale = getCookie('lng');
+    if (cookieLocale === 'fr' || cookieLocale === 'en' || cookieLocale === 'ar' || cookieLocale === 'ber') {
+      setLocaleState(cookieLocale);
+    }
+  }, []);
 
   // Load translation overrides once
   useEffect(() => {

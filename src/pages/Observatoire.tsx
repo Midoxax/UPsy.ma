@@ -9,7 +9,7 @@
 //  • Never pass `answers` or the session token into growth_leads.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "@/lib/router-compat";
 import { motion } from "framer-motion";
 import { ShieldCheck, Lock, ArrowRight, ArrowLeft, Check, Users, Stethoscope } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
@@ -120,11 +120,11 @@ export default function Observatoire() {
         _last_step: currentStep,
         _total_steps: sections.length,
         _completed: completed,
-        _referral_source: referralSource,
-        _ambassador_code: ambassadorCode ? ambassadorCode.slice(0, 64) : null,
+        _referral_source: referralSource ?? undefined,
+        _ambassador_code: ambassadorCode ? ambassadorCode.slice(0, 64)  : undefined,
         _device_type: deviceType(),
         _duration_seconds: Math.round((Date.now() - startedAt.current) / 1000),
-        _vw_coherent: track === "patient" ? vanWestendorpCoherent(payload) : null,
+        _vw_coherent: track === "patient" ? (vanWestendorpCoherent(payload) ?? undefined) : undefined,
       });
       if (error) throw error;
     },

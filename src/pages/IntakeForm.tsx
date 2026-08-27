@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useCallback, useEffect, useMemo, type ReactElement } from "react";
+import { useParams, useNavigate } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -588,7 +588,7 @@ const IntakeForm = () => {
     </div>
   );
 
-  const sectionRenderers: Record<SectionKey, () => JSX.Element> = {
+  const sectionRenderers: Record<SectionKey, () => ReactElement> = {
     identity: renderIdentity,
     presenting_complaint: renderMotif,
     history_personal: renderHistory,
