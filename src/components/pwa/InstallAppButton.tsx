@@ -81,7 +81,7 @@ const InstallAppButton = ({
     };
   }, []);
 
-  if (installed) return null;
+  if (!mounted || installed) return null;
   // Inside Lovable preview iframe, install events are blocked. Hide quietly.
   if (isInIframe()) return null;
 
