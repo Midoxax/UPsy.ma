@@ -14,6 +14,8 @@ import {
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
   AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import ConnectedAccountsCard from "@/components/auth/ConnectedAccountsCard";
+
 
 const DataPrivacyTab = () => {
   const { user, signOut } = useAuth();
@@ -104,6 +106,8 @@ const DataPrivacyTab = () => {
 
   return (
     <div className="space-y-6">
+      <ConnectedAccountsCard />
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">

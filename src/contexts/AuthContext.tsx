@@ -53,6 +53,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Returning to the tab (or regaining connectivity) after a long time can leave
+  // an expired access token in memory: autoRefreshToken pauses while the tab is
+  // hidden. Re-validate on focus so the first action after coming back works.
+  useEffect(() => {
+    const revalidate = async () => {
+      if (document.visibilityState !== "visible") return;
+      const { data, error } = await supabase.auth.getSession();
+      if (error) return;
+      if (data.session) {
+        const expiresAt = (data.session.expires_at ?? 0) * 1000;
+        if (expiresAt - Date.now() < 60_000) {
+          const { data: refreshed } = await supabase.auth.refreshSession();
+          if (refreshed?.session) {
+            setSession(refreshed.session);
+            setUser(refreshed.session.user);
+            return;
+          }
+        }
+        setSession(data.session);
+        setUser(data.session.user);
+      } else {
+        setSession(null);
+        setUser(null);
+      }
+    };
+
+    document.addEventListener("visibilitychange", revalidate);
+    window.addEventListener("online", revalidate);
+    return () => {
+      document.removeEventListener("visibilitychange", revalidate);
+      window.removeEventListener("online", revalidate);
+    };
+  }, []);
+
+
   // Idle-timeout watcher. Resets on user activity; signs out after the limit.
   useEffect(() => {
     if (!user) {
@@ -133,8 +168,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      // Global revoke; if the refresh token is already gone the server answers
+      // 403 and the SDK leaves the local session behind — hence the fallback.
+      const { error } = await supabase.auth.signOut();
+      if (error) await supabase.auth.signOut({ scope: "local" });
+    } catch {
+      await supabase.auth.signOut({ scope: "local" }).catch(() => undefined);
+    }
+    setSession(null);
+    setUser(null);
+    try {
+      sessionStorage.removeItem("upsy:post-oauth-redirect");
+    } catch {
+      /* private mode */
+    }
   };
+
 
   return (
     <AuthContext.Provider value={{ user, session, loading, signIn, signUp, signOut }}>
