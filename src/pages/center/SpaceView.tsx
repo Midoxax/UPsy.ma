@@ -19,6 +19,7 @@ import {
   useMyMemberSpaces,
 } from "@/hooks/useCommunity";
 import type { MembershipTier } from "@/hooks/useMembership";
+import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 
 const SpaceView = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -132,6 +133,7 @@ const SpaceView = () => {
               <p className="text-sm text-muted-foreground mb-3">
                 Sign in to join the conversation.
               </p>
+              <SocialAuthButtons className="mb-3 max-w-xs mx-auto" />
               <Button asChild>
                 <Link to="/auth">Sign in</Link>
               </Button>

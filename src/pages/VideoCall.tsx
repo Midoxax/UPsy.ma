@@ -8,6 +8,7 @@ import { Video, PhoneOff, ArrowLeft, Loader2, ShieldAlert, Wifi, WifiOff, Refres
 import { toast } from "sonner";
 import { useRespondToInvitation } from "@/hooks/useProposeSession";
 import SessionStatusTimeline from "@/components/dashboard/SessionStatusTimeline";
+import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 
 declare global {
   interface Window {
@@ -321,7 +322,8 @@ const VideoCall = () => {
           <ShieldAlert className="w-12 h-12 text-primary mx-auto mb-4" />
           <h2 className="text-h2 mb-2">Sign In Required</h2>
           <p className="text-muted-foreground mb-6">Please sign in to join a video session.</p>
-          <Button variant="primary" asChild>
+          <SocialAuthButtons className="mb-4" />
+          <Button variant="primary" asChild className="w-full">
             <Link to="/auth">Sign In</Link>
           </Button>
         </div>

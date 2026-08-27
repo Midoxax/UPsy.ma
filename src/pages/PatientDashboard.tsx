@@ -39,6 +39,7 @@ import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
 import { useAwardXp } from "@/hooks/useGamification";
 import { useNudges } from "@/hooks/useNudges";
 import { useCrisisScreening } from "@/hooks/useCrisisScreening";
+import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 
 interface MoodEntry {
   id: string;
@@ -131,7 +132,8 @@ const PatientDashboard = () => {
           <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
           <h2 className="text-h2 mb-2">{t('auth.signInRequired')}</h2>
           <p className="text-muted-foreground mb-6">{t('auth.signInRequiredDesc')}</p>
-          <Button variant="primary" asChild><Link to="/auth">{t('auth.signIn')}</Link></Button>
+          <SocialAuthButtons className="mb-4 text-left" />
+          <Button variant="primary" asChild className="w-full"><Link to="/auth">{t('auth.signIn')}</Link></Button>
         </div>
       </div>
     );

@@ -29,6 +29,7 @@ import {
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
 import { Link } from "react-router-dom";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
+import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
 
 interface AvailabilitySlot {
   id: string;
@@ -338,14 +339,7 @@ const BookingModal = ({
         <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t('booking.notesPlaceholder')} rows={3} maxLength={500} />
       </div>
 
-      {!user && (
-        <div className="glass-card p-4 text-center space-y-2">
-          <p className="text-sm text-muted-foreground">{t('booking.signInToBook')}</p>
-          <Button variant="primary" size="sm" asChild>
-            <Link to="/auth">{t('auth.signIn')}</Link>
-          </Button>
-        </div>
-      )}
+      {!user && <SignInPrompt message={t('booking.signInToBook')} />}
 
       <DataPrivacyNotice />
 
