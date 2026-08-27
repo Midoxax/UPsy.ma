@@ -10,18 +10,6 @@ import "./preview.css";
  * CSS + Framer Motion only — no Three.js (memory constraint).
  */
 export const Preview = () => {
-  // Load spec fonts only on this page
-  useEffect(() => {
-    const links = [
-      "https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap",
-    ];
-    const nodes = links.map(href => {
-      const l = document.createElement("link");
-      l.rel = "stylesheet"; l.href = href; document.head.appendChild(l); return l;
-    });
-    return () => { nodes.forEach(n => n.remove()); };
-  }, []);
-
   return (
     <div className="upsy-os">
       <NeuralField />
