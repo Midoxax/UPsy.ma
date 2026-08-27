@@ -69,24 +69,24 @@ function CoreOrb() {
         {/* Additive halo shells stand in for a bloom pass: no post-processing
             dependency, no extra bundle weight, and the orb stops disappearing
             into the near-black hero background. */}
-        <mesh ref={halo} scale={1.18}>
+        <mesh ref={halo} scale={1.07}>
           <sphereGeometry args={[1.35, 48, 48]} />
           <meshBasicMaterial
             color="#A3263A"
             transparent
-            opacity={0.16}
+            opacity={0.10}
             blending={THREE.AdditiveBlending}
             side={THREE.BackSide}
             depthWrite={false}
             toneMapped={false}
           />
         </mesh>
-        <mesh scale={1.4}>
+        <mesh scale={1.16}>
           <sphereGeometry args={[1.35, 32, 32]} />
           <meshBasicMaterial
             color="#F2B705"
             transparent
-            opacity={0.06}
+            opacity={0.05}
             blending={THREE.AdditiveBlending}
             side={THREE.BackSide}
             depthWrite={false}
