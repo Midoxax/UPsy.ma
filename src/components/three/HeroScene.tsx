@@ -95,9 +95,9 @@ function CoreOrb() {
         </mesh>
         <Sphere ref={ref} args={[1.35, 96, 96]}>
           <MeshDistortMaterial
-            color="#7E1428"
+            color="#5E0E1F"
             emissive="#5A0A19"
-            emissiveIntensity={1.1}
+            emissiveIntensity={0.45}
             distort={0.42}
             speed={1.6}
             roughness={0.12}
@@ -137,7 +137,7 @@ export default function HeroScene() {
   return (
     <Canvas
       dpr={[1, 1.5]}
-      camera={{ position: [0, 0, 5.5], fov: 45 }}
+      camera={{ position: [0, 0, 7.2], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ position: "absolute", inset: 0 }}
     >
@@ -147,9 +147,11 @@ export default function HeroScene() {
         <pointLight position={[-5, -3, -2]} intensity={1.6} color="#A3263A" />
         <pointLight position={[-2.5, 1.5, 3]} intensity={1.1} color="#FFE9B0" />
         <Stars radius={40} depth={30} count={2200} factor={3.2} saturation={0} fade speed={0.6} />
-        <CoreOrb />
-        <OrbitRings />
-        <OrbitingSatellites />
+        <group position={[1.5, 0.1, 0]}>
+          <CoreOrb />
+          <OrbitRings />
+          <OrbitingSatellites />
+        </group>
         {/*
           There was an <Environment preset="night" /> here. `preset` makes drei
           fetch an HDR environment map from raw.githack.com at runtime, and that
