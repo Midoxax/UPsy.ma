@@ -168,8 +168,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      // Global revoke; if the refresh token is already gone the server answers
+      // 403 and the SDK leaves the local session behind — hence the fallback.
+      const { error } = await supabase.auth.signOut();
+      if (error) await supabase.auth.signOut({ scope: "local" });
+    } catch {
+      await supabase.auth.signOut({ scope: "local" }).catch(() => undefined);
+    }
+    setSession(null);
+    setUser(null);
+    try {
+      sessionStorage.removeItem("upsy:post-oauth-redirect");
+    } catch {
+      /* private mode */
+    }
   };
+
 
   return (
     <AuthContext.Provider value={{ user, session, loading, signIn, signUp, signOut }}>
