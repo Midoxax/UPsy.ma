@@ -56,6 +56,9 @@ const InstallAppButton = ({
   const [installed, setInstalled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [copied, setCopied] = useState(false);
+  // SSR renders nothing (window checks below are browser-only); reveal after hydration
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (isStandalone()) {
