@@ -29,6 +29,7 @@ import {
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
 import { Link } from "react-router-dom";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
+import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
 
 interface AvailabilitySlot {
   id: string;
