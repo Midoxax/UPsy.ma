@@ -45,7 +45,11 @@
 
 /** Providers this deployment is configured for. Empty until proven otherwise. */
 export const OAUTH_PROVIDERS: ReadonlyArray<"google" | "apple"> = (
-  (import.meta.env.VITE_OAUTH_PROVIDERS as string | undefined) ?? ""
+  // Google is live: Lovable Cloud manages the OAuth client, so the provider is
+  // configured server-side and needs no per-deployment credentials. Apple still
+  // requires a paid developer account, so it stays opt-in.
+  // `VITE_OAUTH_PROVIDERS` can still override this (e.g. "" to hide all).
+  ((import.meta.env.VITE_OAUTH_PROVIDERS as string | undefined)?.trim() || "google")
 )
   .split(",")
   .map((p) => p.trim().toLowerCase())
