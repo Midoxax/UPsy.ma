@@ -72,7 +72,7 @@ const HeroSection = () => {
       {/* --- Layer 1: existing 3D orb + starfield backdrop --- */}
       <div className="absolute inset-0" aria-hidden="true">
         {showScene && (
-          <div className="absolute inset-0 opacity-80">
+          <div className="absolute inset-0">
             {/*
               The 3D backdrop is purely decorative, so it must never be able to
               take the page down with it. Without this boundary a WebGL failure
@@ -94,7 +94,7 @@ const HeroSection = () => {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 70% 55% at 25% 50%, rgba(13,4,6,0.85) 0%, rgba(13,4,6,0.35) 55%, transparent 85%)",
+              "radial-gradient(ellipse 62% 55% at 18% 50%, rgba(13,4,6,0.92) 0%, rgba(13,4,6,0.45) 48%, transparent 78%)",
           }}
         />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[#0D0406]" />

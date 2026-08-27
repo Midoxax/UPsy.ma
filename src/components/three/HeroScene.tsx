@@ -1,6 +1,6 @@
 import { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Sphere, Stars } from "@react-three/drei";
+import { Float, MeshDistortMaterial, Sphere, Stars, Torus } from "@react-three/drei";
 import * as THREE from "three";
 
 /**
@@ -38,7 +38,7 @@ function OrbitingSatellites() {
             <meshStandardMaterial
               color={s.color}
               emissive={s.color}
-              emissiveIntensity={1.4}
+              emissiveIntensity={2.6}
               toneMapped={false}
             />
           </mesh>
@@ -50,25 +50,86 @@ function OrbitingSatellites() {
 
 function CoreOrb() {
   const ref = useRef<THREE.Mesh>(null);
+  const halo = useRef<THREE.Mesh>(null);
   useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.rotation.y = state.clock.elapsedTime * 0.1;
-    ref.current.rotation.z = state.clock.elapsedTime * 0.05;
+    const t = state.clock.elapsedTime;
+    if (ref.current) {
+      ref.current.rotation.y = t * 0.1;
+      ref.current.rotation.z = t * 0.05;
+    }
+    if (halo.current) {
+      // Slow breathing glow — the orb reads as alive rather than as a prop.
+      const s = 1 + Math.sin(t * 0.8) * 0.035;
+      halo.current.scale.setScalar(s);
+    }
   });
   return (
     <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.6}>
-      <Sphere ref={ref} args={[1.35, 96, 96]}>
-        <MeshDistortMaterial
-          color="#6D0F22"
-          emissive="#3D0611"
-          emissiveIntensity={0.6}
-          distort={0.42}
-          speed={1.6}
-          roughness={0.15}
-          metalness={0.85}
-        />
-      </Sphere>
+      <group>
+        {/* Additive halo shells stand in for a bloom pass: no post-processing
+            dependency, no extra bundle weight, and the orb stops disappearing
+            into the near-black hero background. */}
+        <mesh ref={halo} scale={1.07}>
+          <sphereGeometry args={[1.35, 48, 48]} />
+          <meshBasicMaterial
+            color="#A3263A"
+            transparent
+            opacity={0.10}
+            blending={THREE.AdditiveBlending}
+            side={THREE.BackSide}
+            depthWrite={false}
+            toneMapped={false}
+          />
+        </mesh>
+        <mesh scale={1.16}>
+          <sphereGeometry args={[1.35, 32, 32]} />
+          <meshBasicMaterial
+            color="#F2B705"
+            transparent
+            opacity={0.05}
+            blending={THREE.AdditiveBlending}
+            side={THREE.BackSide}
+            depthWrite={false}
+            toneMapped={false}
+          />
+        </mesh>
+        <Sphere ref={ref} args={[1.35, 96, 96]}>
+          <MeshDistortMaterial
+            color="#5E0E1F"
+            emissive="#5A0A19"
+            emissiveIntensity={0.45}
+            distort={0.42}
+            speed={1.6}
+            roughness={0.12}
+            metalness={0.9}
+          />
+        </Sphere>
+      </group>
     </Float>
+  );
+}
+
+/** Thin gold orbit rings — the "protocols" the satellites travel on. */
+function OrbitRings() {
+  const group = useRef<THREE.Group>(null);
+  useFrame((state) => {
+    if (!group.current) return;
+    group.current.rotation.z = state.clock.elapsedTime * 0.04;
+    group.current.rotation.x = 0.5 + Math.sin(state.clock.elapsedTime * 0.15) * 0.08;
+  });
+  return (
+    <group ref={group} rotation={[0.5, 0, 0]}>
+      {[2.35, 2.75, 3.2].map((r, i) => (
+        <Torus key={r} args={[r, 0.004, 8, 128]} rotation={[i * 0.5, i * 0.35, 0]}>
+          <meshBasicMaterial
+            color="#F2B705"
+            transparent
+            opacity={0.22 - i * 0.05}
+            toneMapped={false}
+          />
+        </Torus>
+      ))}
+    </group>
   );
 }
 
@@ -76,17 +137,21 @@ export default function HeroScene() {
   return (
     <Canvas
       dpr={[1, 1.5]}
-      camera={{ position: [0, 0, 5.5], fov: 45 }}
+      camera={{ position: [0, 0, 7.2], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ position: "absolute", inset: 0 }}
     >
       <Suspense fallback={null}>
         <ambientLight intensity={0.35} />
-        <pointLight position={[5, 5, 5]} intensity={1.2} color="#F2B705" />
-        <pointLight position={[-5, -3, -2]} intensity={0.8} color="#A3263A" />
-        <Stars radius={40} depth={30} count={1500} factor={3.5} saturation={0} fade speed={0.6} />
-        <CoreOrb />
-        <OrbitingSatellites />
+        <pointLight position={[5, 5, 5]} intensity={2.2} color="#F2B705" />
+        <pointLight position={[-5, -3, -2]} intensity={1.6} color="#A3263A" />
+        <pointLight position={[-2.5, 1.5, 3]} intensity={1.1} color="#FFE9B0" />
+        <Stars radius={40} depth={30} count={2200} factor={3.2} saturation={0} fade speed={0.6} />
+        <group position={[1.5, 0.1, 0]}>
+          <CoreOrb />
+          <OrbitRings />
+          <OrbitingSatellites />
+        </group>
         {/*
           There was an <Environment preset="night" /> here. `preset` makes drei
           fetch an HDR environment map from raw.githack.com at runtime, and that
