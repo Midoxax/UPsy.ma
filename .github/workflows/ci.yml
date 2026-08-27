@@ -46,6 +46,12 @@ jobs:
       - name: Committed secret check
         run: node scripts/check-env-safety.mjs
 
+      # An invalid `source` pattern in vercel.json (regex lookaheads, most
+      # commonly) is rejected by Vercel *before the build starts*, so no other
+      # gate here can see it. Catch it at PR time instead of at deploy time.
+      - name: Vercel route config
+        run: node scripts/check-vercel-config.mjs
+
       # A migration can be merged and deployed without ever reaching a
       # database, and until this landed nothing noticed: the Supabase GitHub
       # integration was pointed at a directory that does not exist in this
