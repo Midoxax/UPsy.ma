@@ -2,7 +2,7 @@ import { PsychologistProfile } from "@/types/psychologist";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Globe, User, Award, Star, Calendar, ShieldCheck, Video, Users as UsersIcon, Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
 
 interface PsychologistCardProps {

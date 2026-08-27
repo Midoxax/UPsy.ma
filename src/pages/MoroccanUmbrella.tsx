@@ -2,7 +2,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { useLocale } from "@/contexts/LocaleContext";
 import umbrellaLogo from "@/assets/umbrella-logo.png";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { ArrowRight, Users, Award, Heart, Globe } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 

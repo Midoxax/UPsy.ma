@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { Globe, Heart, ArrowRight } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useLocale } from "@/contexts/LocaleContext";

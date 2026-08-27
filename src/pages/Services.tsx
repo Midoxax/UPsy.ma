@@ -1,7 +1,7 @@
 import { Brain, Clock, Flower2, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { MethodsMetricsBand } from "@/components/MethodsMetricsBand";
 import { useLocale } from "@/contexts/LocaleContext";
 import { translations } from "@/lib/i18n/translations";
@@ -28,7 +28,7 @@ const Services = () => {
   
   const serviceItems = (translations[locale] as any).services?.items ?? (translations.en as any).services.items;
   const expectationsList = (translations[locale] as any).services?.expectations?.list ?? (translations.en as any).services.expectations.list;
-  const seo = seoByLocale[locale];
+  const seo = (seoByLocale as unknown as Record<string, { title: string; description: string }>)[locale] ?? seoByLocale.en;
 
   return (
     <main className="min-h-screen bg-background">
@@ -66,7 +66,7 @@ const Services = () => {
 
         {/* Service Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {serviceItems.map((service, index) => {
+          {serviceItems.map((service: any, index: number) => {
             const icons = [Brain, TrendingUp, Flower2, Brain, Clock];
             const colors = ["text-accent", "text-secondary", "text-accent", "text-secondary", "text-accent"];
             const Icon = icons[index];
@@ -93,7 +93,7 @@ const Services = () => {
         <div className="max-w-3xl mx-auto mb-20">
           <h2 className="text-h2 text-foreground mb-8 text-center">{t('services.expectations.title')}</h2>
           <div className="space-y-4">
-            {expectationsList.map((item, index) => (
+            {expectationsList.map((item: any, index: number) => (
               <div key={index} className="flex items-start gap-4 p-4 rounded-lg bg-card border border-border">
                 <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" />
                 <p className="text-body text-foreground">{item}</p>

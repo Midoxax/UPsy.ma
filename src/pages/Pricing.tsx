@@ -2,7 +2,7 @@ import { Check, Sparkles, Building2, Users, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
 import SEOHead from "@/components/SEOHead";
 

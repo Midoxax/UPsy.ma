@@ -53,7 +53,7 @@ const About = () => {
             <div className="glass-card p-8">
               <h2 className="text-h2 text-foreground mb-6">{t('about.credentials.title')}</h2>
               <div className="space-y-3">
-                {credentialsList.map((credential, index) => (
+                {credentialsList.map((credential: any, index: number) => (
                   <div key={index} className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-u-gold flex-shrink-0 mt-0.5" />
                     <span className="text-body text-muted-foreground">{credential}</span>
@@ -73,7 +73,7 @@ const About = () => {
                   {t('about.philosophy.paragraph2')}
                 </p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
-                  {philosophyList.map((item, index) => (
+                  {philosophyList.map((item: any, index: number) => (
                     <li key={index}>{item}</li>
                   ))}
                 </ul>
@@ -87,7 +87,7 @@ const About = () => {
                 <div>
                   <h3 className="text-h3 text-foreground mb-3">{t('about.specializations.individual.title')}</h3>
                   <ul className="space-y-2 text-body text-muted-foreground">
-                    {individualList.map((item, index) => (
+                    {individualList.map((item: any, index: number) => (
                       <li key={index}>• {item}</li>
                     ))}
                   </ul>
@@ -95,7 +95,7 @@ const About = () => {
                 <div>
                   <h3 className="text-h3 text-foreground mb-3">{t('about.specializations.organizational.title')}</h3>
                   <ul className="space-y-2 text-body text-muted-foreground">
-                    {organizationalList.map((item, index) => (
+                    {organizationalList.map((item: any, index: number) => (
                       <li key={index}>• {item}</li>
                     ))}
                   </ul>

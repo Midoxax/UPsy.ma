@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
 import { motion } from "framer-motion";
 import { WordReveal, MagneticButton } from "@/lib/motion";

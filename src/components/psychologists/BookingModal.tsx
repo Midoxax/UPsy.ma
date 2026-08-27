@@ -27,7 +27,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import {
   Menu, X, User, ChevronDown, Umbrella, Heart, Award,

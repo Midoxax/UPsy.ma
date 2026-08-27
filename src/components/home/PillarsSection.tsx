@@ -1,5 +1,5 @@
 import { Heart, BookOpen, Activity, Building2, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/contexts/LocaleContext";
 import ScrollReveal from "@/components/ScrollReveal";

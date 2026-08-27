@@ -38,12 +38,12 @@ export const usePsychologistProfile = (slugOrId: string) => {
       if (!data) throw new Error("Psychologist not found");
 
       // Transform data to match PsychologistProfile interface
-      const profile: PsychologistProfile = {
+      const profile = {
         ...data,
         specialties: data.psychologist_specialties?.map((ps: any) => ps.specialty).filter(Boolean) || [],
         languages: data.psychologist_languages?.map((pl: any) => pl.language).filter(Boolean) || [],
         therapy_approaches: data.psychologist_therapy_approaches?.map((pt: any) => pt.therapy_approach).filter(Boolean) || [],
-      };
+      } as unknown as PsychologistProfile;
 
       return profile;
     },

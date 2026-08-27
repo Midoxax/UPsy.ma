@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "@/lib/router-compat";
 import { usePsychologistProfile } from "@/hooks/usePsychologistProfile";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";

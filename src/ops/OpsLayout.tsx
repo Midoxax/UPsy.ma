@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useParams } from "@/lib/router-compat";
 import { Activity, Calendar, Compass, ListChecks, Sparkles, Plus } from "lucide-react";
 import { useOpsWorkspaces } from "./hooks/useOps";
 import { motion } from "framer-motion";
@@ -7,6 +7,7 @@ import "./ops-theme.css";
 
 export const OpsLayout = () => {
   const { workspace: slug } = useParams<{ workspace: string }>();
+  const location = useLocation();
   const { workspaces, current } = useOpsWorkspaces(slug);
   const [time, setTime] = useState(new Date());
 
@@ -68,13 +69,14 @@ export const OpsLayout = () => {
 
         {/* Navigation */}
         <nav className="flex flex-col gap-1">
-          {navItems.map((item, i) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) => `ops-nav-item ${isActive ? "active" : ""}`}
-            >
-              {({ isActive }) => (
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={`ops-nav-item ${isActive ? "active" : ""}`}
+              >
                 <motion.div
                   className="flex items-center gap-3 w-full relative"
                   initial={false}
@@ -92,9 +94,9 @@ export const OpsLayout = () => {
                     />
                   )}
                 </motion.div>
-              )}
-            </NavLink>
-          ))}
+              </NavLink>
+            );
+          })}
         </nav>
 
         {/* New Protocol CTA */}

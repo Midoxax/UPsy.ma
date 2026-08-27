@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import type { ComponentType } from "react";
+import { useParams } from "@/lib/router-compat";
 import { useOpsWorkspaces, useOpsWorkspaceTasks, updateTaskState, type OpsTaskState } from "../hooks/useOps";
 import StateBadge from "../components/StateBadge";
 import { motion } from "framer-motion";
 import { Clock, AlertTriangle, CheckCircle2, Circle, Pause, ArrowUpCircle } from "lucide-react";
 
-const COLUMNS: { key: OpsTaskState; label: string; icon: React.ElementType; accent: string }[] = [
+const COLUMNS: { key: OpsTaskState; label: string; icon: ComponentType<{ className?: string }>; accent: string }[] = [
   { key: "pending",   label: "PENDING",   icon: Circle,         accent: "border-white/15" },
   { key: "active",    label: "ACTIVE",    icon: ArrowUpCircle,  accent: "border-[hsl(var(--ops-accent)/0.5)]" },
   { key: "blocked",   label: "BLOCKED",   icon: Pause,          accent: "border-yellow-500/40" },

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { Youtube, Linkedin, Instagram, Heart } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";

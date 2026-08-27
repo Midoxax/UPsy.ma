@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -164,7 +165,7 @@ const PricingControl = () => {
     return <div className="flex justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
 
-  const fields: { key: keyof typeof form; label: string; suffix: string; icon: React.ElementType; help: string }[] = [
+  const fields: { key: keyof typeof form; label: string; suffix: string; icon: ComponentType<{ className?: string }>; help: string }[] = [
     { key: "commission_rate", label: "Commission plateforme", suffix: "%", icon: Percent, help: "Part qu'UPSY prélève sur chaque session." },
     { key: "deposit_percentage", label: "Acompte à la réservation", suffix: "%", icon: Wallet, help: "Pourcentage payé par le client lors du booking." },
     { key: "vat_rate", label: "TVA appliquée", suffix: "%", icon: Calculator, help: "Sur la commission UPSY uniquement." },

@@ -117,7 +117,7 @@ export const respondToProposalByToken = async (
   const { data, error } = await supabase.rpc("respond_to_proposal", {
     _token: token,
     _action: action,
-    _reason: reason ?? null,
+    _reason: reason ?? undefined,
   });
   if (error) throw error;
   return data as { ok: boolean; error?: string; status?: string; booking_id?: string };

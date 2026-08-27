@@ -11,7 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { captureEvent } from "@/lib/analytics/posthog";
 import { pushDataLayer } from "@/lib/analytics/gtm";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 
 type Pillar = "focus" | "regulation" | "recovery" | "meaning";
 

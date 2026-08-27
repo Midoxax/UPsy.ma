@@ -6,7 +6,7 @@ import { Sparkles, Loader2, AlertTriangle, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useHasFeature } from "@/hooks/useSpecialistPlan";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 
 interface SummaryResult {
   summary: string;

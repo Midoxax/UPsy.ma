@@ -1,6 +1,109 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* ── Fonts (Editorial luxe: Fraunces + Cormorant + Manrope) ── */
+  --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-serif: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-arabic: 'Amiri', serif;
+  /* Legacy aliases (kept so no existing class breaks) */
+  --font-fraunces: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-outfit: 'Manrope', system-ui, sans-serif;
+  --font-manrope: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Brand Colors ── */
+  --color-u-burgundy: hsl(var(--burgundy));
+  --color-u-charcoal: hsl(var(--charcoal));
+  --color-u-gold: hsl(var(--gold-accent));
+  --color-u-gold-highlight: hsl(var(--gold-highlight));
+  --color-u-crimson: hsl(var(--crimson));
+  --color-u-clinical: hsl(var(--clinical-blue));
+  --color-u-clinical-light: hsl(var(--clinical-light));
+  --color-u-lavender: hsl(var(--lavender));
+  --color-u-turquoise: hsl(var(--turquoise));
+  --color-u-white: hsl(var(--white));
+  --color-u-black: hsl(var(--black));
+  --color-u-gray-50: hsl(var(--gray-50));
+  --color-u-gray-100: hsl(var(--gray-100));
+  --color-u-gray-200: hsl(var(--gray-200));
+  --color-u-gray-300: hsl(var(--gray-300));
+  --color-u-gray-400: hsl(var(--gray-400));
+  --color-u-gray-500: hsl(var(--gray-500));
+  --color-u-gray-600: hsl(var(--gray-600));
+  --color-u-gray-700: hsl(var(--gray-700));
+  --color-u-gray-800: hsl(var(--gray-800));
+
+  /* ── Semantic Colors ── */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  /* ── Layout ── */
+  --max-width-container: var(--max-width);
+  --spacing-gutter: var(--gutter);
+  --spacing-section: var(--section-spacing);
+  --spacing-section-mobile: var(--section-spacing-mobile);
+
+  /* ── Radii ── */
+  --radius-u-btn: var(--radius-btn);
+  --radius-u-card: var(--radius-card);
+  --radius-u-input: var(--radius-input);
+  --radius-u-sm: var(--radius-btn);
+  --radius-u-lg: var(--radius-card);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* ── Shadows ── */
+  --shadow-glass: var(--glass-shadow);
+  --shadow-glass-hover: var(--glass-shadow-hover);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-gold: var(--shadow-gold);
+
+  /* ── Animations ── */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+/* Container behaviour from the v3 config: centered, 2rem padding, 1400px cap */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  width: 100%;
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
 
 /* Lenis smooth scroll baseline */
 html.lenis,

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "@/lib/router-compat";
 import { 
   Home, Info, Briefcase, Building, Users, User, Sparkles, 
   Award, Mail, MessageCircle, Lightbulb, BookOpen, FileText, 

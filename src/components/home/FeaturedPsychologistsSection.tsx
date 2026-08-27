@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { ArrowRight, MapPin, Star, Video, ShieldCheck, Clock } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";

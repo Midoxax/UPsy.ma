@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { ArrowRight, Clock } from "lucide-react";
 
 type Related = { slug: string; title: string; desc: string; readTime: string; category: string };

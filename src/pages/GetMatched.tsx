@@ -1,5 +1,6 @@
+import type { ComponentType } from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { PsychologistProfile } from "@/types/psychologist";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -31,7 +32,7 @@ const defaultAnswers: AssessmentAnswers = {
 };
 
 const OptionCard = ({ selected, onClick, icon: Icon, label, description }: {
-  selected: boolean; onClick: () => void; icon?: React.ElementType; label: string; description?: string;
+  selected: boolean; onClick: () => void; icon?: ComponentType<{ className?: string }>; label: string; description?: string;
 }) => (
   <button type="button" onClick={onClick}
     className={`w-full text-left p-4 rounded-2xl transition-all duration-200 ${selected ? "ring-2 ring-primary bg-primary/10" : "hover:bg-muted/40"}`}

@@ -105,7 +105,7 @@ const PsychologistDirectory = () => {
                 </TableCell>
                 <TableCell>
                   <Switch
-                    checked={psych.is_published}
+                    checked={psych.is_published ?? false}
                     onCheckedChange={(checked) =>
                       togglePublished.mutate({ id: psych.id, isPublished: checked })
                     }

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Navigate, useParams, useSearchParams } from "react-router-dom";
+import { Navigate, useParams, useSearchParams } from "@/lib/router-compat";
 
 /**
  * /b/:slug → /psychologists/:slug?book=1&src=share

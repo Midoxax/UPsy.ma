@@ -10,7 +10,7 @@ import {
   useStartQuest,
 } from "@/hooks/useProgression";
 import { hasTier, useCurrentTier, TIER_LABEL } from "@/hooks/useMembership";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 
 interface Props {
   quest: Quest;

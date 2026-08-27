@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -16,7 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useEarningsSummary, usePayouts } from "@/hooks/useSpecialistPayouts";
 import { useSpecialistPlan } from "@/hooks/useSpecialistPlan";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 
 const usePsychologistEarnings = () => {
   const { user } = useAuth();
@@ -107,7 +108,7 @@ const usePsychologistEarnings = () => {
 
 const Stat = ({
   label, value, sub, icon: Icon, accent = "text-primary"
-}: { label: string; value: string | number; sub?: string; icon: React.ElementType; accent?: string }) => (
+}: { label: string; value: string | number; sub?: string; icon: ComponentType<{ className?: string }>; accent?: string }) => (
   <div className="bg-surface border border-border rounded-2xl p-5 space-y-2">
     <div className="flex items-center justify-between">
       <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{label}</span>
