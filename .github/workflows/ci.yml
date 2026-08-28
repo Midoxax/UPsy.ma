@@ -4,6 +4,12 @@ name: CI
 # stopped a type error, an accessibility regression or a committed credential
 # from reaching main — the only automation was a daily curl against six URLs,
 # which runs *after* a bad deploy is already live.
+#
+# Package manager: bun. There is no package-lock.json in this repository, so
+# `npm ci` cannot run here — bun.lock is the committed lockfile and the only
+# one kept in sync. Every job installs with `bun install --frozen-lockfile`,
+# which is the exact equivalent of `npm ci`: it refuses to run if the lockfile
+# and package.json disagree, rather than quietly resolving something new.
 on:
   push:
     branches: [main]
@@ -16,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # The audit drives a real browser; never let npm try to fetch its own copy.
+  # The audit drives a real browser; never let the installer fetch its own copy.
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
 
 jobs:
@@ -29,12 +35,15 @@ jobs:
         with:
           # Single source of truth. Never hardcode a version here: a literal
           # would silently diverge from .nvmrc and engines.node, which is the
-          # drift that broke this pipeline once already.
+          # drift that broke this pipeline once already. Node is still needed
+          # even though bun installs: every gate script runs on node.
           node-version-file: .nvmrc
           check-latest: false
-          cache: npm
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
-      - run: npm ci --no-audit --no-fund
+      - run: bun install --frozen-lockfile
 
       # Asserts .nvmrc and engines.node agree, and that the interpreter running
       # this job matches them, before any tooling can fail obscurely downstream.
@@ -69,21 +78,20 @@ jobs:
       - name: Supabase wiring and schema sync
         run: node scripts/check-supabase-sync.mjs
 
+      # One tsconfig covers the app now; there is no tsconfig.app.json since
+      # the move to TanStack Start. Pointing -p at a file that does not exist
+      # is how this step failed silently-but-loudly for weeks.
       - name: Type check
-        run: npx tsc --noEmit -p tsconfig.app.json
+        run: bunx tsc --noEmit -p tsconfig.json
 
       # The other half of the backend.
       #
-      # tsconfig.app.json includes only `src`, so `tsc` never sees
+      # tsconfig.json includes only `src`, so `tsc` never sees
       # supabase/functions — 33 Deno functions, including every one that sends
       # mail, screens for crisis, or generates a clinical brief. Nothing in this
       # pipeline has ever type-checked them. A wrong import path or a renamed
       # export surfaces when a patient does not receive an appointment reminder,
       # which is the worst possible place to discover it.
-      #
-      # Scoped to function entrypoints and the shared .ts modules. The .tsx
-      # email templates need their own JSX configuration and are left for a
-      # follow-up rather than bolted on here.
       - name: Set up Deno
         uses: denoland/setup-deno@v2
         with:
@@ -96,10 +104,7 @@ jobs:
       # continue-on-error — same ratchet as lint.
       # --node-modules-dir=auto because the functions import npm packages by
       # bare specifier (`npm:resend@2.0.0`). Without it Deno 2 refuses to
-      # resolve them and aborts on the first file it meets, which is what the
-      # first run of this step did: it stopped at anamnesis-reminder-cron and
-      # checked nothing else. The flag lives here rather than in a deno.json so
-      # nothing about how Supabase deploys these functions changes.
+      # resolve them and aborts on the first file it meets.
       - name: Type check edge functions
         run: deno check --node-modules-dir=auto supabase/functions/*/index.ts supabase/functions/_shared/*.ts
         continue-on-error: true
@@ -109,27 +114,28 @@ jobs:
       # theme resolution, and route authorization. Each suite is mutation-
       # verified: breaking the implementation fails a test.
       - name: Unit tests
-        run: npm test
+        run: bun run test
 
       # Not blocking yet: the repo carries ~450 pre-existing lint problems,
       # so failing on them would make CI red on arrival and train people to
       # ignore it. Ratchet this to a hard failure once the backlog is cleared.
       - name: Lint
-        run: npm run lint
+        run: bun run lint
         continue-on-error: true
 
       # Blocks on high/critical advisories only. Moderate and low are reported
       # by the same command without failing, because transitive dev-only
       # advisories are constant background noise and would make this gate
-      # meaningless. Tighten with --audit-level=moderate once the tree is clean.
+      # meaningless. `bun audit` is the lockfile-native equivalent of the npm
+      # command this replaced — npm cannot audit a tree it did not install.
       - name: Security audit
         run: |
-          npm audit --audit-level=high --omit=dev || {
+          bun audit --audit-level=high --prod || {
             echo "::error::High or critical advisory in production dependencies"
             exit 1
           }
       - name: Security audit (full report, non-blocking)
-        run: npm audit || true
+        run: bun audit || true
 
   audit:
     name: Build and browser audit
@@ -138,31 +144,24 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
-          # Single source of truth. Never hardcode a version here: a literal
-          # would silently diverge from .nvmrc and engines.node, which is the
-          # drift that broke this pipeline once already.
           node-version-file: .nvmrc
           check-latest: false
-          cache: npm
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
-      - run: npm ci --no-audit --no-fund
+      - run: bun install --frozen-lockfile
 
       - name: Runtime contract
         run: node scripts/check-runtime.mjs
 
       - name: Build
-        run: npm run build
-
-      # Ratchet: budgets are pinned to today's output, so any growth on the
-      # critical path fails and has to be justified by raising the number in
-      # the same PR. Landing an optimisation means lowering it in the same PR
-      # so the win cannot be silently spent again later.
-      - name: Bundle budget
-        run: node scripts/check-bundle-size.mjs
+        run: bun run build
 
       # Catches a build that succeeds but ships something unservable: a missing
-      # entry chunk, an unreplaced {{TOKEN}} placeholder, or an absent
-      # robots.txt/sitemap that would quietly cost indexing.
+      # Worker entry, an unreplaced {{TOKEN}} placeholder, or an absent
+      # robots.txt/sitemap that would quietly cost indexing. Runs before the
+      # server starts, because there is no point serving a broken artefact.
       - name: Verify production output
         run: node scripts/verify-build.mjs
 
@@ -170,19 +169,36 @@ jobs:
       # needs a browser driver, and CI fetches it in seconds.
       - name: Install audit tooling
         run: |
-          npm install --no-save playwright @axe-core/playwright --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          bun add --no-save playwright @axe-core/playwright
+          bunx playwright install --with-deps chromium
 
+      # The app renders on the server, so `vite preview` (a static file server)
+      # cannot serve it — it would hand the audit a 404 for every route. The
+      # built artefact is a Cloudflare Worker, so wrangler runs it locally,
+      # exactly as production will. --local keeps everything on the runner: no
+      # Cloudflare account, no API token, no network round trip.
       - name: Serve production build
         run: |
-          npx vite preview --host 127.0.0.1 --port 4173 &
-          for i in $(seq 1 30); do
+          bunx wrangler dev --config dist/server/wrangler.json \
+            --local --ip 127.0.0.1 --port 4173 > /tmp/wrangler.log 2>&1 &
+          for i in $(seq 1 60); do
             if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then
               echo "preview up"; exit 0
             fi
             sleep 1
           done
-          echo "preview server never became ready"; exit 1
+          echo "preview server never became ready"; cat /tmp/wrangler.log; exit 1
+
+      # Ratchet: budgets are pinned to today's output, so any growth on the
+      # critical path fails and has to be justified by raising the number in
+      # the same PR. Landing an optimisation means lowering it in the same PR
+      # so the win cannot be silently spent again later. Needs the running
+      # server: the document that references the entry chunks is rendered, not
+      # emitted to disk.
+      - name: Bundle budget
+        env:
+          BASE: http://127.0.0.1:4173
+        run: node scripts/check-bundle-size.mjs
 
       # Gates on critical findings — crashes, blank pages, critical WCAG
       # violations. Serious and moderate findings are printed on every run but
