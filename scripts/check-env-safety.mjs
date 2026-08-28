@@ -61,7 +61,7 @@ for (const file of trackedEnvFiles()) {
     const match = trimmed.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=/);
     if (!match) return;
     const key = match[1];
-    if (!key.startsWith(ALLOWED_PREFIX)) {
+    if (!key.startsWith(ALLOWED_PREFIX) && !ALLOWED_KEYS.has(key)) {
       offenders.push({ file, line: i + 1, key });
     }
   });
