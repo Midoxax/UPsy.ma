@@ -1624,6 +1624,63 @@ export type Database = {
           },
         ]
       }
+      crm_automation_rules: {
+        Row: {
+          active: boolean
+          created_at: string
+          deal_title: string | null
+          deal_value_mad: number
+          default_owner: string | null
+          event_kind: string
+          id: string
+          name: string
+          notify: boolean
+          pipeline: string
+          position: number
+          set_lifecycle: string | null
+          source_match: string | null
+          stage: string
+          subject_match: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          deal_title?: string | null
+          deal_value_mad?: number
+          default_owner?: string | null
+          event_kind: string
+          id?: string
+          name: string
+          notify?: boolean
+          pipeline: string
+          position?: number
+          set_lifecycle?: string | null
+          source_match?: string | null
+          stage: string
+          subject_match?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          deal_title?: string | null
+          deal_value_mad?: number
+          default_owner?: string | null
+          event_kind?: string
+          id?: string
+          name?: string
+          notify?: boolean
+          pipeline?: string
+          position?: number
+          set_lifecycle?: string | null
+          source_match?: string | null
+          stage?: string
+          subject_match?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       crm_consents: {
         Row: {
           basis: string
@@ -1799,6 +1856,164 @@ export type Database = {
           },
         ]
       }
+      crm_email_events: {
+        Row: {
+          contact_id: string | null
+          event_type: string
+          id: string
+          message_id: string | null
+          metadata: Json
+          occurred_at: string
+        }
+        Insert: {
+          contact_id?: string | null
+          event_type: string
+          id?: string
+          message_id?: string | null
+          metadata?: Json
+          occurred_at?: string
+        }
+        Update: {
+          contact_id?: string | null
+          event_type?: string
+          id?: string
+          message_id?: string | null
+          metadata?: Json
+          occurred_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_email_events_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_events_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_email_messages: {
+        Row: {
+          campaign: string | null
+          clicked_at: string | null
+          contact_id: string | null
+          created_at: string
+          direction: string
+          email: string
+          id: string
+          metadata: Json
+          opened_at: string | null
+          preview: string | null
+          provider: string
+          provider_message_id: string | null
+          sent_at: string
+          status: string
+          subject: string | null
+          template: string | null
+        }
+        Insert: {
+          campaign?: string | null
+          clicked_at?: string | null
+          contact_id?: string | null
+          created_at?: string
+          direction?: string
+          email: string
+          id?: string
+          metadata?: Json
+          opened_at?: string | null
+          preview?: string | null
+          provider?: string
+          provider_message_id?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string | null
+          template?: string | null
+        }
+        Update: {
+          campaign?: string | null
+          clicked_at?: string | null
+          contact_id?: string | null
+          created_at?: string
+          direction?: string
+          email?: string
+          id?: string
+          metadata?: Json
+          opened_at?: string | null
+          preview?: string | null
+          provider?: string
+          provider_message_id?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string | null
+          template?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_email_messages_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_notifications: {
+        Row: {
+          body: string | null
+          contact_id: string | null
+          created_at: string
+          deal_id: string | null
+          id: string
+          owner_id: string | null
+          read_at: string | null
+          severity: string
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          contact_id?: string | null
+          created_at?: string
+          deal_id?: string | null
+          id?: string
+          owner_id?: string | null
+          read_at?: string | null
+          severity?: string
+          title: string
+        }
+        Update: {
+          body?: string | null
+          contact_id?: string | null
+          created_at?: string
+          deal_id?: string | null
+          id?: string
+          owner_id?: string | null
+          read_at?: string | null
+          severity?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_notifications_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notifications_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "crm_deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crm_organisations: {
         Row: {
           billing_email: string | null
@@ -1850,6 +2065,27 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_staff: {
+        Row: {
+          created_at: string
+          crm_role: string
+          granted_by: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          crm_role?: string
+          granted_by?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          crm_role?: string
+          granted_by?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       crm_stages: {
         Row: {
           created_at: string
@@ -1860,6 +2096,7 @@ export type Database = {
           label: string
           pipeline: string
           position: number
+          probability: number
         }
         Insert: {
           created_at?: string
@@ -1870,6 +2107,7 @@ export type Database = {
           label: string
           pipeline: string
           position?: number
+          probability?: number
         }
         Update: {
           created_at?: string
@@ -1880,6 +2118,7 @@ export type Database = {
           label?: string
           pipeline?: string
           position?: number
+          probability?: number
         }
         Relationships: []
       }
@@ -6570,6 +6809,83 @@ export type Database = {
         Args: { _email: string; _password: string }
         Returns: Json
       }
+      crm_consent_evidence: {
+        Args: never
+        Returns: {
+          basis: string
+          contact_created_at: string
+          contact_id: string
+          contact_type: string
+          email: string
+          evidence: Json
+          first_touch: Json
+          full_name: string
+          granted: boolean
+          lifecycle: string
+          purpose: string
+          recorded_at: string
+          source: string
+          withdrawn_at: string
+        }[]
+      }
+      crm_log_email: {
+        Args: {
+          _campaign?: string
+          _direction?: string
+          _email: string
+          _metadata?: Json
+          _preview?: string
+          _provider?: string
+          _provider_message_id?: string
+          _status?: string
+          _subject: string
+          _template?: string
+        }
+        Returns: string
+      }
+      crm_next_best_actions: {
+        Args: { _limit?: number }
+        Returns: {
+          action: string
+          contact_email: string
+          contact_id: string
+          contact_name: string
+          days_idle: number
+          deal_id: string
+          pipeline: string
+          probability: number
+          stage: string
+          value_mad: number
+          weighted_mad: number
+        }[]
+      }
+      crm_pick_owner: { Args: never; Returns: string }
+      crm_pipeline_forecast: {
+        Args: never
+        Returns: {
+          deal_count: number
+          is_lost: boolean
+          is_won: boolean
+          label: string
+          pipeline: string
+          probability: number
+          stage: string
+          stage_position: number
+          value_mad: number
+          weighted_mad: number
+        }[]
+      }
+      crm_record_email_event: {
+        Args: {
+          _email?: string
+          _event_type: string
+          _metadata?: Json
+          _provider?: string
+          _provider_message_id?: string
+        }
+        Returns: string
+      }
+      crm_role: { Args: { _user_id: string }; Returns: string }
       crm_upsert_contact: {
         Args: {
           _activity_kind?: string
@@ -6634,6 +6950,10 @@ export type Database = {
       get_specialist_plan: { Args: { _user_id: string }; Returns: Json }
       has_all_access: { Args: { _user_id: string }; Returns: boolean }
       has_athlete_plus: { Args: { _user_id: string }; Returns: boolean }
+      has_crm_access: {
+        Args: { _min?: string; _user_id: string }
+        Returns: boolean
+      }
       has_plan_feature: {
         Args: { _feature: string; _user_id: string }
         Returns: boolean
