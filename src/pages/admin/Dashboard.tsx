@@ -26,6 +26,7 @@ import TransactionsTab from "@/components/admin/TransactionsTab";
 import OrgApplicationsManager from "@/components/admin/OrgApplicationsManager";
 import ObservatoireManager from "@/components/admin/ObservatoireManager";
 import CrmManager from "@/components/admin/CrmManager";
+import AuditTrail from "@/components/admin/AuditTrail";
 import CommandPalette from "@/components/admin/CommandPalette";
 import ExportCsvButton from "@/components/admin/ExportCsvButton";
 import UserDetailDrawer from "@/components/admin/UserDetailDrawer";
@@ -711,6 +712,7 @@ const AdminDashboard = () => {
           <TabsContent value="accreditation"><AccreditationManager /></TabsContent>
           <TabsContent value="org-applications"><OrgApplicationsManager /></TabsContent>
           <TabsContent value="crm"><CrmManager /></TabsContent>
+          <TabsContent value="audit"><AuditTrail /></TabsContent>
           <TabsContent value="observatoire"><ObservatoireManager /></TabsContent>
           <TabsContent value="pricing"><PricingControl /></TabsContent>
           <TabsContent value="transactions"><TransactionsTab /></TabsContent>
@@ -741,6 +743,7 @@ const SupportAwareTabs = () => {
     { value: "accreditation", label: "Accreditation", icon: Award },
     { value: "org-applications", label: "Org. Apps", icon: Building2 },
     { value: "crm", label: "CRM", icon: Contact2 },
+    { value: "audit", label: "Audit", icon: ScrollText },
     { value: "observatoire", label: "Observatoire", icon: FlaskConical },
     { value: "pricing", label: "Pricing", icon: DollarSign },
     { value: "transactions", label: "Transactions", icon: Database },
