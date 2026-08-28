@@ -2439,6 +2439,104 @@ export type Database = {
           },
         ]
       }
+      invoice_counters: {
+        Row: {
+          last_value: number
+          series: string
+          year: number
+        }
+        Insert: {
+          last_value?: number
+          series: string
+          year: number
+        }
+        Update: {
+          last_value?: number
+          series?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      invoices: {
+        Row: {
+          booking_id: string | null
+          contact_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          due_at: string | null
+          id: string
+          issued_at: string
+          kind: string
+          legal_mentions: string
+          notes: string | null
+          number: string
+          organisation_id: string | null
+          payment_ref: string
+          pdf_path: string | null
+          series: string
+          status: string
+          subtotal_mad: number
+          total_mad: number
+          updated_at: string
+          vat_mad: number
+        }
+        Insert: {
+          booking_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          due_at?: string | null
+          id?: string
+          issued_at?: string
+          kind?: string
+          legal_mentions?: string
+          notes?: string | null
+          number: string
+          organisation_id?: string | null
+          payment_ref: string
+          pdf_path?: string | null
+          series?: string
+          status?: string
+          subtotal_mad: number
+          total_mad: number
+          updated_at?: string
+          vat_mad?: number
+        }
+        Update: {
+          booking_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          due_at?: string | null
+          id?: string
+          issued_at?: string
+          kind?: string
+          legal_mentions?: string
+          notes?: string | null
+          number?: string
+          organisation_id?: string | null
+          payment_ref?: string
+          pdf_path?: string | null
+          series?: string
+          status?: string
+          subtotal_mad?: number
+          total_mad?: number
+          updated_at?: string
+          vat_mad?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       journal_entries: {
         Row: {
           ai_summary: string | null
@@ -2548,6 +2646,90 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      legal_acceptances: {
+        Row: {
+          accepted_at: string
+          contact_id: string | null
+          document_id: string
+          id: string
+          ip: unknown
+          method: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          accepted_at?: string
+          contact_id?: string | null
+          document_id: string
+          id?: string
+          ip?: unknown
+          method?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          accepted_at?: string
+          contact_id?: string | null
+          document_id?: string
+          id?: string
+          ip?: unknown
+          method?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legal_acceptances_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "legal_acceptances_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "legal_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legal_documents: {
+        Row: {
+          body_md: string
+          created_at: string
+          effective_from: string
+          id: string
+          locale: string
+          published: boolean
+          slug: string
+          title: string
+          version: string
+        }
+        Insert: {
+          body_md: string
+          created_at?: string
+          effective_from?: string
+          id?: string
+          locale: string
+          published?: boolean
+          slug: string
+          title: string
+          version: string
+        }
+        Update: {
+          body_md?: string
+          created_at?: string
+          effective_from?: string
+          id?: string
+          locale?: string
+          published?: boolean
+          slug?: string
+          title?: string
+          version?: string
+        }
+        Relationships: []
       }
       membership_plans: {
         Row: {
@@ -3730,6 +3912,53 @@ export type Database = {
           vat_mad?: number
         }
         Relationships: []
+      }
+      payments: {
+        Row: {
+          amount_mad: number
+          bank_ref: string | null
+          created_at: string
+          id: string
+          invoice_id: string | null
+          matched_at: string
+          matched_by: string | null
+          method: string
+          raw_statement: Json
+          received_at: string
+        }
+        Insert: {
+          amount_mad: number
+          bank_ref?: string | null
+          created_at?: string
+          id?: string
+          invoice_id?: string | null
+          matched_at?: string
+          matched_by?: string | null
+          method?: string
+          raw_statement?: Json
+          received_at?: string
+        }
+        Update: {
+          amount_mad?: number
+          bank_ref?: string | null
+          created_at?: string
+          id?: string
+          invoice_id?: string | null
+          matched_at?: string
+          matched_by?: string | null
+          method?: string
+          raw_statement?: Json
+          received_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       platform_event_deliveries: {
         Row: {
@@ -6438,6 +6667,47 @@ export type Database = {
         }
         Returns: string
       }
+      issue_invoice: {
+        Args: {
+          _booking_id?: string
+          _contact_id: string
+          _due_days?: number
+          _kind?: string
+          _legal_mentions?: string
+          _notes?: string
+          _organisation_id?: string
+          _subtotal_mad: number
+        }
+        Returns: {
+          booking_id: string | null
+          contact_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          due_at: string | null
+          id: string
+          issued_at: string
+          kind: string
+          legal_mentions: string
+          notes: string | null
+          number: string
+          organisation_id: string | null
+          payment_ref: string
+          pdf_path: string | null
+          series: string
+          status: string
+          subtotal_mad: number
+          total_mad: number
+          updated_at: string
+          vat_mad: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "invoices"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       log_sensitive_access: {
         Args: {
           _context?: Json
@@ -6515,6 +6785,44 @@ export type Database = {
           read_ct: number
         }[]
       }
+      record_payment: {
+        Args: {
+          _amount_mad: number
+          _bank_ref?: string
+          _invoice_id: string
+          _method?: string
+          _received_at?: string
+        }
+        Returns: {
+          booking_id: string | null
+          contact_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          due_at: string | null
+          id: string
+          issued_at: string
+          kind: string
+          legal_mentions: string
+          notes: string | null
+          number: string
+          organisation_id: string | null
+          payment_ref: string
+          pdf_path: string | null
+          series: string
+          status: string
+          subtotal_mad: number
+          total_mad: number
+          updated_at: string
+          vat_mad: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "invoices"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       record_xp: {
         Args: {
           p_action: string
@@ -6541,6 +6849,14 @@ export type Database = {
       respond_to_proposal: {
         Args: { _action: string; _reason?: string; _token: string }
         Returns: Json
+      }
+      revenue_ytd_mad: {
+        Args: never
+        Returns: {
+          collected_mad: number
+          issued_mad: number
+          year: number
+        }[]
       }
       search_psychologists:
         | {
