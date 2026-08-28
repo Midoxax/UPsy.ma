@@ -46,8 +46,19 @@ function renderAt(path: string, key: string) {
   );
 }
 
+// The provider writes an `lng` cookie on first visit and prefers it over the
+// URL on every later mount. jsdom keeps document.cookie for the whole file, so
+// without this each test would inherit the previous test's language.
+beforeEach(() => {
+  for (const c of document.cookie.split(";")) {
+    const name = c.split("=")[0].trim();
+    if (name) document.cookie = `${name}=; Max-Age=0; path=/`;
+  }
+  document.documentElement.dir = "ltr";
+});
 
 const out = () => screen.getByTestId("out").textContent;
+
 
 describe("t() resolution", () => {
   beforeEach(() => localStorage.clear());
