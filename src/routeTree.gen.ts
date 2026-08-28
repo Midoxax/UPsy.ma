@@ -102,6 +102,7 @@ import { Route as LocaleWhyUsRouteImport } from './routes/$locale/why-us'
 import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
 import { Route as AdminAuditRouteImport } from './routes/admin/audit'
 import { Route as AdminCrmRouteImport } from './routes/admin/crm'
+import { Route as AdminFinanceRouteImport } from './routes/admin/finance'
 import { Route as AdminGrowthLeadsRouteImport } from './routes/admin/growth-leads'
 import { Route as ApplyOrganizationRouteImport } from './routes/apply/organization'
 import { Route as ApplyWizardRouteImport } from './routes/apply/wizard'
@@ -641,6 +642,11 @@ const AdminCrmRoute = AdminCrmRouteImport.update({
   path: '/crm',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFinanceRoute = AdminFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminGrowthLeadsRoute = AdminGrowthLeadsRouteImport.update({
   id: '/growth-leads',
   path: '/growth-leads',
@@ -1109,6 +1115,7 @@ export interface FileRoutesByFullPath {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
+  '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
@@ -1274,6 +1281,7 @@ export interface FileRoutesByTo {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
+  '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
@@ -1439,6 +1447,7 @@ export interface FileRoutesById {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
+  '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
@@ -1606,6 +1615,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/audit'
     | '/admin/crm'
+    | '/admin/finance'
     | '/admin/growth-leads'
     | '/apply/organization'
     | '/apply/wizard'
@@ -1771,6 +1781,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/audit'
     | '/admin/crm'
+    | '/admin/finance'
     | '/admin/growth-leads'
     | '/apply/organization'
     | '/apply/wizard'
@@ -1935,6 +1946,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/audit'
     | '/admin/crm'
+    | '/admin/finance'
     | '/admin/growth-leads'
     | '/apply/organization'
     | '/apply/wizard'
@@ -2769,6 +2781,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCrmRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/finance': {
+      id: '/admin/finance'
+      path: '/finance'
+      fullPath: '/admin/finance'
+      preLoaderRoute: typeof AdminFinanceRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/growth-leads': {
       id: '/admin/growth-leads'
       path: '/growth-leads'
@@ -3266,6 +3285,7 @@ interface AdminRouteChildren {
   AdminApplicationsRoute: typeof AdminApplicationsRoute
   AdminAuditRoute: typeof AdminAuditRoute
   AdminCrmRoute: typeof AdminCrmRoute
+  AdminFinanceRoute: typeof AdminFinanceRoute
   AdminGrowthLeadsRoute: typeof AdminGrowthLeadsRoute
 }
 
@@ -3273,6 +3293,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminApplicationsRoute: AdminApplicationsRoute,
   AdminAuditRoute: AdminAuditRoute,
   AdminCrmRoute: AdminCrmRoute,
+  AdminFinanceRoute: AdminFinanceRoute,
   AdminGrowthLeadsRoute: AdminGrowthLeadsRoute,
 }
 
