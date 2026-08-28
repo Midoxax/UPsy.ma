@@ -11,7 +11,6 @@
  */
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import { LocaleProvider, useLocale } from "@/contexts/LocaleContext";
 
 // The provider loads DB overrides on mount; keep tests offline and
@@ -22,6 +21,14 @@ vi.mock("@/integrations/supabase/client", () => ({
   },
 }));
 
+// The provider reaches the router only through the compat shim; stubbing it
+// keeps these tests about locale resolution rather than router setup.
+const locationState = vi.hoisted(() => ({ pathname: "/", search: "", hash: "" }));
+vi.mock("@/lib/router-compat", () => ({
+  useLocation: () => locationState,
+  useNavigate: () => vi.fn(),
+}));
+
 function Probe({ k }: { k: string }) {
   const { t } = useLocale();
   // Deliberately the real call-site shape, not just t(k).
@@ -29,14 +36,16 @@ function Probe({ k }: { k: string }) {
 }
 
 function renderAt(path: string, key: string) {
+  locationState.pathname = path;
+  locationState.search = "";
+  locationState.hash = "";
   return render(
-    <MemoryRouter initialEntries={[path]}>
-      <LocaleProvider>
-        <Probe k={key} />
-      </LocaleProvider>
-    </MemoryRouter>
+    <LocaleProvider>
+      <Probe k={key} />
+    </LocaleProvider>
   );
 }
+
 
 const out = () => screen.getByTestId("out").textContent;
 
