@@ -48,6 +48,9 @@ import {
   useCrmStages,
   type ContactFilters,
 } from "@/hooks/admin/useCrm";
+import { crmAtLeast, useCrmRole } from "@/hooks/admin/useCrmOps";
+import CrmForecastPanel from "@/components/admin/CrmForecastPanel";
+import CrmAutomationsPanel from "@/components/admin/CrmAutomationsPanel";
 
 const PIPELINES = [
   { key: "b2c_first_session", label: "First session" },
