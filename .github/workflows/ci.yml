@@ -128,14 +128,29 @@ jobs:
       # advisories are constant background noise and would make this gate
       # meaningless. `bun audit` is the lockfile-native equivalent of the npm
       # command this replaced — npm cannot audit a tree it did not install.
+      #
+      # The advisory service being unreachable is not the same event as an
+      # advisory existing, and conflating them either hides real findings or
+      # turns a registry outage into a red build on an unchanged commit. A
+      # transport failure is reported as a warning; only an actual advisory
+      # fails the job.
       - name: Security audit
         run: |
-          bun audit --audit-level=high --prod || {
+          set +e
+          output="$(bun audit --audit-level=high --prod 2>&1)"
+          status=$?
+          echo "$output"
+          if [ "$status" -ne 0 ]; then
+            if echo "$output" | grep -qiE 'audit request failed|status (4|5)[0-9][0-9]|ENOTFOUND|ECONNREFUSED'; then
+              echo "::warning::Advisory service unreachable — dependency audit skipped, not passed"
+              exit 0
+            fi
             echo "::error::High or critical advisory in production dependencies"
             exit 1
-          }
+          fi
       - name: Security audit (full report, non-blocking)
         run: bun audit || true
+
 
   audit:
     name: Build and browser audit
