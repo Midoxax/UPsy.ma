@@ -592,29 +592,50 @@ export type Database = {
       audit_log: {
         Row: {
           action: string
+          actor_role: string | null
+          changed: Json | null
           created_at: string
+          data_class: string
           id: string
           metadata: Json | null
+          record_ref: string | null
+          request_ip: unknown
           resource_id: string | null
           resource_type: string
+          subject_id: string | null
+          user_agent: string | null
           user_id: string | null
         }
         Insert: {
           action: string
+          actor_role?: string | null
+          changed?: Json | null
           created_at?: string
+          data_class?: string
           id?: string
           metadata?: Json | null
+          record_ref?: string | null
+          request_ip?: unknown
           resource_id?: string | null
           resource_type: string
+          subject_id?: string | null
+          user_agent?: string | null
           user_id?: string | null
         }
         Update: {
           action?: string
+          actor_role?: string | null
+          changed?: Json | null
           created_at?: string
+          data_class?: string
           id?: string
           metadata?: Json | null
+          record_ref?: string | null
+          request_ip?: unknown
           resource_id?: string | null
           resource_type?: string
+          subject_id?: string | null
+          user_agent?: string | null
           user_id?: string | null
         }
         Relationships: []
@@ -1904,6 +1925,51 @@ export type Database = {
           title?: string
           title_fr?: string | null
           xp_reward?: number
+        }
+        Relationships: []
+      }
+      data_subject_requests: {
+        Row: {
+          created_at: string
+          due_at: string
+          email: string
+          fulfilled_at: string | null
+          handled_by: string | null
+          id: string
+          legal_basis: string | null
+          notes: string | null
+          request_type: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          due_at?: string
+          email: string
+          fulfilled_at?: string | null
+          handled_by?: string | null
+          id?: string
+          legal_basis?: string | null
+          notes?: string | null
+          request_type: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          due_at?: string
+          email?: string
+          fulfilled_at?: string | null
+          handled_by?: string | null
+          id?: string
+          legal_basis?: string | null
+          notes?: string | null
+          request_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -3923,6 +3989,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      privacy_preferences: {
+        Row: {
+          created_at: string
+          marketing_opt_out: boolean
+          processing_restricted: boolean
+          research_opt_out: boolean
+          restriction_reason: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          marketing_opt_out?: boolean
+          processing_restricted?: boolean
+          research_opt_out?: boolean
+          restriction_reason?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          marketing_opt_out?: boolean
+          processing_restricted?: boolean
+          research_opt_out?: boolean
+          restriction_reason?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -6195,6 +6291,35 @@ export type Database = {
         Returns: Json
       }
       admin_user_activity: { Args: { _user_id: string }; Returns: Json }
+      audit_search: {
+        Args: {
+          _action?: string
+          _actor?: string
+          _class?: string
+          _from?: string
+          _limit?: number
+          _resource?: string
+          _subject?: string
+          _to?: string
+        }
+        Returns: {
+          action: string
+          actor_email: string
+          actor_role: string
+          changed: Json
+          created_at: string
+          data_class: string
+          id: string
+          metadata: Json
+          record_ref: string
+          request_ip: unknown
+          resource_type: string
+          subject_email: string
+          subject_id: string
+          user_id: string
+        }[]
+      }
+      audit_stats: { Args: { _days?: number }; Returns: Json }
       award_xp: {
         Args: { p_action: string; p_metadata?: Json; p_xp?: number }
         Returns: Json
@@ -6313,6 +6438,17 @@ export type Database = {
         }
         Returns: string
       }
+      log_sensitive_access: {
+        Args: {
+          _context?: Json
+          _data_class?: string
+          _record_ref: string
+          _resource_type: string
+          _subject_id?: string
+          _user_agent?: string
+        }
+        Returns: undefined
+      }
       mark_all_notifications_read: { Args: never; Returns: number }
       move_to_dlq: {
         Args: {
@@ -6351,6 +6487,7 @@ export type Database = {
         }
         Returns: string
       }
+      purge_expired_audit_log: { Args: never; Returns: number }
       quest_increment: {
         Args: { _delta?: number; _quest_slug: string; _step_id: string }
         Returns: {
