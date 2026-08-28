@@ -10,7 +10,7 @@ import {
   Clock, AlertCircle, Search, ChevronDown, MoreVertical,
   UserCheck, UserX, Eye, Zap, Globe, BookOpen, Award, BarChart3, FlaskConical, Contact2,
   ArrowUpRight, ArrowDownRight, Loader2, Bell, Settings, Database,
-  Shield, MessageSquare, RefreshCw, Building2, Check, X,
+  Shield, MessageSquare, RefreshCw, Building2, Check, X, ScrollText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
