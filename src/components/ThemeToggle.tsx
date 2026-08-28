@@ -11,6 +11,11 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
   // The icon and label describe what is on screen, which under the "system"
   // preference is the OS's choice rather than a stored one.
   const { resolvedTheme, toggleTheme } = useTheme();
+  // The resolved theme is only known in the browser; keep the first paint
+  // identical to the server render to avoid a hydration mismatch.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
     <button
