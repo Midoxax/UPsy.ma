@@ -46,9 +46,16 @@ jobs:
       - name: Committed secret check
         run: node scripts/check-env-safety.mjs
 
-      # An invalid `source` pattern in vercel.json (regex lookaheads, most
-      # commonly) is rejected by Vercel *before the build starts*, so no other
-      # gate here can see it. Catch it at PR time instead of at deploy time.
+      # Hosting is now owned by this repository (Cloudflare Workers, deployed by
+      # .github/workflows/deploy.yml). This asserts the pieces a cutover depends
+      # on — the documented env contract, no leftover SPA catch-all rewrite, the
+      # deploy scripts — none of which a build failure would ever surface.
+      - name: Deploy config gate
+        run: node scripts/check-deploy-config.mjs
+
+      # Kept for as long as a vercel.json may reappear: an invalid `source`
+      # pattern is rejected before the build starts, so no other gate sees it.
+      # No-ops when the file is absent.
       - name: Vercel route config
         run: node scripts/check-vercel-config.mjs
 

@@ -30,31 +30,43 @@ untouched.
 
 ## Layer B — Hosting ownership (moderate, short DNS cutover)
 
-The app is TanStack Start on Vite 7. It builds to a Node/edge server bundle.
+The app is TanStack Start on Vite. It builds to an edge server bundle with
+nitro's `cloudflare-module` preset.
 
-1. Choose a host:
-   - **Vercel** — `vercel.json` and `scripts/check-vercel-config.mjs` already
-     exist in this repo; least new work.
-   - **Cloudflare Workers** — closest to the current runtime (`.wrangler/` exists).
-2. Create the project from the GitHub repo. Build command `bun run build`, output
-   as the adapter dictates.
-3. Set every environment variable the app reads. Minimum:
-   ```
-   VITE_SUPABASE_URL
-   VITE_SUPABASE_PUBLISHABLE_KEY
-   VITE_SUPABASE_PROJECT_ID
-   SUPABASE_URL
-   SUPABASE_PUBLISHABLE_KEY
-   SUPABASE_SERVICE_ROLE_KEY
-   LOVABLE_API_KEY            # only if AI features stay on Lovable AI
-   RESEND_API_KEY
-   ```
-   Audit the real list before cutover:
+**Status: the repo side is done.** `npm run build` emits
+`dist/server/wrangler.json` (Worker entry) and `dist/client` (assets), and the
+repository now ships:
+
+- `npm run deploy` — build + `wrangler deploy`
+- `npm run deploy:preview` — build + `wrangler versions upload` (preview URL)
+- `npm run preview:cf` — run the real Worker runtime locally
+- `.github/workflows/deploy.yml` — deploy on push to `main`, or manually with a
+  `preview` / `production` choice, ending in an unauthenticated smoke test
+- `npm run check:deploy` — gate that the env contract, routing and deploy
+  scripts stay consistent (also runs in CI and before every deploy)
+- `.env.example` — the full env contract
+- `src/lib/security-headers.ts` — CSP/HSTS/Permissions-Policy applied by the
+  server, so they no longer depend on a provider's config file
+
+`vercel.json` was deleted. Its catch-all rewrite to `index.html` came from the
+pre-TanStack SPA and would have disabled SSR on any Vercel deploy. Vercel is
+still viable as a fallback host — build `npm run build`, no rewrites, headers
+already come from the server — and `scripts/check-vercel-config.mjs` stays in
+CI in case the file returns.
+
+What is left, and only you can do it:
+
+1. Create the Cloudflare account/Worker (`npx wrangler login`, then
+   `npm run deploy` once to create it).
+2. Set GitHub secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and the
+   `VITE_*` values from `.env.example`.
+3. Set server secrets on the Worker with `npx wrangler secret put <NAME>` —
+   `SUPABASE_SERVICE_ROLE_KEY` at minimum. Audit the live list any time with:
    ```bash
    rg -o "process\.env\['[A-Z_]+'\]|import\.meta\.env\.[A-Z_]+" -r '$0' src supabase | sort -u
    ```
-4. Deploy to a preview URL. Walk the full app: sign-in, booking, intake, admin,
-   OPS, PDF generation, email sending.
+4. Run `npm run deploy:preview` and walk the full app on the preview URL:
+   sign-in, booking, intake, admin, OPS, PDF generation, email sending.
 5. DNS: lower the TTL on `upsy.ma` / `www.upsy.ma` to 300s **24h before** cutover,
    then repoint to the new host. Keep the Lovable deployment live during the
    switch — it costs nothing and is your rollback.
