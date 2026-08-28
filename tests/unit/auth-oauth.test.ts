@@ -13,7 +13,7 @@
  * property that broke: sign-in must not depend on Lovable's hosting.
  */
 import { describe, it, expect } from "vitest";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(__dirname, "../..");
