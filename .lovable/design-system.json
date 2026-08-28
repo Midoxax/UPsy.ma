@@ -1,0 +1,2092 @@
+{
+  "meta": {
+    "name": "Super UPsy.ma",
+    "package": "@ws-9vaqrt7ygjuypbzkz2gn/355cf905-7152-433f-b59d-dda69a853e16",
+    "version": "1.0.0",
+    "framework": "react",
+    "css_framework": "tailwind",
+    "starter_template": "custom_design_system_tailwind",
+    "theme_files": [
+      "src/lib/motion/tokens.ts",
+      "src/styles.css"
+    ],
+    "source_type": "local",
+    "source_manifest": {
+      "#enrichment": "16f5b6b441bb503495f87747cf4eacd9b67151d36a240300d847580248ba5d97",
+      ".github/workflows/ci.yml": "8871d0c0a81f37682fb7750a804ed306",
+      ".github/workflows/production-check.yml": "cdd994d6d237c56244f3e4f8cbea4f9d",
+      ".gitignore": "fd4c84183a328afcd03ed48b1b1d5138",
+      ".lovable/migrate-to-tanstack/edge-function-classification.json": "98e9bfb2c06235fd66f9506fa2c111c0",
+      ".lovable/migrate-to-tanstack/theme-port.json": "9ecda201760265fe7f8be4988f058d0e",
+      ".lovable/plan.md": "13353af8636a356a25ecbf7f8c560960",
+      ".lovable/plan/fix-the-vercel-deployment-failure-invalid-rewrite-pattern-2026-08-27.md": "0bb89d01c7dbf83e1912672ad5f475e7",
+      ".lovable/plan/u-psy-independence-platform-runbook-2026-08-28.md": "1044c5d8a3dd8ea3708648dc8befa1b7",
+      ".lovable/project.json": "77e298abb5c2a25d466469279b24c6ec",
+      ".nvmrc": "2fc57d6f63a9ee7e2f21a26fa522e3b6",
+      ".wrangler/deploy/config.json": "2a92e456864afb85f60b2b70b2ba13cf",
+      "ARCHITECTURE.md": "9848ab37e3ff9e75656fb64797ed4fe9",
+      "DEPLOYMENT.md": "4f1040d5d84c291ee83406fc5e707237",
+      "README.md": "d22f87cf2ea6ea94dead1bceae149590",
+      "SECURITY.md": "b1060e70aaff0e2baed6fc1d91ebe9b3",
+      "bundle-budget.json": "72402ad2bd16f6017c22bdd452ac6ecf",
+      "bunfig.toml": "89115995d9de72fdfc894e16b1e75297",
+      "components.json": "30d3d035361ce807021f5c54620962e9",
+      "design-guidelines.md": "9d937267a204c92fcd9335e71b21b53b",
+      "design-system/README.md": "136f348e5e0d6c634dcd7fdbe34e949c",
+      "design-system/docs/01-brand/Mission.md": "c1141e8028c7f6c3a9d5b51bb5582047",
+      "design-system/docs/01-brand/Values.md": "71919c3202b58af9467702540c9689df",
+      "design-system/docs/01-brand/Vision.md": "fd205206e31c2e70b75ecf9b3ead7232",
+      "design-system/previews/components-buttons.html": "5151a8adcc00617eb43e1ca3719a7cee",
+      "design-system/previews/components-cards-badges.html": "a9f4bf8ecc949a825ea7f1fcbdb6e7f0",
+      "design-system/previews/foundations-colors.html": "faedd6cf9ac7fbb8b82da9d255c920bd",
+      "design-system/previews/foundations-typography.html": "bedbc20d2f62869fba8b72826e699d21",
+      "docs/ARCHITECTURE_VISION.md": "055c23fbf5896774d6d7e4884976db21",
+      "docs/CLINICAL_PILOT_PLAYBOOK.md": "d4bede95490b67da435c3487d6cbd55d",
+      "docs/OPERATING_MODEL.md": "d8623f99ababb8d11ed2a31586e74741",
+      "docs/RTL_CHECKLIST.md": "45e72f3be49326e4c970c7ae688cdada",
+      "docs/lsspm/AIRTABLE_AMS_BLUEPRINT.md": "eff82a6fbbc50416242d40905dc4c142",
+      "docs/lsspm/AIRTABLE_REBUILD_V2.md": "c97f34049ecc947d140e513035e3fb4b",
+      "docs/press/outreach-pitches.md": "624e4f8fa6173807dcfd47e241f9f245",
+      "docs/runbooks/00-exit-and-ownership.md": "a9e2277aea33c7dd71a967ebcfa9e92d",
+      "docs/runbooks/01-compliance-and-audit.md": "9b04f49a93bd6477f11d34105ead5554",
+      "docs/runbooks/02-crm-and-back-channels.md": "964403ff3af41641e2fe01b3d6c4ac5e",
+      "docs/runbooks/03-payments-and-legal.md": "0add5e09d57768c25d2fd1968a504130",
+      "docs/runbooks/04-growth-seo-content.md": "694156ce0f0e98cc88ee00fcf6cd0a04",
+      "docs/runbooks/05-data-and-training.md": "7f6b035976618d1b7d0a03557695ce0f",
+      "docs/runbooks/06-design-system-consolidation.md": "b36a9b8b0eda2408b1e82cffd1cb6698",
+      "docs/runbooks/07-clinical-training-platform.md": "961850f55ba59b5d760de8ecf2ea625e",
+      "docs/runbooks/README.md": "087ef044a75341566bebf1b4e996836b",
+      "eslint.config.js": "345bdd57e188e0e4525edcd00e5003f5",
+      "fill_form.js": "36d5a1b8f10fbf5b02ae0a9a18d8fee5",
+      "implementation-plan.md": "d1810dcc9e24f8ef95b2c6ee249d075a",
+      "masterplan.md": "972aff82571c22503ab697543762308f",
+      "mem_i18n_update.txt": "d4ddbf4bace5c568adbe96c17552be58",
+      "mem_intake_form.md": "22e0ca9e124d003c05ab69bd93a6644e",
+      "package.json": "57a64dd1dff5b5bb162b2c518f52f3f5",
+      "project_map.md": "973dd3758547dda2c633761219d0a142",
+      "public/apple-touch-icon.png": "298d26f46f8a65f4160247881a100b3e",
+      "public/favicon-16x16.png": "db43994dc9ec1fbbbebb1e900517f620",
+      "public/favicon-32x32.png": "900a062188d81be2e035a840c86e205a",
+      "public/favicon-48x48.png": "dbeda5d374400de49c2eb83cebce0cb8",
+      "public/favicon.ico": "6afb8e23352d674779eaa5044059ca5c",
+      "public/favicon.png": "23bf1eca89d30f7d7ad316046fafcebc",
+      "public/favicon.webp": "f3b2da29870871181579a30336b83699",
+      "public/icon-192.png": "6de22ae0dc7bf43047e6f9108d1e2923",
+      "public/icon-512.png": "23bf1eca89d30f7d7ad316046fafcebc",
+      "public/llms.txt": "ae9770bee6c7f3ee8cb1fa759277df93",
+      "public/manifest.webmanifest": "42f8b62b6753b7acae9f61b71125c184",
+      "public/maskable-icon-512.png": "23bf1eca89d30f7d7ad316046fafcebc",
+      "public/og-image.jpg": "65d1243ea56424b876259d8925ea7ab1",
+      "public/placeholder.svg": "35707bd9960ba5281c72af927b79291f",
+      "public/robots.txt": "87d2769f5506cb6eea83ce453f5e5494",
+      "public/sitemap.xml": "264547dcf8de641e48e7e585e788e8f2",
+      "public/sw.js": "ae3f1c06a8a6d1b314d63792b73b71f8",
+      "public/upsy-logo-oauth.png": "4bedd50e29d70ce40057d94c76de65ba",
+      "request.txt": "ba6ec7166dd51f8ffb9a478609d42b45",
+      "scripts/check-bundle-size.mjs": "2b4e1560107c5518b0104e398dd97e3c",
+      "scripts/check-database.mjs": "c1a4d3ce983c88eb46216a469a7883da",
+      "scripts/check-env-safety.mjs": "2d7dfd2a020174004f66018a7d0f36bf",
+      "scripts/check-production.mjs": "9b050abc9773d2abc5868aeedf716c7a",
+      "scripts/check-runtime.mjs": "03d53194177f49896d2c4ccae6dba21e",
+      "scripts/check-supabase-sync.mjs": "06c14ed4ae2d48962e684a83228cc58c",
+      "scripts/check-vercel-config.mjs": "82a875a664d2f68e570d616112f2099b",
+      "scripts/generate-sitemap.ts": "e6cbf7a17dbfc36e59b91b35d4ef40da",
+      "scripts/verify-build.mjs": "fdd3cd708371e91244719f0ced8c0d2e",
+      "src/assets/blog/anxiety.jpg": "3c45d1f2e0dcd55d3a6956b3347bc3d4",
+      "src/assets/blog/depression.jpg": "2893689ce012593bdff2fedece841088",
+      "src/assets/blog/find-psychologist.jpg": "5098ad692c68e80f6abce1bd7f611075",
+      "src/assets/blog/mental-health-work.jpg": "930ea91f07e5764017f9ac8991b95711",
+      "src/assets/blog/mindfulness.jpg": "8fa190226c1b827f7977ecb5a3b9bc35",
+      "src/assets/blog/need-therapy.jpg": "10760d744e44d6aca7ec0b51fb2e4d73",
+      "src/assets/blog/online-therapy.jpg": "0b7c15c31f161d0b79f3007f1911d32b",
+      "src/assets/blog/support-loved-one.jpg": "f2831af83251c60bcb8de03ce4fcb2eb",
+      "src/assets/logo.webp": "f3b2da29870871181579a30336b83699",
+      "src/assets/mehdi-felji.png": "5c46877a58a2b162ad597c81870626e9",
+      "src/assets/moroccan-umbrella-logo.png": "aba5ab918d5da2cf07cb2049a3309de2",
+      "src/assets/neural-network-bg.jpg": "cbe663b04298d2c526255c7283ef44a8",
+      "src/assets/neural-network-bg.webp": "322655b9a175380049fb414393d5e5e2",
+      "src/assets/umbrella-logo.png": "c62a339c4682b2c81c3c50ec8e147c4a",
+      "src/assets/upsy-logo-hero.png": "a6ceafebfcdb3e2f023866bb9390d267",
+      "src/assets/upsy-logo.png.asset.json": "d9556ccb9da82d1479192a45cae90d24",
+      "src/components/3d/MoodSpheres.tsx": "6a0cb857aac2e454c5201c6213e50534",
+      "src/components/AdminRoute.tsx": "272091435b4532c703107b9f110a9606",
+      "src/components/BlogArticleSchema.tsx": "edb04aa6d0e7aebcd180163bfa7ebdfe",
+      "src/components/BreadcrumbWrapper.tsx": "6564cc2f098ad756c5aa0689254b9df9",
+      "src/components/DashboardErrorFallback.tsx": "3fe40272aeb6db6e00304c9aea04f700",
+      "src/components/DataPrivacyNotice.tsx": "31175605fc1a3f01cd4a46e8c578824a",
+      "src/components/ErrorBoundary.tsx": "aaf9c8e09e47f8b3e4f1ed736d4dc4ee",
+      "src/components/Footer.tsx": "32d592d625e6c7151c812f7e53ab354b",
+      "src/components/GamificationPanel.tsx": "7d5e0a9dc56b4f354043ae23cd3d3ade",
+      "src/components/Header.tsx": "f8337aca5b57d4fffe7f548f995d5c07",
+      "src/components/LanguageSwitcher.tsx": "8dbf58726ab4e0998fae5f2ccf9a4356",
+      "src/components/MegaMenu.tsx": "a6ba1ca66426c37c0a24b47b5b423589",
+      "src/components/MethodsMetricsBand.tsx": "2abb2664e4db47ce052465f47d352031",
+      "src/components/NotificationBell.tsx": "bf02eeb58a31a49cade68c67d83f1163",
+      "src/components/PageTransition.tsx": "ca7fb6f4acd2f7733b1a78825d618e00",
+      "src/components/ProtectedRoute.tsx": "a23d5e6e1cb19329adb908c4580f3359",
+      "src/components/RoleRouter.tsx": "06266e1ab67ca8c7192f7998d5a04402",
+      "src/components/SEOHead.tsx": "7f0d18565de088fd80fbe72912430329",
+      "src/components/ScrollReveal.tsx": "971785ee255492c0addafe70d3910bea",
+      "src/components/ScrollToTop.tsx": "1a91b884f4beca445d1e6cee2ecd0272",
+      "src/components/SkipToContent.tsx": "560e9f7372364a85d0c4045e94097f9d",
+      "src/components/StaggerContainer.tsx": "5ce1bd5673e934dd096798459a3d2d15",
+      "src/components/ThemeToggle.tsx": "75fa9f778a9a2f5160db495d41413555",
+      "src/components/ViewAsSwitcher.tsx": "282c75a4d1667dc15a32c5102c9ec870",
+      "src/components/admin/AccreditationDocsPanel.tsx": "d0687431bbc75a8e75f240fcc59a519a",
+      "src/components/admin/AccreditationDrawer.tsx": "883b7df9e74519785181b7eb1c6b1a56",
+      "src/components/admin/AccreditationKpiRow.tsx": "5bda32f1670839664fa8083f3e700a80",
+      "src/components/admin/AccreditationManager.tsx": "9ca82f145c8381e23f7e2306fd263806",
+      "src/components/admin/AdminPreviewProvider.tsx": "3262bc4d9879c431f4d883cc6e7bb995",
+      "src/components/admin/AdminStats.tsx": "3e9267db949532afd3decf02ee328b4e",
+      "src/components/admin/AnamnesisCopyEditor.tsx": "629c60880d20597296b9c0ed9b71fac1",
+      "src/components/admin/ApplicationsTable.tsx": "d9080cdcf68be574acc31049d48f8efd",
+      "src/components/admin/ApprovalModal.tsx": "f9bbd1a12948c6931c002f74f7309431",
+      "src/components/admin/BookingDetailDrawer.tsx": "8b180e1688ef210dc99135ff164b2cf0",
+      "src/components/admin/CommandPalette.tsx": "31e3e91b94f4d5c123f9d1798d51e904",
+      "src/components/admin/CourseEditDrawer.tsx": "ca9ed39773850e0ca9b502763a9adf90",
+      "src/components/admin/ExportCsvButton.tsx": "085a80abac7f0895fcba6be4693df1b5",
+      "src/components/admin/LearningHubManager.tsx": "9466756babad469bded3d10fb1986ede",
+      "src/components/admin/MatchingRequestsManager.tsx": "6b02ff1b048d10b87fda94228704d937",
+      "src/components/admin/ModuleListEditor.tsx": "bfc2d8444a660e5eb4395db6eb5db6a3",
+      "src/components/admin/ObservatoireManager.tsx": "45f154af13acca0a00f59aae398cd1f4",
+      "src/components/admin/OrgApplicationsManager.tsx": "b6a61c2fefb74c621f5d7cdca49f6d3e",
+      "src/components/admin/PricingControl.tsx": "930a90469165f46e64a6d21a711c9349",
+      "src/components/admin/ProvisioningAuditTab.tsx": "ebfec12a7145786b9bb7e275fbe79836",
+      "src/components/admin/ProvisioningResultBanner.tsx": "30be9e4cdc99a07be481dcccbd7e8e15",
+      "src/components/admin/PsychologistDirectory.tsx": "f95124f2450a56873f8705c595f90641",
+      "src/components/admin/PsychologistEditDrawer.tsx": "9beade44184a470b02421b9e271dace4",
+      "src/components/admin/RejectionModal.tsx": "cd7b313ed820e5e30c0639d637f8217b",
+      "src/components/admin/RolePreviewFrame.tsx": "fa4c4e57ee2a50f84f5d0bae8bc23b8a",
+      "src/components/admin/SubscriptionsOverview.tsx": "56ea1fc075c356cb81405a75ac94706e",
+      "src/components/admin/SupportInbox.tsx": "bf798623ebbefc55bbc4322d9af8e069",
+      "src/components/admin/TransactionsTab.tsx": "fdad80a2491e1d442c991b548a1e6a27",
+      "src/components/admin/TranslationManager.tsx": "8c1da10f76204be4f33f5025e25438a7",
+      "src/components/admin/UserDetailDrawer.tsx": "1138f60cfde72d9bc0113ee74d4a37d3",
+      "src/components/admin/UserManagement.tsx": "92279ed84d8cd4607d6c3fa9d769b1ab",
+      "src/components/anamnesis/AnamnesisDrawer.tsx": "fe93f20459ca1e9939db8e2530694965",
+      "src/components/apply/DocUploader.tsx": "458880b2b2814573fbd6f3f5721a770d",
+      "src/components/athlete/DailyCheckinDialog.tsx": "cf0e92f1b7f7583df80034d68889b297",
+      "src/components/athlete/JournalPanel.tsx": "e1ee28f1c75eec82a53ba93d033440eb",
+      "src/components/athlete/ProtocolRunner.tsx": "bdcb4593611d88ddbb500c3eb8eb2524",
+      "src/components/athlete/ReadinessRing.tsx": "ad09b5b0ea6712110f7e272d31258be2",
+      "src/components/auth/ConnectedAccountsCard.tsx": "1180e212a480a775db84190037b40c2d",
+      "src/components/auth/SocialAuthButtons.tsx": "620e0d46dd16f38cf151f07246884fe4",
+      "src/components/blog/BlogAuthor.tsx": "d5b5588445d69606f03b9b7263af9cf8",
+      "src/components/blog/RelatedArticles.tsx": "ad890606f0cd3346b0e103e4d62069ae",
+      "src/components/dashboard/AISummaryButton.tsx": "05e3bca732200ac35b51bc5fcec36d2e",
+      "src/components/dashboard/AnalyticsTab.tsx": "4ef3a4ef71cf2a6950d96aa3a59dc16a",
+      "src/components/dashboard/AnamnesisCard.tsx": "0828fe86dca28d5cb93fb3728ec97c98",
+      "src/components/dashboard/AvailabilityTab.tsx": "2204cddc580e07dc7b2ac9d952dd724b",
+      "src/components/dashboard/BillingTab.tsx": "8040803756a9af9bfe3ea7b882b2d342",
+      "src/components/dashboard/BoostsTab.tsx": "2bcfe31d8786f9131e50501454c154b4",
+      "src/components/dashboard/CertificatesTab.tsx": "5feb00b79666b8e196be09649a697c81",
+      "src/components/dashboard/ClientBillingTab.tsx": "579c4fffe28c59766f28e54abc3138bd",
+      "src/components/dashboard/ClientProgressTab.tsx": "90658403f4325b3e02ebb707ad750621",
+      "src/components/dashboard/ClinicalBriefsTab.tsx": "d0c09d7ffb8bed26dbe2cfcbddd1376a",
+      "src/components/dashboard/ContinueLearningCard.tsx": "cac33274c2eb3a02f08077189c59b316",
+      "src/components/dashboard/CrisisModal.tsx": "e02e53ff18b3d304025f9e05cdf5135c",
+      "src/components/dashboard/DailyChallengeCard.tsx": "0182df8f157cfb3ed890f93a607656b7",
+      "src/components/dashboard/DataPrivacyTab.tsx": "e9103a7a95b4298da85a2315a37ccb75",
+      "src/components/dashboard/DischargeTab.tsx": "8cf62c9789013538965cce434b4b414b",
+      "src/components/dashboard/DocumentsTab.tsx": "8d31ecb6a2d62ac066f4513441dc9b19",
+      "src/components/dashboard/EarningsTab.tsx": "4284e3577ecd78664b41870933503af9",
+      "src/components/dashboard/HomeworkTab.tsx": "3aab0237dd8c9339b9f78b8d867559b1",
+      "src/components/dashboard/JournalTab.tsx": "de40a71709f72f1289f756d327e67a57",
+      "src/components/dashboard/LeaderboardCard.tsx": "a96af031eaf9b5d32df94e1d305f683f",
+      "src/components/dashboard/LeadsTab.tsx": "fce88a0b0bf3a38aeab73fb5948fef9f",
+      "src/components/dashboard/MentalPerformanceScore.tsx": "4c7aefbc512dda7ee6c7b93905f1bb8f",
+      "src/components/dashboard/NotificationPreferencesCard.tsx": "c99911ec2375552e79e0c9cda3f9499c",
+      "src/components/dashboard/PendingInvitationsCard.tsx": "d133d1892866080c7747ef5711406e0e",
+      "src/components/dashboard/PhotoUploader.tsx": "97ec90a3e3bebdf0feb340159e62684b",
+      "src/components/dashboard/PlanComparisonGrid.tsx": "d54841aad7d3ce7a83f4ec57790e037e",
+      "src/components/dashboard/PricingTab.tsx": "cfc440c57cd97beaa306a088fd944c0b",
+      "src/components/dashboard/ProfileTab.tsx": "f0a2ac6d93ece8af97d773d862629271",
+      "src/components/dashboard/ProposeSessionModal.tsx": "c43f311cc11bf929142438b6e9c0418d",
+      "src/components/dashboard/RecommendationsRail.tsx": "678ddf7ae5f2e978f728911965d5c445",
+      "src/components/dashboard/ReferralCard.tsx": "d9d753dc0b83dd0d0b22d09fd6455c21",
+      "src/components/dashboard/SessionNotesTab.tsx": "54563350a07b60902bcaa254b0fb3c59",
+      "src/components/dashboard/SessionStatusTimeline.tsx": "b5d0c042ed9e46f7bc9d57fbeef6bd16",
+      "src/components/dashboard/SessionsTab.tsx": "730d14802ec5b3acc8708a1e30df3a54",
+      "src/components/dashboard/SessionsTimeline.tsx": "6000b94087b9935c7cd28888f23be6f3",
+      "src/components/dashboard/ShareBookingLinkCard.tsx": "e984c8f7bd322f06b03364826c62a7f6",
+      "src/components/dashboard/SimulateCheckoutDialog.tsx": "1d2ff01f3db428da6b8169b21df98ca1",
+      "src/components/dashboard/SmartSchedulingCard.tsx": "4621e875c46c61bb2d33819d3dc4584b",
+      "src/components/dashboard/SpecialistBurnoutCard.tsx": "f78d3088dfeb25357eb90a10ad601db9",
+      "src/components/dashboard/SpecialistPlansTab.tsx": "f7074326ddbe417c5df8892648aa7c45",
+      "src/components/dashboard/SupportTab.tsx": "d32cec794ee9622e2f65837a9775ad8e",
+      "src/components/dashboard/TodaysStateCard.tsx": "f2f1e458c08ff40d5c30e2cb01838f96",
+      "src/components/dashboard/TreatmentPlansTab.tsx": "b3c8e8a5df462e3570524b84790924e7",
+      "src/components/dashboard/UpcomingSessionsCard.tsx": "4bc7837a58255716365bcfa2e43b1668",
+      "src/components/dashboard/UpgradePromptCard.tsx": "966a7caa58e04d84406592ba227618d7",
+      "src/components/home/CommunitySection.tsx": "7971767b0e8e7ec946dfd93fac2c98af",
+      "src/components/home/FeaturedPsychologistsSection.tsx": "964c5b0ff82dafd5032c5a78e82ba121",
+      "src/components/home/FinalCTASection.tsx": "79ab8d6055cf719d160a0efe1fae8bff",
+      "src/components/home/FloatingDecorations.tsx": "16a7b36ce552442efd9ecbc31509d59d",
+      "src/components/home/FounderSection.tsx": "60682d1d7e14809977ccccc2c850106b",
+      "src/components/home/HeroSection.tsx": "1ea446f065095f63da8221ede425cbfb",
+      "src/components/home/HomeFAQSection.tsx": "432c37b4ad838898fb48acfc3afe3040",
+      "src/components/home/HomePricingSection.tsx": "cce8806a8dce1d17209c07c5eccbab05",
+      "src/components/home/HowItWorksSection.tsx": "509175908b59737c62966e058f4688b3",
+      "src/components/home/LearningSection.tsx": "19363c0726710cd81b74e3d8351b07fc",
+      "src/components/home/OrganizationsSection.tsx": "dcd1405e394b7fb1c646b37f3d0e9dcf",
+      "src/components/home/PathwaysSection.tsx": "3e7b830d8c0337a0fc8a339a35273a93",
+      "src/components/home/PillarsSection.tsx": "0cfb5667e2dc628da6e225a618e187cb",
+      "src/components/home/ProgramsSection.tsx": "f2b1911b52872e16e1fc10570b9274f3",
+      "src/components/home/PsfSection.tsx": "194434a99a504224e02fdce12c6e193a",
+      "src/components/home/ResearchSection.tsx": "95438155ec19e190315d141b46f04903",
+      "src/components/home/ScrollGuide.tsx": "4c6dfa1a34bc946d7d352377cb37ce70",
+      "src/components/home/SectionDivider.tsx": "c229651ffc8732439f97dff4c513919a",
+      "src/components/home/SelfAssessmentSection.tsx": "f16b5c84ad0c76e870802528051662f6",
+      "src/components/home/TestimonialsSection.tsx": "54af0fb36a52fd89cc96070bea22113d",
+      "src/components/home/TrustSection.tsx": "6ea2522ca70756663215b275097bb10b",
+      "src/components/home/WhyUsSection.tsx": "a999f349253df028ef48fb3d754db7de",
+      "src/components/intake/CrisisModal.tsx": "1385368de05ed8b4c522fcd2c5ea6a8e",
+      "src/components/intake/PsychometricScale.tsx": "1301bab82c1133fae43b90ed8d8bc6a5",
+      "src/components/intake/scaleConfigs.ts": "bb8e34598cf220f81a0a8831f12631d5",
+      "src/components/matching/MatchResults.tsx": "0c9f6098fa9babf477498cd412d402fc",
+      "src/components/matching/MatchingFormModal.tsx": "a57627225c67a37e2ce68ba123d1e22f",
+      "src/components/membership/TierGate.tsx": "f6afc39277a32441be03262af37aee33",
+      "src/components/observatoire/QuestionField.tsx": "a45554b44fe1526b0cf708a13fad1ab4",
+      "src/components/organization/OrgAnalyticsTab.tsx": "4b2b6dc8f97bf755aeb5fd293f3ed328",
+      "src/components/organization/OrgBillingTab.tsx": "48812df4dc70af63f485bdee6b59ae19",
+      "src/components/organization/OrgBrandingTab.tsx": "60d78d5f85fb487645bf4ae9e293a963",
+      "src/components/organization/OrgOverviewTab.tsx": "7c53e23c47e93eee89af15820a73e7e7",
+      "src/components/organization/OrgProgramsTab.tsx": "2c657061e9ee673a66940e32d7f8573c",
+      "src/components/organization/OrgPsychologistsTab.tsx": "ab044e3f70afca809a47499865760c42",
+      "src/components/organization/OrgPulseTab.tsx": "b2d35168384d5be258cb5a26018a2f93",
+      "src/components/organization/OrgReportsTab.tsx": "34787cced5ae95e3185ceb0deb47866b",
+      "src/components/organization/OrgUsersTab.tsx": "5b3e66736b46703e4185e68b60a793c5",
+      "src/components/progression/QuestCard.tsx": "7453e674a62644a880fb1551abc8a857",
+      "src/components/progression/SkillTreeMap.tsx": "9bfcbf048d344cb2f85c87c2bea1be5e",
+      "src/components/psychologists/AccreditationBadge.tsx": "ffeb0a6c70b62f8407bef292dca286b3",
+      "src/components/psychologists/BookingModal.tsx": "7eaa263e53c8d4820adffe7ea71f03e5",
+      "src/components/psychologists/BookingWidget.tsx": "503e41a3041d55e6bc4e91a16fdb3f6c",
+      "src/components/psychologists/PoliciesDrawer.tsx": "5602afe7929a7ec71c8b6906a4367498",
+      "src/components/psychologists/PsychologistCard.tsx": "1a4758ca60470c3ae743de4a768a37e2",
+      "src/components/psychologists/PsychologistCardSkeleton.tsx": "6794472e7cefaaf3a8142dc4fd94f070",
+      "src/components/psychologists/PsychologistFilters.tsx": "74c33d055875b020ada7789c98ea9313",
+      "src/components/psychologists/ReviewFormModal.tsx": "5878e108a8c1764c2ca8d49b5fc3d90f",
+      "src/components/psychologists/ReviewsList.tsx": "fe6f6264f34c694c42b231a706842154",
+      "src/components/pwa/InstallAppButton.tsx": "2b134618b0ea686d6ce9dcf23d721855",
+      "src/components/services/ProposalRequestModal.tsx": "90a1fc6a952f492234ca35d189e5eeb5",
+      "src/components/three/HeroScene.tsx": "3ef0aba566551cebe2499ca762115ebf",
+      "src/components/ui/accordion.tsx": "f9ebb6ee913b44e5f3e06fe1d9679784",
+      "src/components/ui/alert-dialog.tsx": "2ee6c5e5e070315114319bc060d17a52",
+      "src/components/ui/alert.tsx": "354d0206f924d48bcebbb023c3940a6b",
+      "src/components/ui/aspect-ratio.tsx": "c5c364545e1b25a94e9e752cd67ad048",
+      "src/components/ui/avatar.tsx": "53921dca0903c74cd72fada89388d9f8",
+      "src/components/ui/badge.tsx": "378a66045e25036514787be45b7fcb46",
+      "src/components/ui/breadcrumb.tsx": "c200fc41e9b214ebb6ccd19a300c42c5",
+      "src/components/ui/breathing-loader.tsx": "49ca5d3d731ab91fe649696e1037e7c6",
+      "src/components/ui/button.tsx": "725d3b4c575a5ad31fd0e6bf700c3c70",
+      "src/components/ui/card.tsx": "3d1c9b2b2726fcf3aef15b60c894e58a",
+      "src/components/ui/carousel.tsx": "63a7442a3088b58113c8a8cfc1defe26",
+      "src/components/ui/chart.tsx": "fb90141943de64e2484beb6d50606e6d",
+      "src/components/ui/checkbox.tsx": "690fa0df4fb5f58a51ce557e71894137",
+      "src/components/ui/collapsible.tsx": "934b00582dae08af749fb55469081de6",
+      "src/components/ui/command.tsx": "0620bd735eb1bc4d3777623c3fbf4f02",
+      "src/components/ui/context-menu.tsx": "8280f6aca310adaa928f40b46aaa5aa8",
+      "src/components/ui/dialog.tsx": "b830dab57964cee3a822e12fc1110e78",
+      "src/components/ui/drawer.tsx": "05e2b536fe11649e9b4c6e73678e32a6",
+      "src/components/ui/dropdown-menu.tsx": "5e5764f6b2586035e869b4307e86a39e",
+      "src/components/ui/empty-state.tsx": "619463d2d21760fe9ca085bb87beb3cb",
+      "src/components/ui/form.tsx": "4bb820d59aad3ee5bc78097596298ace",
+      "src/components/ui/hover-card.tsx": "4c5a660df94655ad389ea4ccac5ae301",
+      "src/components/ui/input-otp.tsx": "3fb5994635434d5168bee869689fc2aa",
+      "src/components/ui/input.tsx": "ed4de5c6106a1027dfb6aeb1ed8a54e4",
+      "src/components/ui/label.tsx": "cd2b2255bbe519cb0865dfeaa6615797",
+      "src/components/ui/maroon-divider.tsx": "ad322d57b8439b4902558ed45097fbd7",
+      "src/components/ui/menubar.tsx": "14a687a6fabf6cc0900156aaafde51d8",
+      "src/components/ui/navigation-menu.tsx": "2be4b9d55057e86ce301484ed7fc817b",
+      "src/components/ui/neural-connector.tsx": "e10d587ed62517dafa844907601bc437",
+      "src/components/ui/pagination.tsx": "a3ced9f9b19826b467d788b1bf01746f",
+      "src/components/ui/popover.tsx": "624db75cdcf60022f2bb505290b83fb2",
+      "src/components/ui/progress.tsx": "9a8b05beca19e008a562a10e489f5968",
+      "src/components/ui/radio-group.tsx": "035d29428ae77b4c4d38cab2ede0a631",
+      "src/components/ui/scroll-area.tsx": "cfbc224001af0e6daba676de225a2a47",
+      "src/components/ui/select.tsx": "464d5316e2a73a9786a91f1b9029f9d1",
+      "src/components/ui/separator.tsx": "ed1101f185e9dc801712593e3330a75d",
+      "src/components/ui/sheet.tsx": "e4d45813277bf30af55c2dd5f88424ad",
+      "src/components/ui/sidebar.tsx": "fe193fdb3821333741a295ccff873f01",
+      "src/components/ui/skeleton.tsx": "c55f76f4faa1d6e888dbc51d41eaa586",
+      "src/components/ui/slider.tsx": "c36b08173f8bd797155b2bc462ac34ab",
+      "src/components/ui/sonner.tsx": "7f0a16613e08ea0383eb53ba4b24a3df",
+      "src/components/ui/switch.tsx": "28d66874531a6103385c2fc7f65db91d",
+      "src/components/ui/synapse-pulse.tsx": "0a22d8c6bc3c458e25b5bc7ac3cc245b",
+      "src/components/ui/table.tsx": "d0ff87c4734c23839337811378ad07df",
+      "src/components/ui/tabs.tsx": "8918b44006ecb20f9f7444747cbaf51d",
+      "src/components/ui/textarea.tsx": "4fc45e1330f5f4c72ecbe58c196002cc",
+      "src/components/ui/toast.tsx": "dfec2d72e0f50766eff76e3f2065ebb4",
+      "src/components/ui/toaster.tsx": "1903846ab268620de6356ef667e3fa21",
+      "src/components/ui/toggle-group.tsx": "e82bf234e3877ad708ea3d1dba614def",
+      "src/components/ui/toggle.tsx": "45b3b222d1eb2c6c960d9f8d908d41c6",
+      "src/components/ui/tooltip.tsx": "d7e923341b9e91d77db45ba5f2fa0cf9",
+      "src/components/ui/use-toast.ts": "4f094014a1315ca1081cbdc7f78d55cc",
+      "src/config/auth.ts": "e614196760ba2698a4990d5415b37f6d",
+      "src/config/site.ts": "da53e6fbd002395c4b3e9199b1ca5237",
+      "src/contexts/AuthContext.tsx": "1bd222a863865f231b14ed37cc8e5ad9",
+      "src/contexts/LocaleContext.tsx": "206b86fd7d22025f93206741d8414e88",
+      "src/contexts/ThemeContext.tsx": "77f67edea29fb042116638ed874a055b",
+      "src/hooks/admin/useAdminAccount.ts": "c51d16ef54695dfc3726122a4bdfa75e",
+      "src/hooks/admin/useAdminCourses.ts": "bd1af60d5791a76e8957bcedf496fb13",
+      "src/hooks/admin/useAdminMutations.ts": "707374e9150140b4b5afc4942c9222a3",
+      "src/hooks/use-mobile.tsx": "c0a0bdd4638c391a1dd06ac82074e60b",
+      "src/hooks/use-toast.ts": "e706bc004c87e17db559a113637eddea",
+      "src/hooks/useAccreditationUpload.ts": "54ce30b95edc2147944af21b7a2362d2",
+      "src/hooks/useActiveView.ts": "601e1d13ea2fee8d0b9006a33e658b3f",
+      "src/hooks/useAdminAuth.ts": "b7b2697c5000a0b60ab84df82d7ba050",
+      "src/hooks/useAnamnesis.ts": "6871dbd6499017587f7081300916e92a",
+      "src/hooks/useApplications.ts": "6d6738f10e3dd0d2e1673017a593fe2c",
+      "src/hooks/useAthleteHub.ts": "4b026af014615e118b8532cd0bc7477a",
+      "src/hooks/useBooking.ts": "d770309241164b877702d5cdcc74cc1f",
+      "src/hooks/useBoosts.ts": "edb9259863e1cabb936e3ec70f58ad63",
+      "src/hooks/useClientBilling.ts": "00ee9e14a204433fc52eefa3f2764418",
+      "src/hooks/useCommunity.ts": "3724a2243b233ff56f270341d8f9fe99",
+      "src/hooks/useCoupons.ts": "d717ebf0ac3b7ebcfb88eed8f150cf15",
+      "src/hooks/useCrisisScreening.ts": "9a0dcb74245a233d3fe8c3d6678670e3",
+      "src/hooks/useGamification.ts": "f6dad2863fcca1cacc87845ec609657d",
+      "src/hooks/useIntentSignals.ts": "a18c52926de394caabf8463e77926072",
+      "src/hooks/useMembership.ts": "5a74d0e984b8cd4dba8ea6c39bb41021",
+      "src/hooks/useNotifications.ts": "764dd105d7864fd4f6b236672702e0fa",
+      "src/hooks/useNudges.ts": "a1462107ef05a476471cac776bf08384",
+      "src/hooks/usePlatformPricing.ts": "42937a4a336018c7e0bde6a72ff0a7fe",
+      "src/hooks/useProgression.ts": "3a4dafb20e8cd7461ed9a3ed686a8050",
+      "src/hooks/useProposeSession.ts": "7aaba4379f592e6fdf24bb7f5fb89dad",
+      "src/hooks/useProvisioningAttempts.ts": "a4d5e2370b0a5c8c019bddd67ff1cfcd",
+      "src/hooks/usePsychologistDashboard.ts": "67e3216355dffb7275e84ff5d0f39c37",
+      "src/hooks/usePsychologistProfile.ts": "adc448a3ba3dc5e5572aefe6766432de",
+      "src/hooks/usePsychologists.ts": "5ed8043cfe5d1b965bd0a14e521d447f",
+      "src/hooks/useResources.ts": "7ef0f5b9e2a4361f079bf1281a6c5634",
+      "src/hooks/useScrollResetOnOpen.ts": "cde94e02911cf7f23c898d6aea7a6001",
+      "src/hooks/useSendMeetingLink.ts": "2bb94ed97be70f32c65f9cbed271f831",
+      "src/hooks/useSpecialistPayouts.ts": "8b1fdbafd2f476599c3d362d7846c674",
+      "src/hooks/useSpecialistPlan.ts": "56ca6064e8e76532aa6787a6c9e2ab39",
+      "src/hooks/useSubscriptionBilling.ts": "bb8639ebfd580010efc7cedcc6096626",
+      "src/hooks/useSupportTickets.ts": "4f3197c6fb0d9a2488df0b91f0104920",
+      "src/hooks/useUserRole.ts": "26aded5f575e4dd4de2547270d9dc758",
+      "src/integrations/lovable/index.ts": "c997b4d5cc51f8fe73119e270709d8f1",
+      "src/integrations/supabase/auth-attacher.ts": "dad043cda134d909e52de0346c16625e",
+      "src/integrations/supabase/auth-middleware.ts": "5d9d831f79177b7c6327cbd794a97367",
+      "src/integrations/supabase/client.server.ts": "23f838ab7633e0a97e695f3c500d91aa",
+      "src/integrations/supabase/client.ts": "2c04d19bfb5cb44c82aa184eed1244ef",
+      "src/integrations/supabase/previewAuthStorage.ts": "bc45a76c9242c4b85d6d4345625c46e9",
+      "src/integrations/supabase/types.ts": "4a5f807ee696147a90f18bac82a56c34",
+      "src/lib/admin/csv.ts": "bcbce907f9aa999b6ec61bc7acc7bc49",
+      "src/lib/analytics/gtm.ts": "f219a721cc49a49b63f8eddc5703104d",
+      "src/lib/analytics/posthog.ts": "0986fd3089fdb4eb6fb59230a5dd9897",
+      "src/lib/analytics/sentry.ts": "697a63d13b26c15cb6ba05cff366c0cb",
+      "src/lib/certificates.ts": "8f802ec0368e411c987631277169a257",
+      "src/lib/env-check.ts": "6260287d68335e96f0c0232313d76766",
+      "src/lib/error-capture.ts": "f630d9686a9a989170f22eff4de7b30d",
+      "src/lib/error-page.ts": "8da0ddd7569bac2676b9a5c8edff8a36",
+      "src/lib/events/catalogue.ts": "b08b6630e1d2df7e78a00548862faab6",
+      "src/lib/i18n/homeCopy.ts": "ae9920a4d720056714078724cf55ca2c",
+      "src/lib/i18n/observatoireCopy.ts": "4f06908f8fbee38443950beb9efaaaa4",
+      "src/lib/i18n/translations.ts": "8db3cc757c17a0496cae377e52e65c69",
+      "src/lib/i18n/utils.ts": "cae49f5e7bc898d6f9f6da42c7e891b7",
+      "src/lib/lovable-error-reporting.ts": "77368331b8ef6e6edcf1a29b24a52d39",
+      "src/lib/motion/components/AuroraBackground.tsx": "c2e207dd3cb6e0356cfde5e214a86069",
+      "src/lib/motion/components/BreathingOrb.tsx": "f5b2db9d78eb1ce5e0d5a0f1595abeee",
+      "src/lib/motion/components/Chapter.tsx": "f86006fc7e12eb5b2cc2bacbe2d2e795",
+      "src/lib/motion/components/Ember.tsx": "9135e13f112c18a883b9e7c44a3e0c7f",
+      "src/lib/motion/components/MagneticButton.tsx": "dd70b6264c6a3e6f438b5a9e4335d7e3",
+      "src/lib/motion/components/NourEmergence.tsx": "ec575b5f629c04a54db6b59304cb297a",
+      "src/lib/motion/components/Pulse.tsx": "d38a834afb1ae0c9b0870acbb5db9871",
+      "src/lib/motion/components/SmoothScrollProvider.tsx": "45ed3220e2b2a431aa93c312e753f3ca",
+      "src/lib/motion/components/WordReveal.tsx": "b66c1deb80ff27d2c9d04ae8f4bc4d7c",
+      "src/lib/motion/hooks/useMagnetic.ts": "c3a680786ee6bb43b5210714d10ff33e",
+      "src/lib/motion/hooks/useReducedMotionSafe.ts": "071b1e70edfe7afbb4a2a11d3fadb5dd",
+      "src/lib/motion/index.ts": "3f0b2073032788cf5e7dc40e9a42f40c",
+      "src/lib/motion/tokens.ts": "52ad5b85194332093c8c55824a357bc5",
+      "src/lib/motion/variants.ts": "285ab085fd4ebb2e919a69dae22b4712",
+      "src/lib/nudges/nudgeEngine.ts": "f58bf89de90922190aab649a6694288b",
+      "src/lib/observatoire/instrument.ts": "6671890a4573413e317c14a8068d063e",
+      "src/lib/observatoire/scoring.ts": "ba22669719cf69f2c1157c97abd15153",
+      "src/lib/router-compat.tsx": "7898140d1f8166e9e9f30a17226605d8",
+      "src/lib/tracking.ts": "2cdaa4d97cb60be635f002536635b4c3",
+      "src/lib/utils.ts": "d9837f38cc05303254571985e3164050",
+      "src/lib/validation/schemas.ts": "882252c95d43960cd907caf3606419a1",
+      "src/ops/OpsLayout.tsx": "f228c3f4eabff578486a6da9341d13ad",
+      "src/ops/components/HeroField.tsx": "a15071882bcb7f3edb75aedc1d43efb6",
+      "src/ops/components/StateBadge.tsx": "30753f4589223b1bb95d93c1542e667f",
+      "src/ops/components/director/QuickPrompt.tsx": "2f75c8c6b333e2f486f701dc73b9d708",
+      "src/ops/hooks/useOps.ts": "04d34aac5ef7deb19e2f8ddde3b3dc92",
+      "src/ops/ops-theme.css": "91cf2c7a4ab063d1e7832c3139b3bbb4",
+      "src/ops/pages/Command.tsx": "aea981deaf44adc9410232a93a7457da",
+      "src/ops/pages/Director.tsx": "b593549e9ed183621cae3efa0e7fd7f1",
+      "src/ops/pages/EventDetail.tsx": "1e47927662b71b78ff8a8b3ead238215",
+      "src/ops/pages/Events.tsx": "6924a5567bf1ab16e4af2449958c7535",
+      "src/ops/pages/Landing.tsx": "338a1197931754abba136bc8284cf10e",
+      "src/ops/pages/NewEvent.tsx": "cf642ed14a7a566e0ec2016524c00aaa",
+      "src/ops/pages/Preview.tsx": "26a5b9d6ff1c739e12a2390f9acfdf9e",
+      "src/ops/pages/Tasks.tsx": "0351afd94aa5bc5400a72bcca35cadab",
+      "src/ops/pages/preview.css": "712ca0b0357ef8031024fc7e65951b69",
+      "src/pages/AIAssistant.tsx": "16c90aa2a369f0c8955173c279b017a3",
+      "src/pages/About.tsx": "15de0fc28947d93f21cdea00ef2c1097",
+      "src/pages/Apply.tsx": "6cda7c4f9e1f7c3afe08060c93ef37ff",
+      "src/pages/AssessmentLab.tsx": "04949a8bd704e367ced61dee79944bff",
+      "src/pages/AthleteHub.tsx": "3d306dfb7555537f1f13a5a4ef140902",
+      "src/pages/Auth.tsx": "61db238f5139dc6d0e40a1001823f1ce",
+      "src/pages/BookRedirect.tsx": "4b4723ec813c3be952a0b127c9f4f1d2",
+      "src/pages/BookingResponse.tsx": "954f95c9ad76d08c60ca11e0e050f885",
+      "src/pages/BrandGuidelines.tsx": "d798dfad90df4d8a7c38df0461cb3053",
+      "src/pages/Contact.tsx": "18f2e9a5d501b617e4401166131de95d",
+      "src/pages/Founder.tsx": "554d093cc0cc5b48409ff4a1d47b0ce2",
+      "src/pages/FreeScore.tsx": "4085d9a9aea97f0cbae63b07a77daa46",
+      "src/pages/GetMatched.tsx": "e99f71a77b1a6f8790991152e0798f63",
+      "src/pages/Index.tsx": "2e18db128e7916d749aedc2f2c79fbc9",
+      "src/pages/Install.tsx": "d7398e1dec35c91616b1095bc7268478",
+      "src/pages/IntakeForm.tsx": "51098540a44a0b78ae71cb2bb5bb882c",
+      "src/pages/Invite.tsx": "824b418b72f4a79939dc88ec7e564bb6",
+      "src/pages/Learn.tsx": "8fbc2e61f61eb1c9f3d4eb6e43fe43e5",
+      "src/pages/LearnCourse.tsx": "bc9284fa326202f7dbd04fefa2416562",
+      "src/pages/Legal.tsx": "15f40e02f8641cc9af07b9fa063c9613",
+      "src/pages/Membership.tsx": "b9927995746f9aa64d89494e63ca159c",
+      "src/pages/MentalPerformance.tsx": "e50c75ef422149988c6f8af7664ef26d",
+      "src/pages/MentalToughnessAthletes.tsx": "7ca8d744d80117d80c1e59199ae8e40b",
+      "src/pages/MfaSetup.tsx": "f8024e4d77b1a498e08a74e06578e70d",
+      "src/pages/MoroccanUmbrella.tsx": "f4cb2f773e5187614dbc753da2d750f4",
+      "src/pages/MySpace.tsx": "4d87abe52ab06b1a1a2b79da8ec36c26",
+      "src/pages/NotFound.tsx": "bd8adf2850fd9aa44be1b5a76ede896a",
+      "src/pages/Notifications.tsx": "923dd5a189f37b607a5257f60977e18f",
+      "src/pages/Observatoire.tsx": "a25d0c155027561cb186d6d764701e16",
+      "src/pages/OrganizationDashboard.tsx": "9160310b0eaf4fe3f4b7d65e63109212",
+      "src/pages/PatientDashboard.tsx": "1da8c47ad810c63554eacb124660c7fb",
+      "src/pages/Press.tsx": "bee7afd42a31234466fd943a28bb284c",
+      "src/pages/Pricing.tsx": "39d090cc4ca293cf5de4a30701d75dbf",
+      "src/pages/Privacy.tsx": "1a867a42486bbd370cfa80b1ab0c7547",
+      "src/pages/PsychologistProfile.tsx": "4f1418e72d397a7154e67fa6522ad181",
+      "src/pages/Psychologists.tsx": "d38643498487cda6ebf5e66fd9114700",
+      "src/pages/PsychologuesSansFrontieres.tsx": "e454cbfbc2bae37b192b9ec7f16ae15d",
+      "src/pages/ResetPassword.tsx": "8c5b2cdab92c39c2b40063f9ddf8d2d1",
+      "src/pages/Resources.tsx": "ccef5914cbda32dc15b5302eab8358da",
+      "src/pages/Services.tsx": "b3048fd88db74a0c0ddcd2b0e5760926",
+      "src/pages/Skool.tsx": "92fe23c74105a7d4973aac7dae565e90",
+      "src/pages/SpecialistDashboard.tsx": "55755233f516360e2c757066f4fd5a28",
+      "src/pages/SpecialistPricing.tsx": "c84b00a4eb1b6172aa69075bcdf26223",
+      "src/pages/TalentInnovationHub.tsx": "2b10cec63ca4af59db2e204d842cd651",
+      "src/pages/Terms.tsx": "760d3dde3876c4018f459d37d484f805",
+      "src/pages/Unsubscribe.tsx": "3f06e71c342ad5d86e9886001d9ecb79",
+      "src/pages/VideoCall.tsx": "aa04468b4ef54af430bae1635d1e087a",
+      "src/pages/WhyUs.tsx": "ef0a64c926d8c0b3012b668d261227d0",
+      "src/pages/admin/Applications.tsx": "018066ef9ed18f5979d927fe68f089a7",
+      "src/pages/admin/Dashboard.tsx": "2a84567980c2cdd9d9d6ccf79f3e62de",
+      "src/pages/admin/GrowthLeads.tsx": "899b554dbf8d0d7b4d9f9472f484641e",
+      "src/pages/apply/ApplyOrganization.tsx": "e68939973fff90a94da47ce218e3efce",
+      "src/pages/apply/ApplyWizard.tsx": "b07da870b1f01330dee1064f1f18d624",
+      "src/pages/blog/BenefitsOnlineTherapy.tsx": "a8bdcaab904e1c9ab948b2c46c03cabe",
+      "src/pages/blog/BlogIndex.tsx": "d0c687f3c1f4259d773d6618e625f86c",
+      "src/pages/blog/DoINeedTherapy.tsx": "470ceb73f34c36a5d22d94373a278df5",
+      "src/pages/blog/FindRightPsychologist.tsx": "cdf2fc6e10e7aff56db92a2f0952be77",
+      "src/pages/blog/HowToClearBrainFog.tsx": "904ebb5ad0efad5b104eae6431484aac",
+      "src/pages/blog/HowToImproveFocus.tsx": "18c257abed2a9c82d2d53ab8bcfaf459",
+      "src/pages/blog/HowToSupportALovedOne.tsx": "fb582aa39ec250857413186a236d0b33",
+      "src/pages/blog/MentalHealthAtWork.tsx": "5da89836b238f9f30b64e71b094278b2",
+      "src/pages/blog/MindfulnessForBeginners.tsx": "9f793f7f7d4fd0fefccbed18dc9db3c3",
+      "src/pages/blog/UnderstandingAnxiety.tsx": "ccf0135c794696029ccceb46b69934a9",
+      "src/pages/blog/UnderstandingDepression.tsx": "864032216c6ea79be17c10cdbc9356c7",
+      "src/pages/campaigns/CampaignFirstSession.tsx": "9da5f23597174b8bd793a16fafa5fd6f",
+      "src/pages/campaigns/CampaignJoinSpecialist.tsx": "0ec6198f79d3ecec6e16ed5438a4221f",
+      "src/pages/campaigns/CampaignLanding.tsx": "61c2270e10c98c40bb032386da916402",
+      "src/pages/center/CenterHome.tsx": "4f705bdd053695e2fd295716b3418493",
+      "src/pages/center/Progress.tsx": "51f31dc896bee83434d11ebc463eb2a5",
+      "src/pages/center/SpaceView.tsx": "08281fc22c1a293ec4756de8cc4061da",
+      "src/pages/funnels/ForAthletes.tsx": "dc1a38166d3c91f57c092c7e647eaabc",
+      "src/pages/funnels/ForOrganizations.tsx": "2a19852cff3a6ab9cbfb70af7aa2b042",
+      "src/pages/services/ConsultingForOrganizations.tsx": "6c0aa0565a573a0b07f6d14ce9975441",
+      "src/routeTree.gen.ts": "58368eebc08497a16ac39efe95e7e8c6",
+      "src/router.tsx": "8f905e713b0eba7fa8148b7995a708c9",
+      "src/routes/$locale/about.tsx": "7cf6aaac785f0c8be52ceb8d8ee89ff8",
+      "src/routes/$locale/admin.tsx": "7eb26d87d57a0a1ef2fff5de408456fe",
+      "src/routes/$locale/admin/applications.tsx": "f70328f2bbc0dd9b7fb4c3921fd34c75",
+      "src/routes/$locale/admin/growth-leads.tsx": "e40eb303d44b750d0611933756569b40",
+      "src/routes/$locale/ai-assistant.tsx": "4eecdb5506f88e2d23635e3776c7cbda",
+      "src/routes/$locale/apply.tsx": "935335a4db6bb852482f0cb8f2ca3eec",
+      "src/routes/$locale/apply/organization.tsx": "6df5b68455796734dd20511459ea028c",
+      "src/routes/$locale/apply/wizard.tsx": "3e5a2393beecfab4ec4c67408359b412",
+      "src/routes/$locale/assessment-lab.tsx": "a76af17e1c0fb7b0cbf846388e7fcd4f",
+      "src/routes/$locale/assessments.tsx": "0c166ac06d59881a9bf502211734ef13",
+      "src/routes/$locale/athlete-hub.tsx": "4cafdb793f7ad444e8b8c82d516e117f",
+      "src/routes/$locale/auth.tsx": "439560f2b58088cde207e870afcfd696",
+      "src/routes/$locale/auth/mfa-setup.tsx": "82687555e8d45e12cfea7910e9c89e9e",
+      "src/routes/$locale/b/$slug.tsx": "a094d67bd4e2c022b73740fd7003638b",
+      "src/routes/$locale/blog.tsx": "a8137b03dca564be34ad533b48e7d8bc",
+      "src/routes/$locale/blog/benefits-online-therapy.tsx": "a5121000daf94a684b17ceb965325ec1",
+      "src/routes/$locale/blog/do-i-need-therapy.tsx": "ca13e35ae5160cf039c96a1e46494afe",
+      "src/routes/$locale/blog/find-right-psychologist.tsx": "f3b7ff16508bca79217071b2953fc244",
+      "src/routes/$locale/blog/how-to-clear-brain-fog.tsx": "1f4cfa46c0453de38333090b8cd2efee",
+      "src/routes/$locale/blog/how-to-improve-focus.tsx": "8da6e45909b05fcbb0a3082bd20f2440",
+      "src/routes/$locale/blog/how-to-support-a-loved-one.tsx": "3e5fecd52dd33d2662f012e92f061e54",
+      "src/routes/$locale/blog/mental-health-at-work.tsx": "97ee4e16ed308fdb693f5b96bb1a97a1",
+      "src/routes/$locale/blog/mindfulness-for-beginners.tsx": "464abb10253c2358586321cb14f92765",
+      "src/routes/$locale/blog/understanding-anxiety.tsx": "094ddd34139f3077d9172bef48a5ee5d",
+      "src/routes/$locale/blog/understanding-depression.tsx": "89663728a2eecfbf897a32add9d9a265",
+      "src/routes/$locale/book-a-call.tsx": "0300f8d226930f19010906b98ef598c1",
+      "src/routes/$locale/booking/respond/$token.tsx": "cb42233076576ac671bfc437314493ea",
+      "src/routes/$locale/brand.tsx": "18157fe6c752d51e181b39476aaf337b",
+      "src/routes/$locale/campaigns/first-session.tsx": "c9b64bf0b1e1ce65494a832b443ba2f2",
+      "src/routes/$locale/campaigns/join-specialist.tsx": "2333e260b40ea4e3b5bff66ed2a65082",
+      "src/routes/$locale/center.tsx": "cf8c36df2f1a6244b03e9fee8eaa4298",
+      "src/routes/$locale/center/c/$slug.tsx": "e453159cde6796c1147fa8a4372846ab",
+      "src/routes/$locale/center/progress.tsx": "fd5a5b9f693c5e54aaefc391c8f3151e",
+      "src/routes/$locale/contact.tsx": "9d6f45aec903e701d143232bf879728d",
+      "src/routes/$locale/dashboard.tsx": "04adb1a448773d4652716724ec020625",
+      "src/routes/$locale/dashboard/client.tsx": "8f9f0c78f8ccacd9bc748e8c6c1bde53",
+      "src/routes/$locale/dashboard/organization.tsx": "cf9641ff06acdb2d50641b3ba0340451",
+      "src/routes/$locale/dashboard/specialist.tsx": "612ac23477b9d9125b4c7e95cc0e5bca",
+      "src/routes/$locale/for-athletes.tsx": "e657ad37f53953967921f3f09116791b",
+      "src/routes/$locale/for-organizations.tsx": "ef1ce53fac2695a6d158131e58fac664",
+      "src/routes/$locale/founder.tsx": "c2854e8b9b46cfc0d8e4d3c5efd442a5",
+      "src/routes/$locale/free-score.tsx": "77067b9fd6625aa1da5c92b7db996c87",
+      "src/routes/$locale/get-matched.tsx": "ccd24626b338da7ecc6df424464b0caa",
+      "src/routes/$locale/index.tsx": "e0d5fe08b0000a9e9c72960a5c66137b",
+      "src/routes/$locale/install.tsx": "b4a3cebc8b09d1c7f97555c376f4a7df",
+      "src/routes/$locale/intake.tsx": "7d9700680c3f2b5f306c0e4b1313fccf",
+      "src/routes/$locale/intake/$bookingId.tsx": "dbde3468a8a3e584a1051bec1d922e36",
+      "src/routes/$locale/invite/$code.tsx": "d41a0e67ccbf0f11d44a94d7d3edafce",
+      "src/routes/$locale/learn.tsx": "b16bd69fad8e6bda771b7acd69c8f8aa",
+      "src/routes/$locale/learn/$slug.tsx": "c2762bf79429b1dc2fdd93b5a70f3437",
+      "src/routes/$locale/legal.tsx": "91f7db85be5288b9d29fb36a902d41cd",
+      "src/routes/$locale/membership.tsx": "bb0ab7e7ae17415d82d370d22d5d7e5a",
+      "src/routes/$locale/mental-performance.tsx": "ea6da0674f8f05f740a2958dbf89611e",
+      "src/routes/$locale/mental-toughness-athletes.tsx": "e4f2cf7bf15fd2867457ff6072a9a03a",
+      "src/routes/$locale/moroccan-umbrella.tsx": "a4fb5ef1b0a8911f5486eadf70063646",
+      "src/routes/$locale/my-space.tsx": "7826868d6a43419d53fcd57a4be98b33",
+      "src/routes/$locale/notifications.tsx": "ba9beddb1f58f7fbb0a65e20e2a784b5",
+      "src/routes/$locale/observatoire.tsx": "9b7bc3e421ecb0a913428dd38dd44b8d",
+      "src/routes/$locale/press.tsx": "5161fb42e2da3841511a76380bc618d9",
+      "src/routes/$locale/pricing-specialists.tsx": "ff55f04d0aa4514301043924837ba1fd",
+      "src/routes/$locale/pricing.tsx": "32b1a4e5e518e40a43663f88b5a0c931",
+      "src/routes/$locale/privacy.tsx": "a0d5f79ca09de236aaae060e1b63cb6b",
+      "src/routes/$locale/psf.tsx": "5c17fec8f6dfd2a885670d2f02420a61",
+      "src/routes/$locale/psychologists.tsx": "15680630715be9c2101a1bb928a66951",
+      "src/routes/$locale/psychologists/$id.tsx": "929254f92a73fed468d06f1a1f0bdc66",
+      "src/routes/$locale/reset-password.tsx": "6363ba191e015f81ca5bb22445fcfbca",
+      "src/routes/$locale/resources.tsx": "a6f4ac955a9cdc1c52fb01846f8f7563",
+      "src/routes/$locale/services.tsx": "10aaf12fb9a8948fa9754c5dfccfd645",
+      "src/routes/$locale/services/consulting-for-organizations.tsx": "31d80faa4bc2e8e5d753468fc4ab7bd5",
+      "src/routes/$locale/session/$sessionId.tsx": "0c574114345894934065c646592078df",
+      "src/routes/$locale/skool.tsx": "987e976f9ce79e8d1e821d0841388abb",
+      "src/routes/$locale/talent-innovation-hub.tsx": "51a3df9b59b636a63d8cc2a88ef662d3",
+      "src/routes/$locale/terms.tsx": "e3a7d1086680e4d2260e94fd71acbe7d",
+      "src/routes/$locale/unsubscribe.tsx": "6404e5e651b8cb2a05f6c5ea710261d9",
+      "src/routes/$locale/why-us.tsx": "bdefc4c7cacaa007939bfcb5248e8da5",
+      "src/routes/__root.tsx": "789a86bb84c5409926fc5cae34ba481d",
+      "src/routes/about.tsx": "4207c4efbca3f0569a18071d279412d6",
+      "src/routes/admin.tsx": "c64e38b61dae2ef56137176f5175c588",
+      "src/routes/admin/applications.tsx": "3ee8f607b04f6d4c7e723c3a30ae662e",
+      "src/routes/admin/growth-leads.tsx": "60d2acdf01e8ff91c31fc24594696991",
+      "src/routes/ai-assistant.tsx": "577b600f0241c78ea01bbf3482990118",
+      "src/routes/apply.tsx": "4dc0e4e615e2762079e15777b74d6a43",
+      "src/routes/apply/organization.tsx": "a7f637f1ea5a907a4e587a42c2fbeb44",
+      "src/routes/apply/wizard.tsx": "b41db90a033d264e9fbde47a14a819d9",
+      "src/routes/assessment-lab.tsx": "65b394e43d656bdf16a8cba71202aa4a",
+      "src/routes/assessments.tsx": "f49e14fae684aaf6b786518245396ed9",
+      "src/routes/athlete-hub.tsx": "d8bf589ed898ccb277e58e288a0c7378",
+      "src/routes/auth.tsx": "01ce61ca0e66f20467b15ce579afe206",
+      "src/routes/auth/mfa-setup.tsx": "b76aaff35850e7c9af5f7b8776fdcc64",
+      "src/routes/b/$slug.tsx": "c4471d977f01c0e2ef3b06644148d2b1",
+      "src/routes/blog.tsx": "665753c1163dcbdd50cb9b622145dbfc",
+      "src/routes/blog/benefits-online-therapy.tsx": "afdc8667b30784f7bc9bc54685f8520d",
+      "src/routes/blog/do-i-need-therapy.tsx": "ca411fe725cb0db21b463d998d15ec2b",
+      "src/routes/blog/find-right-psychologist.tsx": "5a705c7073e7a32e85de04b38cfe0725",
+      "src/routes/blog/how-to-clear-brain-fog.tsx": "1be3811b50875b440b7e27b4c99a68b4",
+      "src/routes/blog/how-to-improve-focus.tsx": "4dd95c97dd04ecc7b3834730efca3c7b",
+      "src/routes/blog/how-to-support-a-loved-one.tsx": "8cc1138a94d1137e75c891429505eefd",
+      "src/routes/blog/mental-health-at-work.tsx": "955ec59fb4b2689a1dddd26881cfadd6",
+      "src/routes/blog/mindfulness-for-beginners.tsx": "0c240a626a1a57896cb105329b57a559",
+      "src/routes/blog/understanding-anxiety.tsx": "cd124284c649973fa3cd3030b7e6cfb0",
+      "src/routes/blog/understanding-depression.tsx": "bd376e745b13e93f2620d048cb5abaf0",
+      "src/routes/book-a-call.tsx": "a50e883e8349905b1965de1d2f06f25e",
+      "src/routes/booking/respond/$token.tsx": "82bd8d134b82d19b9e84b73f3447cf63",
+      "src/routes/brand.tsx": "3d87a621f53ca67545517e0b0249f090",
+      "src/routes/campaigns/first-session.tsx": "bdf970e38f00025d268d5eb3cbc34149",
+      "src/routes/campaigns/join-specialist.tsx": "fc80e11ce27e69c8be7394279aae530c",
+      "src/routes/center.tsx": "11da247a1e86961b8742078af2bb076a",
+      "src/routes/center/c/$slug.tsx": "cff22184886ff6625f55a0de6a945e30",
+      "src/routes/center/progress.tsx": "3283ec43b6109d19e012cf02c77abdb0",
+      "src/routes/contact.tsx": "f95f0ddf7cbd34bd9c46c7617ce50b2a",
+      "src/routes/dashboard.tsx": "2a70cac030adff31f077d62330fee292",
+      "src/routes/dashboard/client.tsx": "84873aaf736d175a49f81d11c8042289",
+      "src/routes/dashboard/organization.tsx": "f2f8dd73e6fbb8676dad3293c06c19d3",
+      "src/routes/dashboard/specialist.tsx": "70df0d2302e81605ea49490229b20a74",
+      "src/routes/for-athletes.tsx": "ddff6f34ec0b7d4efd5501c62d1a4a15",
+      "src/routes/for-organizations.tsx": "90fda03b4042762c9efb19d04eb06810",
+      "src/routes/founder.tsx": "9a859da80e6dee6c11c0eb1504a36117",
+      "src/routes/free-score.tsx": "6a9edba75e68a1a02f9794bf302dc267",
+      "src/routes/get-matched.tsx": "4408075f4436dce528c2b63f856cf3ff",
+      "src/routes/index.tsx": "9ea52e221fea59653411c0eacde06af8",
+      "src/routes/install.tsx": "1a0fa17ae2f49094b13123640fe254ba",
+      "src/routes/intake.tsx": "b0c346c544c34873e8a58206101536e7",
+      "src/routes/intake/$bookingId.tsx": "aa9a3aa7777d52d7e90a875b17361a18",
+      "src/routes/invite/$code.tsx": "3f54cea4229a3df4c2284883657234e7",
+      "src/routes/learn.tsx": "29a881e1fd0384625801e500149fba99",
+      "src/routes/learn/$slug.tsx": "de0847e6f0f36b5cf69f07629290d46a",
+      "src/routes/legal.tsx": "de8ce07a02ee482d1dafb287b2ae7717",
+      "src/routes/membership.tsx": "e5afeb3ddc2bdd836117c4e652ac5009",
+      "src/routes/mental-performance.tsx": "56b4c45fc7e4920f8809fd0ea97440dc",
+      "src/routes/mental-toughness-athletes.tsx": "1cfd67f45dc73a2cb35284c5ce6a1f03",
+      "src/routes/moroccan-umbrella.tsx": "b8c9107535ec9e8e59da2e0ad273bd5f",
+      "src/routes/my-space.tsx": "30eafb457a3309eba938332de6bc29e7",
+      "src/routes/notifications.tsx": "56b124f52a15328fe9d858f94974095c",
+      "src/routes/observatoire.tsx": "e496243092d3b9bdc957c4de076f20a2",
+      "src/routes/ops/$workspace.tsx": "6b524d37d30c6b4f436f23c6d28ca751",
+      "src/routes/ops/$workspace/command.tsx": "c35f01a6504f55f3a5429ce93b223255",
+      "src/routes/ops/$workspace/director.tsx": "0bf8f0b3a7c1a04d95611d5b10540a7a",
+      "src/routes/ops/$workspace/events/$eventId.tsx": "97b26a6fa3c1b53ddec393661395b593",
+      "src/routes/ops/$workspace/events/index.tsx": "1b5b65318b291fc9e4e9f1487c1b528e",
+      "src/routes/ops/$workspace/events/new.tsx": "61f6001754188f8f40e626629b196b00",
+      "src/routes/ops/$workspace/index.tsx": "2c7c347aa143b008a1eef06f01066c47",
+      "src/routes/ops/$workspace/tasks.tsx": "654acd96fe149803518073bcb5eeb8a8",
+      "src/routes/ops/index.tsx": "8e06e3a114d3196649b151664e94e15f",
+      "src/routes/ops/preview.tsx": "4b7745b484293044553b5c19f9d133dd",
+      "src/routes/press.tsx": "367cd3bf5224c0afe37ad98dffbf7979",
+      "src/routes/pricing-specialists.tsx": "8e354212c1f5c52f28475621b00f6d03",
+      "src/routes/pricing.tsx": "2603203b09cf261b674df5bf6b291308",
+      "src/routes/privacy.tsx": "1b768e34763b8851ff7c4adb8506f812",
+      "src/routes/psf.tsx": "ad85bc9538a0d1a27b3109fab014d436",
+      "src/routes/psychologists.tsx": "f469c2d348104a382fb42a9aacc453fd",
+      "src/routes/psychologists/$id.tsx": "2801ece95adc734fc3c3b7bf573a67aa",
+      "src/routes/reset-password.tsx": "ca3fd1cc72cbe3ebbcad992dc6fcb8c1",
+      "src/routes/resources.tsx": "b1534b85807d2c0bb0170797d59c6a63",
+      "src/routes/services.tsx": "c324bef977088a11c2b790963a523095",
+      "src/routes/services/consulting-for-organizations.tsx": "210ffd07520fa5f7e23000b8b93b3199",
+      "src/routes/session/$sessionId.tsx": "33460d50a480a935a5443a3367ff54ba",
+      "src/routes/skool.tsx": "df3663df8a9a6a9768978b28e76e90a2",
+      "src/routes/talent-innovation-hub.tsx": "777324797a499f07a5c75b00527d9b4a",
+      "src/routes/terms.tsx": "374f8cac0fd0698c9c1302ab8bc4d2ef",
+      "src/routes/unsubscribe.tsx": "6dec5d09869d4ec250ed8b1efdfc5f6b",
+      "src/routes/why-us.tsx": "b1f27778e6cd9dec26a922e71655af9a",
+      "src/server.ts": "c7bbc49bb70e318af618d92775ee0f27",
+      "src/services/psychologistsService.ts": "bd1330cc7b382ebf45876922d39fd095",
+      "src/start.ts": "0502f82c58afce5012b4c102e6fe2437",
+      "src/stores/assessmentStore.ts": "b5f87ec47f02d0b1c30efcc2ae6ef017",
+      "src/stores/intentStore.ts": "bfd528e7f81c224e15aeea96add34ce0",
+      "src/styles.css": "1a6295320668d08e6f216235aa5509f3",
+      "src/types/psychologist.ts": "ef5dde2daed26b7e594dbf7297734b39",
+      "supabase/config.toml": "3e893035450f993be4069017c56d1ade",
+      "supabase/functions/_shared/email-templates/accreditation/approval.ts": "7fdc5aea631f950f678112cc62ceeee5",
+      "supabase/functions/_shared/email-templates/accreditation/i18n.ts": "176f4fa75012f845e31f070460d8abd0",
+      "supabase/functions/_shared/email-templates/accreditation/rejection.ts": "7e85b5ddaf4cebe57bc6a99232809071",
+      "supabase/functions/_shared/email-templates/email-change.tsx": "caee8fffe4d6a978ba4c7868441aae50",
+      "supabase/functions/_shared/email-templates/invite.tsx": "6faf0d78965f603d1f8d9b6b73885a00",
+      "supabase/functions/_shared/email-templates/magic-link.tsx": "cbde37615271e51d6c531841c4cee639",
+      "supabase/functions/_shared/email-templates/reauthentication.tsx": "b41db9f8f9b0751c581ce9034a297ce4",
+      "supabase/functions/_shared/email-templates/recovery.tsx": "cff21ad03bef6002218a7ab07b6f6d58",
+      "supabase/functions/_shared/email-templates/signup.tsx": "a8d1e73c3297bfd4ef0cf3592ed9eda7",
+      "supabase/functions/_shared/events.ts": "efd27b54961d8f381e72f99f7b5d8053",
+      "supabase/functions/_shared/logger.ts": "5811f2000de02d12bc34c79691cec242",
+      "supabase/functions/_shared/sender.ts": "5a772ce5139a0b7ba5ed800d1d656a7a",
+      "supabase/functions/_shared/transactional-email-templates/quiz-results.tsx": "26fb82aa6973c0826fd409dfbe0b7074",
+      "supabase/functions/_shared/transactional-email-templates/registry.ts": "98384073d8118c10d6177525942c1b2d",
+      "supabase/functions/_tests/booking_proposal_flow.test.ts": "e2a850d18e71078196417d19d229cd9e",
+      "supabase/functions/_tests/security_regression.test.ts": "f3773da8256364c0cd3845bf25f3ec50",
+      "supabase/functions/ai-assistant/index.ts": "fcba41c3b11df7a5a91d314856422d66",
+      "supabase/functions/anamnesis-reminder-cron/index.ts": "46aba1216bc0a0600b5ae4848e20d3b5",
+      "supabase/functions/auth-email-hook/deno.json": "49c76feeb30a2d17f086296c45c282d4",
+      "supabase/functions/auth-email-hook/index.ts": "721d693aa53855eda2011a0e13c322a1",
+      "supabase/functions/create-booking-payment/index.ts": "3e3379ac0bffc586665e163173666c5e",
+      "supabase/functions/crisis-screening/index.ts": "5cbb61b06f5e0f61fa00cf6a82447433",
+      "supabase/functions/decrypt-note/index.ts": "1adf17b2e89d5bdd23ae58a6a601b226",
+      "supabase/functions/encrypt-note/index.ts": "144f777f636e1e13aa6add2b187f1d55",
+      "supabase/functions/find-matches/index.ts": "3ab0a4409c61e2aa6165b2c070faf1a6",
+      "supabase/functions/generate-certificate/index.ts": "92a7b12e76171446807ef19205f3d11f",
+      "supabase/functions/generate-clinical-brief/index.ts": "5ae0be5948d1cff6bd47e19da50d96a2",
+      "supabase/functions/generate-org-invoice/index.test.ts": "228cac9d28fb7a5ee1a8a59d55e95783",
+      "supabase/functions/generate-org-invoice/index.ts": "a96a466547a652de7f151de761985c09",
+      "supabase/functions/handle-email-suppression/deno.json": "99914b932bd37a50b983c5e7c90ae93b",
+      "supabase/functions/handle-email-suppression/index.ts": "c081b1fde057dca57dba0509e80264c8",
+      "supabase/functions/handle-email-unsubscribe/deno.json": "99914b932bd37a50b983c5e7c90ae93b",
+      "supabase/functions/handle-email-unsubscribe/index.ts": "c3a0ffda1cd5b645a83445faea12a473",
+      "supabase/functions/journal-synthesize/index.ts": "0f0e1c95633a151abd92e509241ea567",
+      "supabase/functions/notify-intake-trigger/index.ts": "d1dbf1a0d282515c19b8aafdada4a95a",
+      "supabase/functions/notify-proposal-response/index.ts": "1c83b2fab9a501741b0dd8b7a60c29c2",
+      "supabase/functions/ops-director/index.ts": "2f2b9c112e939c21cb6d47aa949304d6",
+      "supabase/functions/ops-generate-protocol/index.ts": "139ff25c45877e744520451174421f4d",
+      "supabase/functions/ops-task-watcher/index.ts": "1628018079fce764686e8c2f3471f216",
+      "supabase/functions/preview-transactional-email/deno.json": "49c76feeb30a2d17f086296c45c282d4",
+      "supabase/functions/preview-transactional-email/index.ts": "e00f62f7b1c6fcd72c6be716fc6f25b9",
+      "supabase/functions/process-email-queue/deno.json": "99914b932bd37a50b983c5e7c90ae93b",
+      "supabase/functions/process-email-queue/index.ts": "1f2115aa26489a9c710ffbf4df720dfb",
+      "supabase/functions/propose-session/index.ts": "7c40a536ee188859dbaf7dfe452b5a47",
+      "supabase/functions/provision-psychologist/index.test.ts": "ec0fd3a08a6c46cfba02932389b2009b",
+      "supabase/functions/provision-psychologist/index.ts": "9901a830a4842abd408f29f72f1e2160",
+      "supabase/functions/recommend/index.ts": "a65434293898c4ff69896c4c28d22b0b",
+      "supabase/functions/send-meeting-link/index.ts": "4f269e05b9d1c8c145961b69a1535169",
+      "supabase/functions/send-notification/index.ts": "355351ac9aacd7cc61c86cf62bb04a41",
+      "supabase/functions/send-proposal-notification/index.ts": "ed30c14eefdd06a453942b54741c4084",
+      "supabase/functions/send-rejection-email/index.ts": "31353cd2e6052aa8ccdf42753c1bb33a",
+      "supabase/functions/send-transactional-email/deno.json": "49c76feeb30a2d17f086296c45c282d4",
+      "supabase/functions/send-transactional-email/index.ts": "0f2116cb8e6c6921d8369a0203c7d69b",
+      "supabase/functions/session-reminders-cron/index.ts": "7a21c15a489850277408891218a92e94",
+      "supabase/functions/session-summary/index.ts": "0c86e8a01b5fd4582a3572e012a7311a",
+      "supabase/functions/simulate-payment-webhook/index.ts": "162ae554fd2a96e25947635a10ab6490",
+      "supabase/functions/verify-application/index.ts": "b008ba9c8caf61ab4c83c5bda053dfa0",
+      "supabase/migrations/20251003175922_77f45553-8e6f-45f8-8ea7-d48abb69bd6d.sql": "bf71054fb972baae427f4b76426d1b11",
+      "supabase/migrations/20251003180142_b37df4dc-ec31-4082-a576-75b40b528a2c.sql": "92fc9d8e736cf51e61ca18b7a40df11a",
+      "supabase/migrations/20251003180956_2141d94c-fb2c-4c4b-aac2-1b325153ca1b.sql": "f21c44e4302d77c812e1a7a9caf907cf",
+      "supabase/migrations/20251003182230_c413e338-c89d-4fec-b414-3e52255e6a9f.sql": "dfc342890389967a1a1f43e94f5f206b",
+      "supabase/migrations/20251003182328_3bb61f8b-0aa4-40e8-b7fd-04a0970cc645.sql": "44bac4ad53c829d9b750d3186151bb24",
+      "supabase/migrations/20251003182708_af03d6c8-1658-43c5-80f0-a3586b8d7fe2.sql": "192d4767b29fc2e7cfa05a281691cc0a",
+      "supabase/migrations/20251003183251_205eb783-3797-45c5-97b8-322845d726fc.sql": "1ea79b1a7c0cda9ab041970fffe89e4e",
+      "supabase/migrations/20251004011014_249d1f76-6f8e-4b90-a7bd-2b0317d92652.sql": "2fa123eadcca10af6ebb6d25e1db52c8",
+      "supabase/migrations/20251004011305_f9e732c9-590e-4116-9126-d6bcc8db40fc.sql": "5e898610b03fc453c3bdcdc8f9bd70a0",
+      "supabase/migrations/20251004014943_fb744458-d152-4e9d-be87-dff1f1154610.sql": "e648e777c60b9437296eae472ce15119",
+      "supabase/migrations/20251005172215_ce8c6b7f-d75e-45b1-82fe-f9fc03eb3f53.sql": "1862dc08a54d8a4acfb1907a5e755113",
+      "supabase/migrations/20251103150009_a002bfe9-92a0-4c70-a526-ff8ff97f605b.sql": "81103abefe8fa75da4e0173449111ad8",
+      "supabase/migrations/20260219094701_db19542b-1c65-44f0-9d6a-0c252bf4e482.sql": "9984290e8217e727a5915277e0612454",
+      "supabase/migrations/20260308200532_c986a9f1-435b-479c-a0ce-1686dbdc9add.sql": "5aec784d9daede6e0852c5d7a80e062a",
+      "supabase/migrations/20260308201515_6c85304b-4f67-4f3c-a887-d032dec969ec.sql": "5374c6e86d0e6469d597feaad5e5a619",
+      "supabase/migrations/20260308202515_3f565b9a-3a29-4cab-802a-493b2d313170.sql": "44aadd4a471c7d0e03427450c21a55f0",
+      "supabase/migrations/20260308203644_f8dcc06a-c7c5-4e0f-844d-e5fc497521e9.sql": "c5b54f712c1f9bf9176785f8dcdbe414",
+      "supabase/migrations/20260308204017_0f6fec1f-7807-4424-9dc2-25d24306f155.sql": "3a12fe59a2a2b6dd5869b0a0a51d2140",
+      "supabase/migrations/20260308204428_12502c1a-6fec-47c5-8f64-eb803ca49fc7.sql": "4637f7fb81de9bec3e240470016d02a8",
+      "supabase/migrations/20260308210715_eedef824-6943-45f0-ba1d-08b1c5cfe57d.sql": "94a122ee31a7f9520c8ca0df4270e8a2",
+      "supabase/migrations/20260308211627_e6bc63fe-b318-439f-84ee-5bb8220d933a.sql": "792f058c70f4294f15a626ba2b118170",
+      "supabase/migrations/20260308215113_6428c019-3d8c-43c4-bb81-48a75d576020.sql": "042e7e35c61435543c04b59192990f44",
+      "supabase/migrations/20260323021032_e96bd609-42c1-49e6-a7da-358d3573a509.sql": "96ceb49bad0aabcf5faf71e21174391c",
+      "supabase/migrations/20260327204401_6e6bf0f3-2481-4e4f-b5ac-b4838d22ca2e.sql": "805b963457dad841ffd55969744a4f38",
+      "supabase/migrations/20260328092915_fb34bf9a-8a6d-40a7-aadf-c212e9043c7d.sql": "c96113d22cb8a8f9e2e9974740bb8b2e",
+      "supabase/migrations/20260331212737_bf00f099-460a-4b0e-aa26-6b4bc4f82de6.sql": "ed7b40804fcb8eb92fa5cee48ec3a48e",
+      "supabase/migrations/20260331212750_09ee3439-4279-47a3-b716-114c1a819b8f.sql": "d753df20e333edf977cbfdaff01dfb62",
+      "supabase/migrations/20260404112540_459a66f7-581f-42bf-aed9-ce6311d96f31.sql": "784dc6a120bba0ccb4efa2314b950d29",
+      "supabase/migrations/20260405092050_b38e51bc-0929-4ff7-9594-a282e52979ef.sql": "8fa0461ab5496a4ccf1611ff84e9025b",
+      "supabase/migrations/20260409091932_e1d13a4c-78a6-4f49-ad03-a437e9513e55.sql": "7f30c1b18e1b32c880c3718235544a75",
+      "supabase/migrations/20260409091948_960dd430-7e12-484e-8c0e-7a2b031e1da1.sql": "2985c6ac32f3ba978c91ac8a70bc57ad",
+      "supabase/migrations/20260418141938_9d307273-0947-4a4e-8227-5d370b7a444a.sql": "a0a8e8b3d43154dc37e1923c32e97e86",
+      "supabase/migrations/20260418142302_d6b0fd25-5b51-448c-b208-9f122edc3dba.sql": "f01642fbeea24996f4f50094cab73c8f",
+      "supabase/migrations/20260418143129_597cbbaf-de3e-4dd0-974b-890927947123.sql": "fa6df8a68a11ebd7aaab7996ac021a05",
+      "supabase/migrations/20260418143514_7430a2de-7f90-4689-a886-c9b7f1014138.sql": "bb1c19c0bd9432ed9c21b6a7059df083",
+      "supabase/migrations/20260418143524_568b3141-0027-4fc5-bd0b-0cc09d421718.sql": "c71b7c0ff5978ceb30eb1f9c3da9fe35",
+      "supabase/migrations/20260418145500_71f181e0-9c9d-4e75-a455-7a5bd9037175.sql": "1762269f5e19499bc8f9f98c3eba4c14",
+      "supabase/migrations/20260420205510_14d4a28d-3834-49e1-91c5-92642c83187c.sql": "964e06e7093210b8119b0851482d818f",
+      "supabase/migrations/20260420212228_2f9aaeff-a428-4409-aa3b-27f3b6f38a93.sql": "528d40d5dc7c42a54a38eec6fa3a1e43",
+      "supabase/migrations/20260420224135_9682d805-cad4-4180-8b5d-85a457cd6a90.sql": "4e69207024f926add03c3d67e74e0fa2",
+      "supabase/migrations/20260420224816_f1d1a2b6-f1d0-41bc-97c1-53cdb4b242bd.sql": "036c0bef4339fadca7cd4e7541ab30a3",
+      "supabase/migrations/20260420225224_2fe7c74f-4135-4d9f-8860-6649f164e48a.sql": "b3d9ecee4363d3a709f148b08219959d",
+      "supabase/migrations/20260420225259_d27bf99b-9073-405e-b9a4-890d9c538db9.sql": "8f0207e36e8685123fb8f1c3d509002e",
+      "supabase/migrations/20260420225311_6b5a2c64-8cf3-4d8d-87f0-2339fec7aee1.sql": "a05b729a784b5f2d129fe1a253015ec8",
+      "supabase/migrations/20260420232517_02e4c2a8-f10d-4218-89d4-e5dc972b20c6.sql": "118e6d6fbdc0ffdd865b20263f4072fb",
+      "supabase/migrations/20260421103257_8b636db4-8478-4c7b-92df-48a4577e3401.sql": "39b0d79039da6ba3bf2d9d682f2d2c38",
+      "supabase/migrations/20260421114122_a734b0c5-bf61-4ed2-ab1f-1993940e0a1e.sql": "0fd5a0d7ff18e27c876335ab92212821",
+      "supabase/migrations/20260421115250_09fedb61-379b-465a-a993-860ebee2717a.sql": "744f1e6be609cab3e36b272c924ea05d",
+      "supabase/migrations/20260421142236_bc5fcca8-6976-4e12-8ad6-ac56977d671d.sql": "4ef5cc9228d4b90b4214c2f8b53b0c95",
+      "supabase/migrations/20260421144717_769da8c3-f8fb-44c3-9ad8-c23479b35513.sql": "b779ec05245344fc150a1e87e4028434",
+      "supabase/migrations/20260421155255_da1506c2-884e-41e3-9bb4-34c579cbb68d.sql": "f7044b7fda836907bc8c00becb284374",
+      "supabase/migrations/20260421160026_cf2f26f1-5e24-4400-9e00-f8329cc0e7a8.sql": "ce4467638b12e4d8a2a6e8d563368ca9",
+      "supabase/migrations/20260424080506_030e6c09-d2d4-4442-a3d7-4147be9d1226.sql": "cb07e4a39466e17a16bea8383e031624",
+      "supabase/migrations/20260424140614_e08fee1d-ec04-4aa3-9a9e-69150ada2e64.sql": "a34f3d47ddf1ca04c47222ba3a9d5d39",
+      "supabase/migrations/20260424141705_14c56856-e709-4b22-a4e1-fcc9cddce29a.sql": "003c47fbb546269007918b6aa250ca6d",
+      "supabase/migrations/20260425081846_64226638-3732-461a-9085-7074f4f3bc23.sql": "ec0b6c35b442fc2bffa6d7dc96da92da",
+      "supabase/migrations/20260429212332_fb6a1bc9-a6cd-4c72-a7c9-cfc1c6f0104e.sql": "6d5470197308726efdd83cf528e88804",
+      "supabase/migrations/20260429213425_861755f3-5ee5-4087-84e4-600c082ee52c.sql": "6d5ec2c429cb2ee767c6e1b3c922b857",
+      "supabase/migrations/20260429215525_3ec56e3b-847a-4f68-b861-68678368788c.sql": "d685151944f7a3732c993f1afb484ef8",
+      "supabase/migrations/20260429221001_fee65da6-3193-4cdb-95ba-902adc006690.sql": "4e8f1ae0cd11b925120c6d419ff1463f",
+      "supabase/migrations/20260429222132_58447393-24d4-4391-a874-3e9087f5336a.sql": "701f9b1fae592ba2b418d79a32bb9ee3",
+      "supabase/migrations/20260429223833_2df6e17e-68ee-4090-b9d4-56866ff3f818.sql": "7bdb7c02118639e546727d83806fea27",
+      "supabase/migrations/20260430154133_cd5fed72-efc4-477c-b90f-93d06a8381de.sql": "0a61e63231564c26bf8e6ac058297648",
+      "supabase/migrations/20260430160343_c4b6250e-eeb7-42f1-b2dd-dd2fa85d3fdb.sql": "77027207a9ac0d47af9545ee4cc7e486",
+      "supabase/migrations/20260501174043_ba796ad6-e8c0-4d4f-98ca-93da14f4421e.sql": "725a410d663975e28f7c529b0c069daf",
+      "supabase/migrations/20260501181341_56d0a79a-a966-4733-8d42-cd99f01e7d1b.sql": "c9d85aa84872f37009928eb76b484832",
+      "supabase/migrations/20260501210147_ca981a26-2b2d-43ca-9395-5207299fd331.sql": "cb97fd47f3f25f9d994e0e82a6d98028",
+      "supabase/migrations/20260502121223_b2703832-fddc-477c-9add-72d428efda6d.sql": "3205f348565a8e16e5bb53e5b813eee4",
+      "supabase/migrations/20260502121240_b8fd358e-d222-4a69-a4ef-0a794e4535a7.sql": "71a6e360c69ef9ab4f5996000be40d44",
+      "supabase/migrations/20260505224313_1dc6fa8f-e65a-4346-8cd5-1f806f62552a.sql": "dacfd5d6b59ba9f3eccfbc98ef72b457",
+      "supabase/migrations/20260508194603_8fc69de4-701d-443e-a4bb-01032ff422b4.sql": "d73b4c9e83f1046f2ef99f6041bc96ff",
+      "supabase/migrations/20260508195139_d147ed51-d106-4916-85cb-10d04fc3fd59.sql": "0840bff6980dc220cc59b3e6b012b7bb",
+      "supabase/migrations/20260508195516_email_infra.sql": "dd8aec2dcdba5beafdc2c4e27ccd3e63",
+      "supabase/migrations/20260521092604_c941f93a-8095-4c8e-821f-8d7648d06e28.sql": "85fd90165d42fd77597fb6ae0c4a2022",
+      "supabase/migrations/20260522171208_0bb9fa1f-b4d3-48ca-8bd3-e84fd92c7273.sql": "1c3e464450f7d16b9f19c3a98d7b64e4",
+      "supabase/migrations/20260524093958_eff3845b-aca4-4556-9288-583c6935dc7e.sql": "891e600e1574a058584fa3863923adfe",
+      "supabase/migrations/20260525105007_8b71dd24-c76e-4f64-b8b3-a52eba3030b3.sql": "d15a385e53d2592704d76597b1ea29fe",
+      "supabase/migrations/20260526201634_ebb3f712-555c-449b-ab18-723be938530d.sql": "1d89227d763690411146dbc0644ea531",
+      "supabase/migrations/20260526202310_31d2f407-f50c-431b-a5de-79d81a6b631f.sql": "8a16ea5d4f55aa037092a0936a27d6bb",
+      "supabase/migrations/20260526221939_1e927532-5bfb-441e-8ff0-33c78b2c6328.sql": "da52cb6a59481e5c6ae65d427c48a601",
+      "supabase/migrations/20260526221954_3ff23295-0fcb-49cb-9fff-b2125549cdbe.sql": "5e3fee9f314322608cb79fdd5f73bc4c",
+      "supabase/migrations/20260526222927_8cb14c92-1abb-4208-a873-3a0541f2154c.sql": "42b62c95e81aca1aea6ae6e2da941aeb",
+      "supabase/migrations/20260526232349_01e3943b-7222-4fd4-8f33-20dde413e40a.sql": "45fb4456700f31685f9c8b19f72ac4cb",
+      "supabase/migrations/20260526234550_fea496f5-3811-424a-8a64-3fb9f2b406c6.sql": "1e3d89707bca8f501ce95458a5f6a317",
+      "supabase/migrations/20260528165721_2ca8fbcf-6c33-454d-a8b6-dc13bcf4cf29.sql": "8346e92fc8e819f257ac452a17f7081a",
+      "supabase/migrations/20260612204217_3cbe4d9f-195d-4c83-9461-5547a7e04f7e.sql": "9cee9072c3d12949a08bbdd5df74c7b5",
+      "supabase/migrations/20260701130817_17b76582-0120-4b3e-89e9-497c19f64170.sql": "9b75c9f65b8c5e80f5b6be0cec676e75",
+      "supabase/migrations/20260701143916_59638f4b-951f-467f-b3e0-4169c8815c02.sql": "f00843e21c1622f6a7cd8466e5c04558",
+      "supabase/migrations/20260701174329_3cdee253-b461-4193-a4d5-ef1e48971843.sql": "ab85daf44d226c1552f47d08c77f7521",
+      "supabase/migrations/20260702130213_8dfd0c30-1c73-41f3-a0c6-376292cc004e.sql": "8eba79789f0ed53f4e250709edd2844a",
+      "supabase/migrations/20260703150359_8114aeb5-b0a4-4c31-8b21-f43109025f4d.sql": "be4157cdfc679f947e446e1daa5a0e04",
+      "supabase/migrations/20260709225220_fd2af0d6-411e-4848-81d1-f75b82b9a666.sql": "78ad564d91e6d339a58c059c06ea7758",
+      "supabase/migrations/20260713221343_7a1ed455-3310-4aac-a6dc-5f637963a042.sql": "98375635bc1853bc2f67e0fa5c7bc016",
+      "supabase/migrations/20260730201751_d8abbc81-604a-4d23-bfd3-9ce8a5a454fc.sql": "308820c3aeeda28c16096c4a6ee01fc1",
+      "supabase/migrations/20260730201845_9525fc72-48f3-4050-8943-1d3309264291.sql": "48d5927cf1a94288a5f3d82efb6d0613",
+      "supabase/migrations/20260801120000_platform_events.sql": "5fa752ebdca4b7fe7a645a27907743f2",
+      "supabase/migrations/20260816140311_88680be5-a8dd-4d17-84b9-17d0999cdc2d.sql": "7217bf936ad3c13db27b634d5ed6b15c",
+      "supabase/migrations/20260827152722_af7d66b4-cf1a-4763-9b36-d1b3902ffc32.sql": "ce85211a0cea2a46d25652ea052ef8d7",
+      "supabase/pending-migrations.json": "12618e81bcc3f1bc847d0f132f9fcd7f",
+      "tests/audit/run.mjs": "a00bdf503111b9079ea474090ff375c0",
+      "tests/unit/auth-guard.test.tsx": "82ca76b4792a0ce35a2e285a42e42064",
+      "tests/unit/auth-oauth.test.ts": "4fe856c149be942ec89bc64d693cef64",
+      "tests/unit/csp.test.ts": "1e9df668dab9545d22d3f754e710af0b",
+      "tests/unit/events.test.ts": "61bca015408461b412f90fadcebba3b0",
+      "tests/unit/i18n.test.tsx": "12fc85005901f4c32d858906d4941ea2",
+      "tests/unit/setup.ts": "15fd8c2499336ed0f36ec8c2a1bbf4a2",
+      "tests/unit/theme.test.tsx": "0a975fd801016413cc8dd79b8f1bacbe",
+      "tests/visual/README.md": "258099ae2871c5992cc35a9a65248781",
+      "tests/visual/run.ts": "75b715ad02bed4661127985fd59e71da",
+      "tsconfig.json": "0b9a82d4a4000238281db1ea2ea427c4",
+      "vercel.json": "d2a46d41637f458bb2322dca21f23b55",
+      "vite.config.ts": "d67e8217e5f31b87c276b6357c9aedcf"
+    },
+    "pipeline_version": 8
+  },
+  "tokens": {
+    "color": [
+      {
+        "name": "--color-u-burgundy",
+        "raw": "hsl(var(--burgundy))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-charcoal",
+        "raw": "hsl(var(--charcoal))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gold",
+        "raw": "hsl(var(--gold-accent))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gold-highlight",
+        "raw": "hsl(var(--gold-highlight))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-crimson",
+        "raw": "hsl(var(--crimson))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-clinical",
+        "raw": "hsl(var(--clinical-blue))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-clinical-light",
+        "raw": "hsl(var(--clinical-light))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-lavender",
+        "raw": "hsl(var(--lavender))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-turquoise",
+        "raw": "hsl(var(--turquoise))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-white",
+        "raw": "hsl(var(--white))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-black",
+        "raw": "hsl(var(--black))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-50",
+        "raw": "hsl(var(--gray-50))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-100",
+        "raw": "hsl(var(--gray-100))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-200",
+        "raw": "hsl(var(--gray-200))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-300",
+        "raw": "hsl(var(--gray-300))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-400",
+        "raw": "hsl(var(--gray-400))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-500",
+        "raw": "hsl(var(--gray-500))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-600",
+        "raw": "hsl(var(--gray-600))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-700",
+        "raw": "hsl(var(--gray-700))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-u-gray-800",
+        "raw": "hsl(var(--gray-800))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-border",
+        "raw": "hsl(var(--border))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-input",
+        "raw": "hsl(var(--input))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-ring",
+        "raw": "hsl(var(--ring))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-background",
+        "raw": "hsl(var(--background))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-foreground",
+        "raw": "hsl(var(--foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-primary",
+        "raw": "hsl(var(--primary))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-primary-foreground",
+        "raw": "hsl(var(--primary-foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-secondary",
+        "raw": "hsl(var(--secondary))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-secondary-foreground",
+        "raw": "hsl(var(--secondary-foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-destructive",
+        "raw": "hsl(var(--destructive))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-destructive-foreground",
+        "raw": "hsl(var(--destructive-foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-muted",
+        "raw": "hsl(var(--muted))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-muted-foreground",
+        "raw": "hsl(var(--muted-foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-accent",
+        "raw": "hsl(var(--accent))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-accent-foreground",
+        "raw": "hsl(var(--accent-foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-popover",
+        "raw": "hsl(var(--popover))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-popover-foreground",
+        "raw": "hsl(var(--popover-foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-card",
+        "raw": "hsl(var(--card))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-card-foreground",
+        "raw": "hsl(var(--card-foreground))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--burgundy",
+        "raw": "348 82% 26%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--charcoal",
+        "raw": "0 0% 10%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gold-accent",
+        "raw": "42 100% 50%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gold-highlight",
+        "raw": "39 100% 48%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--crimson",
+        "raw": "349 63% 37%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--clinical-blue",
+        "raw": "215 60% 38%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--clinical-light",
+        "raw": "215 40% 52%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--lavender",
+        "raw": "260 30% 70%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--turquoise",
+        "raw": "174 60% 45%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--white",
+        "raw": "0 0% 100%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--black",
+        "raw": "0 0% 7%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-50",
+        "raw": "0 0% 96%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-100",
+        "raw": "0 0% 90%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-200",
+        "raw": "0 0% 80%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-300",
+        "raw": "0 0% 62%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-400",
+        "raw": "0 0% 45%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-500",
+        "raw": "0 0% 30%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-600",
+        "raw": "0 0% 20%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-700",
+        "raw": "0 0% 14%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-800",
+        "raw": "0 0% 11%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--light-blue",
+        "raw": "220 72% 50%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--light-purple",
+        "raw": "262 60% 50%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--light-green",
+        "raw": "160 60% 32%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--warm-maroon",
+        "raw": "350 76% 24%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--warm-crimson",
+        "raw": "348 80% 13%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--warm-beige",
+        "raw": "36 41% 95%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--warm-gold",
+        "raw": "45 96% 48%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--background",
+        "raw": "36 41% 95%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--foreground",
+        "raw": "0 0% 10%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--card",
+        "raw": "0 0% 100%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--card-foreground",
+        "raw": "0 0% 10%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--popover",
+        "raw": "0 0% 100%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--popover-foreground",
+        "raw": "0 0% 10%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--primary-foreground",
+        "raw": "0 0% 10%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--secondary-foreground",
+        "raw": "36 41% 97%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--muted",
+        "raw": "36 25% 92%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--muted-foreground",
+        "raw": "0 0% 32%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--accent-foreground",
+        "raw": "36 41% 97%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--destructive",
+        "raw": "0 74% 42%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--border",
+        "raw": "36 20% 86%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--input",
+        "raw": "36 20% 92%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--glass-bg",
+        "raw": "rgba(255,255,255,0.40)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--glass-border-color",
+        "raw": "rgba(255,255,255,0.60)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--upsy-beige",
+        "raw": "0 0% 14%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--primary",
+        "raw": "45 96% 60%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--secondary",
+        "raw": "350 76% 40%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--accent",
+        "raw": "350 76% 45%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--ring",
+        "raw": "45 96% 60%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--upsy-maroon",
+        "raw": "350 76% 40%",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--upsy-gold",
+        "raw": "45 96% 60%",
+        "source": "src/styles.css"
+      }
+    ],
+    "spacing": [
+      {
+        "name": "--section-spacing",
+        "raw": "80px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--section-spacing-mobile",
+        "raw": "56px",
+        "source": "src/styles.css"
+      }
+    ],
+    "typography": [
+      {
+        "name": "--font-sans",
+        "raw": "'Manrope', system-ui, -apple-system, sans-serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-display",
+        "raw": "'Fraunces', 'Cormorant Garamond', Georgia, serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-serif",
+        "raw": "'Fraunces', 'Cormorant Garamond', Georgia, serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-cormorant",
+        "raw": "'Cormorant Garamond', Georgia, serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-arabic",
+        "raw": "'Amiri', serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-fraunces",
+        "raw": "'Fraunces', 'Cormorant Garamond', Georgia, serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-outfit",
+        "raw": "'Manrope', system-ui, sans-serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-manrope",
+        "raw": "'Manrope', system-ui, sans-serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-mono",
+        "raw": "'JetBrains Mono', ui-monospace, monospace",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-display",
+        "raw": "68px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-h1",
+        "raw": "44px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-h1-mobile",
+        "raw": "34px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-h2",
+        "raw": "32px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-h2-mobile",
+        "raw": "26px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-h3",
+        "raw": "22px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-h3-mobile",
+        "raw": "20px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-body",
+        "raw": "17px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-body-mobile",
+        "raw": "16px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--text-small",
+        "raw": "15px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-serif-alt",
+        "raw": "'Cormorant Garamond', 'Fraunces', Georgia, serif",
+        "source": "src/styles.css"
+      }
+    ],
+    "radius": [
+      {
+        "name": "--radius-md",
+        "raw": "calc(var(--radius) - 2px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-sm",
+        "raw": "calc(var(--radius) - 4px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-btn",
+        "raw": "14px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-card",
+        "raw": "20px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-input",
+        "raw": "12px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius",
+        "raw": "0.5rem",
+        "source": "src/styles.css"
+      }
+    ],
+    "shadow": [
+      {
+        "name": "--glass-shadow",
+        "raw": "0 32px 64px -16px rgba(61,6,17,0.08)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--glass-shadow-hover",
+        "raw": "0 40px 80px -20px rgba(61,6,17,0.14), 0 0 0 1px rgba(242,183,5,0.25)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--shadow-soft",
+        "raw": "0 4px 20px rgba(61,6,17,0.06)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--shadow-gold",
+        "raw": "0 20px 40px -10px rgba(242,183,5,0.40)",
+        "source": "src/styles.css"
+      }
+    ],
+    "other": [
+      {
+        "name": "DUR.instant",
+        "raw": "0.12",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "DUR.quick",
+        "raw": "0.22",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "DUR.base",
+        "raw": "0.4",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "DUR.slow",
+        "raw": "0.7",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "DUR.cinema",
+        "raw": "1.2",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "DUR.breath",
+        "raw": "19",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "EASE.exhale",
+        "raw": "[0.22",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "EASE.think",
+        "raw": "[0.65",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "EASE.glass",
+        "raw": "[0.16",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "EASE.soft",
+        "raw": "[0.4",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "STAGGER.tight",
+        "raw": "0.04",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "STAGGER.base",
+        "raw": "0.08",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "STAGGER.loose",
+        "raw": "0.12",
+        "source": "src/lib/motion/tokens.ts"
+      },
+      {
+        "name": "--animate-accordion-down",
+        "raw": "accordion-down 0.2s ease-out",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--animate-accordion-up",
+        "raw": "accordion-up 0.2s ease-out",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--max-width",
+        "raw": "1200px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gutter",
+        "raw": "24px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--liquid-atmosphere",
+        "raw": "radial-gradient(50% 50% at 10% 15%, rgba(109,15,34,0.06), transparent 60%),\n      radial-gradient(45% 45% at 95% 90%, rgba(242,183,5,0.10), transparent 60%),\n      radial-gradient(40% 40% at 60% 50%, rgba(255,255,255,0.50), transparent 70%),\n      hsl(var(--background))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gradient-gold",
+        "raw": "linear-gradient(135deg, hsl(var(--gold-accent)), hsl(var(--gold-highlight)))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gradient-burgundy",
+        "raw": "linear-gradient(135deg, hsl(var(--burgundy)), hsl(var(--crimson)))",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gradient-divider",
+        "raw": "linear-gradient(90deg, transparent 0%, hsl(var(--light-purple) / 0.4) 50%, transparent 100%)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--transition-smooth",
+        "raw": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--transition-calm",
+        "raw": "all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--duration-ui",
+        "raw": "300ms",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--duration-emphasis",
+        "raw": "500ms",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--duration-ambient",
+        "raw": "800ms",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--ease-calm",
+        "raw": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--ease-bounce",
+        "raw": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "source": "src/styles.css"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "BookingDetailDrawer",
+      "file": "src/components/admin/BookingDetailDrawer",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "bookingId",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "onClose",
+          "type": "function",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CourseEditDrawer",
+      "file": "src/components/admin/CourseEditDrawer",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "course",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onClose",
+          "type": "function",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "LearningHubManager",
+      "file": "src/components/admin/LearningHubManager",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "ModuleListEditor",
+      "file": "src/components/admin/ModuleListEditor",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "PsychologistEditDrawer",
+      "file": "src/components/admin/PsychologistEditDrawer",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "psychologistId",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "onClose",
+          "type": "function",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "RolePreviewFrame",
+      "file": "src/components/admin/RolePreviewFrame",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "UserDetailDrawer",
+      "file": "src/components/admin/UserDetailDrawer",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "onClose",
+          "type": "function",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "DailyCheckinDialog",
+      "file": "src/components/athlete/DailyCheckinDialog",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onOpenChange",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "onSubmit",
+          "type": "any",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "JournalPanel",
+      "file": "src/components/athlete/JournalPanel",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "entries",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "onAdd",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "onSynthesize",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "name": "ProtocolRunner",
+      "file": "src/components/athlete/ProtocolRunner",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "protocol",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "onOpenChange",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "onComplete",
+          "type": "function",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ReadinessRing",
+      "file": "src/components/athlete/ReadinessRing",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "score",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "default": "220"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "Readiness"
+        }
+      ]
+    },
+    {
+      "name": "ContinueLearningCard",
+      "file": "src/components/dashboard/ContinueLearningCard",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "CrisisModal",
+      "file": "src/components/dashboard/CrisisModal",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onOpenChange",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "riskLevel",
+          "type": "enum",
+          "values": [
+            "low",
+            "moderate",
+            "high"
+          ],
+          "default": "moderate"
+        }
+      ]
+    },
+    {
+      "name": "MentalPerformanceScore",
+      "file": "src/components/dashboard/MentalPerformanceScore",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "refreshKey",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "NotificationPreferencesCard",
+      "file": "src/components/dashboard/NotificationPreferencesCard",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "RecommendationsRail",
+      "file": "src/components/dashboard/RecommendationsRail",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "ReferralCard",
+      "file": "src/components/dashboard/ReferralCard",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "SessionStatusTimeline",
+      "file": "src/components/dashboard/SessionStatusTimeline",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "status",
+          "type": "enum",
+          "values": [
+            "proposed",
+            "pending",
+            "confirmed",
+            "in_progress",
+            "completed",
+            "cancelled",
+            "declined"
+          ],
+          "required": true
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "flex items-center gap-2"
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "name": "SessionsTimeline",
+      "file": "src/components/dashboard/SessionsTimeline",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "TodaysStateCard",
+      "file": "src/components/dashboard/TodaysStateCard",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "onLogged",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "name": "HomeFAQSection",
+      "file": "src/components/home/HomeFAQSection",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "HomePricingSection",
+      "file": "src/components/home/HomePricingSection",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "HeroScene",
+      "file": "src/components/three/HeroScene",
+      "import_path": "",
+      "is_default": true
+    },
+    {
+      "name": "ChapterItem",
+      "file": "src/lib/motion/components/Chapter",
+      "import_path": ""
+    },
+    {
+      "name": "Chapter",
+      "file": "src/lib/motion/components/Chapter",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "children",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "className",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "default": "0.15"
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "as",
+          "type": "enum",
+          "values": [
+            "div",
+            "section"
+          ],
+          "default": "div"
+        }
+      ]
+    },
+    {
+      "name": "Ember",
+      "file": "src/lib/motion/components/Ember",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "children",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "className",
+          "type": "string"
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "name": "Pulse",
+      "file": "src/lib/motion/components/Pulse",
+      "import_path": "",
+      "is_default": true,
+      "props": [
+        {
+          "name": "size",
+          "type": "number",
+          "default": "10"
+        },
+        {
+          "name": "colorClass",
+          "type": "string",
+          "default": "bg-emerald-500"
+        },
+        {
+          "name": "className",
+          "type": "string"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "2.2"
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "file": "src/assets/blog/anxiety.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/blog/depression.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/blog/find-psychologist.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/blog/mental-health-work.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/blog/mindfulness.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/blog/need-therapy.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/blog/online-therapy.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/blog/support-loved-one.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/logo.webp",
+      "kind": "logo",
+      "format": "webp"
+    },
+    {
+      "file": "src/assets/mehdi-felji.png",
+      "kind": "image",
+      "format": "png"
+    },
+    {
+      "file": "src/assets/moroccan-umbrella-logo.png",
+      "kind": "logo",
+      "format": "png"
+    },
+    {
+      "file": "src/assets/neural-network-bg.jpg",
+      "kind": "image",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/neural-network-bg.webp",
+      "kind": "image",
+      "format": "webp"
+    },
+    {
+      "file": "src/assets/umbrella-logo.png",
+      "kind": "logo",
+      "format": "png"
+    },
+    {
+      "file": "src/assets/upsy-logo-hero.png",
+      "kind": "logo",
+      "format": "png"
+    },
+    {
+      "file": "src/assets/upsy-logo.png.asset.json",
+      "kind": "logo",
+      "format": "png",
+      "pointer": true
+    }
+  ]
+}
