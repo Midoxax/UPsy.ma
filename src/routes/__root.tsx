@@ -12,23 +12,8 @@ import {
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
 
-// ported from main.tsx — Marketing type system: Fraunces / Cormorant Garamond display + Manrope body + Amiri (Arabic) + JetBrains Mono
-import "@fontsource/fraunces/400.css";
-import "@fontsource/fraunces/500.css";
-import "@fontsource/fraunces/600.css";
-import "@fontsource/fraunces/700.css";
-import "@fontsource/fraunces/400-italic.css";
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/500.css";
-import "@fontsource/cormorant-garamond/600.css";
-import "@fontsource/cormorant-garamond/400-italic.css";
-import "@fontsource/manrope/400.css";
-import "@fontsource/manrope/500.css";
-import "@fontsource/manrope/600.css";
-import "@fontsource/manrope/700.css";
-import "@fontsource/amiri/400.css";
-import "@fontsource/amiri/700.css";
-import "@fontsource/jetbrains-mono/500.css";
+// Marketing type system — see src/styles/fonts.ts for the full face list.
+import "@/styles/fonts";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
