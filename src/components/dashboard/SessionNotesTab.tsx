@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { logSensitiveAccess } from "@/lib/compliance/auditAccess";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -67,6 +68,15 @@ const SessionNotesTab = () => {
       .eq("psychologist_id", user!.id)
       .order("created_at", { ascending: false })
       .limit(50);
+
+    // Clinical read — Postgres has no SELECT trigger, so log it here (C1).
+    if (notesData && notesData.length > 0) {
+      void logSensitiveAccess({
+        resourceType: "session_notes",
+        dataClass: "C1",
+        context: { view: "specialist_notes_tab", count: notesData.length },
+      });
+    }
 
     // Load sessions for the dropdown
     const { data: sessionsData } = await supabase

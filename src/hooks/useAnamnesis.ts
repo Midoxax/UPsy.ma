@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { logSensitiveAccess } from "@/lib/compliance/auditAccess";
 
 export type AnamnesisSection =
   | "identity"
@@ -84,7 +85,19 @@ export const useAnamnesis = (clientId?: string, psychologistId?: string | null, 
       .eq("client_id", targetClient)
       .order("updated_at", { ascending: false })
       .limit(1);
-    if (rows && rows.length > 0) setData(rows[0] as any);
+    if (rows && rows.length > 0) {
+      // Reading someone else's anamnesis is a C1 access event.
+      if (user?.id && targetClient !== user.id) {
+        void logSensitiveAccess({
+          resourceType: "client_anamneses",
+          recordRef: (rows[0] as any).id,
+          dataClass: "C1",
+          subjectId: targetClient,
+          context: { view: "anamnesis" },
+        });
+      }
+      setData(rows[0] as any);
+    }
     else setData(empty(targetClient));
     setLoading(false);
   }, [targetClient]);
