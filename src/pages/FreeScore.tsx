@@ -145,6 +145,27 @@ export default function FreeScore() {
         nurture_stage: "d0",
       });
       if (error) throw error;
+
+      // Same person, one CRM identity across every funnel.
+      await supabase.rpc("crm_upsert_contact", {
+        _email: email.toLowerCase().trim(),
+        _full_name: name.trim() || undefined,
+        _locale: lang,
+        _contact_type: "client",
+        _source: "free_score",
+        _activity_kind: "quiz_completed",
+        _activity_subject: `Mental Performance Score — ${computed}/100`,
+        _activity_metadata: { pillars } as never,
+        _consent_purpose: "newsletter",
+        _consent_granted: consent,
+        _consent_evidence: {
+          form: "free_score",
+          url: "/free-score",
+          ts: new Date().toISOString(),
+          wording_version: "free-score-v1",
+        } as never,
+      });
+
       captureEvent("free_score_completed", { score: computed, ...pillars });
       pushDataLayer({
         event: "quiz_submit",

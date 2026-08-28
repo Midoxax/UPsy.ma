@@ -212,6 +212,30 @@ export default function Observatoire() {
       });
       if (error) throw error;
 
+      // Unified CRM identity. Deliberately carries NO survey identifier and no
+      // answers — only what the person typed on this opt-in screen.
+      await supabase.rpc("crm_upsert_contact", {
+        _email: email.toLowerCase().trim(),
+        _full_name: name.trim() || undefined,
+        _phone: phone.trim() || undefined,
+        _locale: lang,
+        _contact_type: track === "psychologist" ? "specialist" : "client",
+        _source: track === "patient" ? "observatoire_patient" : "observatoire_psychologist",
+        _first_touch: (utm ?? {}) as never,
+        _activity_kind: "form_submitted",
+        _activity_subject: "Observatoire opt-in",
+        _activity_metadata: { track, band: score.band, referral_code: referralCode } as never,
+        _consent_purpose: "newsletter",
+        _consent_granted: true,
+        _consent_evidence: {
+          form: "observatoire_optin",
+          url: typeof window !== "undefined" ? window.location.pathname : null,
+          ts: new Date().toISOString(),
+          wording_version: "observatoire-v1",
+        } as never,
+      });
+
+
       // Psychologists additionally enter the accreditation pipeline as a light
       // expression of interest (the full 48-field dossier comes later at /apply).
       if (track === "psychologist") {

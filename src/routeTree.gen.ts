@@ -100,6 +100,7 @@ import { Route as LocaleTermsRouteImport } from './routes/$locale/terms'
 import { Route as LocaleUnsubscribeRouteImport } from './routes/$locale/unsubscribe'
 import { Route as LocaleWhyUsRouteImport } from './routes/$locale/why-us'
 import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
+import { Route as AdminCrmRouteImport } from './routes/admin/crm'
 import { Route as AdminGrowthLeadsRouteImport } from './routes/admin/growth-leads'
 import { Route as ApplyOrganizationRouteImport } from './routes/apply/organization'
 import { Route as ApplyWizardRouteImport } from './routes/apply/wizard'
@@ -131,6 +132,7 @@ import { Route as PsychologistsIdRouteImport } from './routes/psychologists/$id'
 import { Route as ServicesConsultingForOrganizationsRouteImport } from './routes/services/consulting-for-organizations'
 import { Route as SessionSessionIdRouteImport } from './routes/session/$sessionId'
 import { Route as LocaleAdminApplicationsRouteImport } from './routes/$locale/admin/applications'
+import { Route as LocaleAdminCrmRouteImport } from './routes/$locale/admin/crm'
 import { Route as LocaleAdminGrowthLeadsRouteImport } from './routes/$locale/admin/growth-leads'
 import { Route as LocaleApplyOrganizationRouteImport } from './routes/$locale/apply/organization'
 import { Route as LocaleApplyWizardRouteImport } from './routes/$locale/apply/wizard'
@@ -628,6 +630,11 @@ const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
   path: '/applications',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCrmRoute = AdminCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminGrowthLeadsRoute = AdminGrowthLeadsRouteImport.update({
   id: '/growth-leads',
   path: '/growth-leads',
@@ -788,6 +795,11 @@ const SessionSessionIdRoute = SessionSessionIdRouteImport.update({
 const LocaleAdminApplicationsRoute = LocaleAdminApplicationsRouteImport.update({
   id: '/applications',
   path: '/applications',
+  getParentRoute: () => LocaleAdminRoute,
+} as any)
+const LocaleAdminCrmRoute = LocaleAdminCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
   getParentRoute: () => LocaleAdminRoute,
 } as any)
 const LocaleAdminGrowthLeadsRoute = LocaleAdminGrowthLeadsRouteImport.update({
@@ -1089,6 +1101,7 @@ export interface FileRoutesByFullPath {
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
   '/$locale/why-us': typeof LocaleWhyUsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
@@ -1121,6 +1134,7 @@ export interface FileRoutesByFullPath {
   '/$locale/': typeof LocaleIndexRoute
   '/ops/': typeof OpsIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
+  '/$locale/admin/crm': typeof LocaleAdminCrmRoute
   '/$locale/admin/growth-leads': typeof LocaleAdminGrowthLeadsRoute
   '/$locale/apply/organization': typeof LocaleApplyOrganizationRoute
   '/$locale/apply/wizard': typeof LocaleApplyWizardRoute
@@ -1251,6 +1265,7 @@ export interface FileRoutesByTo {
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
   '/$locale/why-us': typeof LocaleWhyUsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
@@ -1282,6 +1297,7 @@ export interface FileRoutesByTo {
   '/$locale': typeof LocaleIndexRoute
   '/ops': typeof OpsIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
+  '/$locale/admin/crm': typeof LocaleAdminCrmRoute
   '/$locale/admin/growth-leads': typeof LocaleAdminGrowthLeadsRoute
   '/$locale/apply/organization': typeof LocaleApplyOrganizationRoute
   '/$locale/apply/wizard': typeof LocaleApplyWizardRoute
@@ -1413,6 +1429,7 @@ export interface FileRoutesById {
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
   '/$locale/why-us': typeof LocaleWhyUsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
@@ -1445,6 +1462,7 @@ export interface FileRoutesById {
   '/$locale/': typeof LocaleIndexRoute
   '/ops/': typeof OpsIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
+  '/$locale/admin/crm': typeof LocaleAdminCrmRoute
   '/$locale/admin/growth-leads': typeof LocaleAdminGrowthLeadsRoute
   '/$locale/apply/organization': typeof LocaleApplyOrganizationRoute
   '/$locale/apply/wizard': typeof LocaleApplyWizardRoute
@@ -1577,6 +1595,7 @@ export interface FileRouteTypes {
     | '/$locale/unsubscribe'
     | '/$locale/why-us'
     | '/admin/applications'
+    | '/admin/crm'
     | '/admin/growth-leads'
     | '/apply/organization'
     | '/apply/wizard'
@@ -1609,6 +1628,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/ops/'
     | '/$locale/admin/applications'
+    | '/$locale/admin/crm'
     | '/$locale/admin/growth-leads'
     | '/$locale/apply/organization'
     | '/$locale/apply/wizard'
@@ -1739,6 +1759,7 @@ export interface FileRouteTypes {
     | '/$locale/unsubscribe'
     | '/$locale/why-us'
     | '/admin/applications'
+    | '/admin/crm'
     | '/admin/growth-leads'
     | '/apply/organization'
     | '/apply/wizard'
@@ -1770,6 +1791,7 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/ops'
     | '/$locale/admin/applications'
+    | '/$locale/admin/crm'
     | '/$locale/admin/growth-leads'
     | '/$locale/apply/organization'
     | '/$locale/apply/wizard'
@@ -1900,6 +1922,7 @@ export interface FileRouteTypes {
     | '/$locale/unsubscribe'
     | '/$locale/why-us'
     | '/admin/applications'
+    | '/admin/crm'
     | '/admin/growth-leads'
     | '/apply/organization'
     | '/apply/wizard'
@@ -1932,6 +1955,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/ops/'
     | '/$locale/admin/applications'
+    | '/$locale/admin/crm'
     | '/$locale/admin/growth-leads'
     | '/$locale/apply/organization'
     | '/$locale/apply/wizard'
@@ -2719,6 +2743,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminApplicationsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/crm': {
+      id: '/admin/crm'
+      path: '/crm'
+      fullPath: '/admin/crm'
+      preLoaderRoute: typeof AdminCrmRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/growth-leads': {
       id: '/admin/growth-leads'
       path: '/growth-leads'
@@ -2934,6 +2965,13 @@ declare module '@tanstack/react-router' {
       path: '/applications'
       fullPath: '/$locale/admin/applications'
       preLoaderRoute: typeof LocaleAdminApplicationsRouteImport
+      parentRoute: typeof LocaleAdminRoute
+    }
+    '/$locale/admin/crm': {
+      id: '/$locale/admin/crm'
+      path: '/crm'
+      fullPath: '/$locale/admin/crm'
+      preLoaderRoute: typeof LocaleAdminCrmRouteImport
       parentRoute: typeof LocaleAdminRoute
     }
     '/$locale/admin/growth-leads': {
@@ -3207,11 +3245,13 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminApplicationsRoute: typeof AdminApplicationsRoute
+  AdminCrmRoute: typeof AdminCrmRoute
   AdminGrowthLeadsRoute: typeof AdminGrowthLeadsRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminApplicationsRoute: AdminApplicationsRoute,
+  AdminCrmRoute: AdminCrmRoute,
   AdminGrowthLeadsRoute: AdminGrowthLeadsRoute,
 }
 
@@ -3344,11 +3384,13 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 
 interface LocaleAdminRouteChildren {
   LocaleAdminApplicationsRoute: typeof LocaleAdminApplicationsRoute
+  LocaleAdminCrmRoute: typeof LocaleAdminCrmRoute
   LocaleAdminGrowthLeadsRoute: typeof LocaleAdminGrowthLeadsRoute
 }
 
 const LocaleAdminRouteChildren: LocaleAdminRouteChildren = {
   LocaleAdminApplicationsRoute: LocaleAdminApplicationsRoute,
+  LocaleAdminCrmRoute: LocaleAdminCrmRoute,
   LocaleAdminGrowthLeadsRoute: LocaleAdminGrowthLeadsRoute,
 }
 

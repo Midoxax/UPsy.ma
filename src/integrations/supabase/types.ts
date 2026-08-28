@@ -1549,6 +1549,319 @@ export type Database = {
           },
         ]
       }
+      crm_activities: {
+        Row: {
+          actor_id: string | null
+          body: string | null
+          contact_id: string
+          created_at: string
+          deal_id: string | null
+          id: string
+          kind: string
+          metadata: Json
+          occurred_at: string
+          subject: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          body?: string | null
+          contact_id: string
+          created_at?: string
+          deal_id?: string | null
+          id?: string
+          kind: string
+          metadata?: Json
+          occurred_at?: string
+          subject?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          body?: string | null
+          contact_id?: string
+          created_at?: string
+          deal_id?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          occurred_at?: string
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_activities_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_activities_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "crm_deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_consents: {
+        Row: {
+          basis: string
+          contact_id: string
+          evidence: Json
+          granted: boolean
+          id: string
+          purpose: string
+          recorded_at: string
+          withdrawn_at: string | null
+        }
+        Insert: {
+          basis?: string
+          contact_id: string
+          evidence?: Json
+          granted: boolean
+          id?: string
+          purpose: string
+          recorded_at?: string
+          withdrawn_at?: string | null
+        }
+        Update: {
+          basis?: string
+          contact_id?: string
+          evidence?: Json
+          granted?: boolean
+          id?: string
+          purpose?: string
+          recorded_at?: string
+          withdrawn_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_consents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_contacts: {
+        Row: {
+          city: string | null
+          contact_type: string
+          country: string | null
+          created_at: string
+          data_class: string
+          email: string
+          first_touch: Json
+          full_name: string | null
+          id: string
+          last_activity_at: string | null
+          lifecycle: string
+          locale: string | null
+          organisation_id: string | null
+          owner_id: string | null
+          phone: string | null
+          source: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          city?: string | null
+          contact_type?: string
+          country?: string | null
+          created_at?: string
+          data_class?: string
+          email: string
+          first_touch?: Json
+          full_name?: string | null
+          id?: string
+          last_activity_at?: string | null
+          lifecycle?: string
+          locale?: string | null
+          organisation_id?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          source?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          city?: string | null
+          contact_type?: string
+          country?: string | null
+          created_at?: string
+          data_class?: string
+          email?: string
+          first_touch?: Json
+          full_name?: string | null
+          id?: string
+          last_activity_at?: string | null
+          lifecycle?: string
+          locale?: string | null
+          organisation_id?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          source?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_contacts_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "crm_organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_deals: {
+        Row: {
+          contact_id: string | null
+          created_at: string
+          currency: string
+          expected_close: string | null
+          id: string
+          lost_reason: string | null
+          organisation_id: string | null
+          owner_id: string | null
+          pipeline: string
+          stage: string
+          title: string | null
+          updated_at: string
+          value_mad: number
+        }
+        Insert: {
+          contact_id?: string | null
+          created_at?: string
+          currency?: string
+          expected_close?: string | null
+          id?: string
+          lost_reason?: string | null
+          organisation_id?: string | null
+          owner_id?: string | null
+          pipeline: string
+          stage: string
+          title?: string | null
+          updated_at?: string
+          value_mad?: number
+        }
+        Update: {
+          contact_id?: string | null
+          created_at?: string
+          currency?: string
+          expected_close?: string | null
+          id?: string
+          lost_reason?: string | null
+          organisation_id?: string | null
+          owner_id?: string | null
+          pipeline?: string
+          stage?: string
+          title?: string | null
+          updated_at?: string
+          value_mad?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_deals_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_deals_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "crm_organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_organisations: {
+        Row: {
+          billing_email: string | null
+          city: string | null
+          contract_state: string
+          country: string | null
+          created_at: string
+          ice: string | null
+          id: string
+          name: string
+          notes: string | null
+          rc_number: string | null
+          sector: string | null
+          size_range: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          billing_email?: string | null
+          city?: string | null
+          contract_state?: string
+          country?: string | null
+          created_at?: string
+          ice?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          rc_number?: string | null
+          sector?: string | null
+          size_range?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          billing_email?: string | null
+          city?: string | null
+          contract_state?: string
+          country?: string | null
+          created_at?: string
+          ice?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          rc_number?: string | null
+          sector?: string | null
+          size_range?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      crm_stages: {
+        Row: {
+          created_at: string
+          id: string
+          is_lost: boolean
+          is_won: boolean
+          key: string
+          label: string
+          pipeline: string
+          position: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_lost?: boolean
+          is_won?: boolean
+          key: string
+          label: string
+          pipeline: string
+          position?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_lost?: boolean
+          is_won?: boolean
+          key?: string
+          label?: string
+          pipeline?: string
+          position?: number
+        }
+        Relationships: []
+      }
       daily_challenges: {
         Row: {
           action_url: string | null
@@ -5902,6 +6215,25 @@ export type Database = {
       create_admin_user: {
         Args: { _email: string; _password: string }
         Returns: Json
+      }
+      crm_upsert_contact: {
+        Args: {
+          _activity_kind?: string
+          _activity_metadata?: Json
+          _activity_subject?: string
+          _consent_evidence?: Json
+          _consent_granted?: boolean
+          _consent_purpose?: string
+          _contact_type?: string
+          _country?: string
+          _email: string
+          _first_touch?: Json
+          _full_name?: string
+          _locale?: string
+          _phone?: string
+          _source?: string
+        }
+        Returns: string
       }
       delete_email: {
         Args: { message_id: number; queue_name: string }

@@ -118,6 +118,27 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
       });
       if (error) throw error;
 
+      await supabase.rpc("crm_upsert_contact", {
+        _email: emailCheck.data!,
+        _full_name: nameCheck.data!,
+        _phone: phone.trim() || undefined,
+        _locale: (navigator.language || "fr").split("-")[0],
+        _contact_type: config.audience === "specialist" ? "specialist" : "client",
+        _source: config.source,
+        _first_touch: attribution as never,
+        _activity_kind: "form_submitted",
+        _activity_subject: `Campaign — ${config.slug}`,
+        _activity_metadata: { organization: org.trim() || null, whatsapp_opt_in: whatsapp } as never,
+        _consent_purpose: "newsletter",
+        _consent_granted: consent,
+        _consent_evidence: {
+          form: `campaign:${config.slug}`,
+          url: typeof window !== "undefined" ? window.location.pathname : null,
+          ts: new Date().toISOString(),
+          wording_version: "campaign-v1",
+        } as never,
+      });
+
       pushDataLayer({
         event: "campaign_lead",
         campaign_slug: config.slug,
