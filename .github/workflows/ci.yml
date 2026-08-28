@@ -194,7 +194,10 @@ jobs:
       # Cloudflare account, no API token, no network round trip.
       - name: Serve production build
         run: |
-          bunx wrangler dev --config dist/server/wrangler.json \
+          # setsid + nohup detach the server from this step's shell, so it
+          # survives into the steps that actually need it. A plain `&` is a
+          # child of the step process and can be reaped when the step ends.
+          setsid nohup bunx wrangler dev --config dist/server/wrangler.json \
             --local --ip 127.0.0.1 --port 4173 > /tmp/wrangler.log 2>&1 &
           for i in $(seq 1 60); do
             if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then
@@ -203,6 +206,7 @@ jobs:
             sleep 1
           done
           echo "preview server never became ready"; cat /tmp/wrangler.log; exit 1
+
 
       # Ratchet: budgets are pinned to today's output, so any growth on the
       # critical path fails and has to be justified by raising the number in
