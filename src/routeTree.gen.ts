@@ -100,6 +100,7 @@ import { Route as LocaleTermsRouteImport } from './routes/$locale/terms'
 import { Route as LocaleUnsubscribeRouteImport } from './routes/$locale/unsubscribe'
 import { Route as LocaleWhyUsRouteImport } from './routes/$locale/why-us'
 import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
+import { Route as AdminAuditRouteImport } from './routes/admin/audit'
 import { Route as AdminCrmRouteImport } from './routes/admin/crm'
 import { Route as AdminGrowthLeadsRouteImport } from './routes/admin/growth-leads'
 import { Route as ApplyOrganizationRouteImport } from './routes/apply/organization'
@@ -630,6 +631,11 @@ const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
   path: '/applications',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCrmRoute = AdminCrmRouteImport.update({
   id: '/crm',
   path: '/crm',
@@ -1101,6 +1107,7 @@ export interface FileRoutesByFullPath {
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
   '/$locale/why-us': typeof LocaleWhyUsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
@@ -1265,6 +1272,7 @@ export interface FileRoutesByTo {
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
   '/$locale/why-us': typeof LocaleWhyUsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
@@ -1429,6 +1437,7 @@ export interface FileRoutesById {
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
   '/$locale/why-us': typeof LocaleWhyUsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
@@ -1595,6 +1604,7 @@ export interface FileRouteTypes {
     | '/$locale/unsubscribe'
     | '/$locale/why-us'
     | '/admin/applications'
+    | '/admin/audit'
     | '/admin/crm'
     | '/admin/growth-leads'
     | '/apply/organization'
@@ -1759,6 +1769,7 @@ export interface FileRouteTypes {
     | '/$locale/unsubscribe'
     | '/$locale/why-us'
     | '/admin/applications'
+    | '/admin/audit'
     | '/admin/crm'
     | '/admin/growth-leads'
     | '/apply/organization'
@@ -1922,6 +1933,7 @@ export interface FileRouteTypes {
     | '/$locale/unsubscribe'
     | '/$locale/why-us'
     | '/admin/applications'
+    | '/admin/audit'
     | '/admin/crm'
     | '/admin/growth-leads'
     | '/apply/organization'
@@ -2743,6 +2755,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminApplicationsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/crm': {
       id: '/admin/crm'
       path: '/crm'
@@ -3245,12 +3264,14 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminApplicationsRoute: typeof AdminApplicationsRoute
+  AdminAuditRoute: typeof AdminAuditRoute
   AdminCrmRoute: typeof AdminCrmRoute
   AdminGrowthLeadsRoute: typeof AdminGrowthLeadsRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminApplicationsRoute: AdminApplicationsRoute,
+  AdminAuditRoute: AdminAuditRoute,
   AdminCrmRoute: AdminCrmRoute,
   AdminGrowthLeadsRoute: AdminGrowthLeadsRoute,
 }
