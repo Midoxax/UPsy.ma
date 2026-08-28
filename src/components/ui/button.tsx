@@ -47,7 +47,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     const computedStyle: React.CSSProperties = {
       borderRadius: '14px',
-      ...(variant === "primary" ? { background: 'linear-gradient(135deg, #FFB300, #F4A300)' } : {}),
+      ...(variant === "primary" ? { background: 'var(--gradient-gold)' } : {}),
       ...style,
     };
     return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} style={computedStyle} {...props} />;
