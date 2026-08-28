@@ -7,7 +7,26 @@ import { ArrowRight } from "lucide-react";
 import { MagneticButton } from "@/lib/motion";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
+import { getHeroVariantCopy } from "@/lib/i18n/heroVariants";
+import { HOME_HERO_EXPERIMENT, type HomeHeroVariant } from "@/lib/experiments/config";
+import { useExperimentExposure, useExperimentVariant } from "@/lib/experiments/useExperiment";
+import { trackCTAClick } from "@/lib/analytics/gtm";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+
+/**
+ * Spread-merge helper: a variant that omits a field must inherit the control's
+ * value, but a plain spread would overwrite it with `undefined`.
+ */
+function withSearch(path: string, search?: Record<string, string>): string {
+  if (!search || Object.keys(search).length === 0) return path;
+  return `${path}?${new URLSearchParams(search).toString()}`;
+}
+
+function stripUndefined<T extends object>(obj: T): Partial<T> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, value]) => value !== undefined),
+  ) as Partial<T>;
+}
 
 const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
@@ -50,8 +69,29 @@ function canAffordHeroScene(): boolean {
 
 const HeroSection = () => {
   const { locale } = useLocale();
-  const c = getHomeCopy(locale).hero;
+  const base = getHomeCopy(locale).hero;
   const [showScene, setShowScene] = useState(false);
+
+  // home_hero_v1: headline / subhead / CTA are under test. The variant is
+  // resolved server-side, so this renders identically on SSR and hydration.
+  const variant = useExperimentVariant<HomeHeroVariant>(HOME_HERO_EXPERIMENT);
+  useExperimentExposure(HOME_HERO_EXPERIMENT.id, variant);
+  const v = getHeroVariantCopy(variant, locale);
+
+  const { ctaPrimary: vPrimary, ctaSecondary: vSecondary, ctaFootnote, ...vText } = v;
+  const c = { ...base, ...stripUndefined(vText) };
+
+  const primaryTo = withSearch(vPrimary?.to ?? "/free-score", vPrimary?.search);
+  const secondaryTo = withSearch(vSecondary?.to ?? "/get-matched", vSecondary?.search);
+  const primaryLabel = vPrimary?.label ?? base.ctaPrimary;
+  const secondaryLabel = vSecondary?.label ?? base.ctaSecondary;
+
+  const trackCta = (label: string, destination: string) =>
+    trackCTAClick(label, "home_hero", "/", {
+      experiment_id: HOME_HERO_EXPERIMENT.id,
+      experiment_variant: variant,
+      destination,
+    });
 
   useEffect(() => {
     if (!canAffordHeroScene()) return;
@@ -190,8 +230,12 @@ const HeroSection = () => {
                   size="lg"
                   className="group h-14 px-8 text-[11px] tracking-[0.2em] font-bold bg-[hsl(var(--gold-accent))] text-[#0D0406] hover:bg-[hsl(var(--gold-accent))]/90 rounded-none shadow-[0_20px_50px_-15px_hsl(45_96%_60%/0.55)]"
                 >
-                  <Link to="/free-score" className="inline-flex items-center gap-2">
-                    {c.ctaPrimary}
+                  <Link
+                    to={primaryTo}
+                    className="inline-flex items-center gap-2"
+                    onClick={() => trackCta(primaryLabel, primaryTo)}
+                  >
+                    {primaryLabel}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
@@ -202,9 +246,24 @@ const HeroSection = () => {
                 size="lg"
                 className="h-14 px-8 text-[11px] tracking-[0.2em] font-bold text-[#FAFAFA] border border-white/20 hover:bg-white/5 rounded-none"
               >
-                <Link to="/get-matched">{c.ctaSecondary}</Link>
+                <Link
+                  to={secondaryTo}
+                  onClick={() => trackCta(secondaryLabel, secondaryTo)}
+                >
+                  {secondaryLabel}
+                </Link>
               </Button>
             </motion.div>
+            {ctaFootnote ? (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.65 }}
+                className="text-xs tracking-wide text-[#FAFAFA]/70 font-body"
+              >
+                {ctaFootnote}
+              </motion.p>
+            ) : null}
           </div>
 
           {/* RIGHT — floating metrics dashboard (desktop only) */}

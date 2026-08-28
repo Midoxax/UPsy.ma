@@ -311,7 +311,7 @@ html.lenis body {
     font-feature-settings: "ss01";
   }
 
-  /* Editorial luxe headings site-wide — Instrument Serif carries the magazine energy */
+  /* Editorial luxe headings site-wide — Fraunces carries the magazine energy */
   h1, h2, h3, .text-display, .text-h1, .text-h2, .text-h3 {
     font-family: var(--font-display);
     font-weight: 400;
