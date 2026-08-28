@@ -6,7 +6,7 @@ import CrmManager from "@/components/admin/CrmManager";
 
 const AdminCRM = () => (
   <main className="flex-1">
-    <SEOHead path="/admin/crm" title="CRM — U.Psy internal" description="Internal acquisition and contact command surface." noindex />
+    <SEOHead path="/admin/crm" title="CRM — U.Psy internal" description="Internal acquisition and contact command surface." />
     <div className="container-custom py-8 space-y-6">
       <header>
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Internal</p>
