@@ -3,42 +3,42 @@ name: Production check
 # Verifies the deployed site, not the build output.
 #
 # Everything in ci.yml inspects dist/. Nothing proved that what a visitor
-# receives matches it — and the two can differ completely. `vercel.json`
-# headers only exist if Vercel reads that file; Deployment Protection can hide
-# the whole site behind an auth wall that the owner, already logged in, never
-# sees. This runs unauthenticated from a runner with real egress, which is the
-# vantage point of an actual user.
+# receives matches it — and the two can differ completely. Security headers
+# only exist if the server actually sends them; a misconfigured route or a
+# half-finished deploy can leave the origin serving 404s while every build
+# gate stays green. This runs unauthenticated from a runner with real egress,
+# which is the vantage point of an actual user.
 #
-# Replaces the previous smoke test, which curled six URLs for a 200 and would
-# have passed happily against a site serving no security headers at all.
+# Hosting is Cloudflare Workers, deployed by .github/workflows/deploy.yml.
+# The Vercel-era machinery this file used to carry — deployment_status
+# filtering, per-deployment preview URLs, Deployment Protection warnings —
+# is gone: none of it describes how the site is served any more.
+#
+# The daily schedule is deliberately absent until the first successful
+# Cloudflare deploy. A scheduled job against an origin that nothing has
+# deployed to yet is red every morning for a reason that is not a defect, and
+# a gate that is always red is a gate everyone learns to ignore. Run it from
+# the Actions tab (or let deploy.yml call it) until the cutover is done, then
+# uncomment the cron below.
 
 on:
-  # Fires after a production deploy so a broken release is caught in minutes.
-  deployment_status:
   workflow_dispatch:
     inputs:
       url:
         description: "URL to verify (defaults to the production alias in package.json)"
         required: false
         type: string
-  schedule:
-    # Daily. Catches drift from dashboard changes made outside the repo —
-    # a toggled protection setting leaves no commit behind.
-    - cron: "0 6 * * *"
+  workflow_call:
+    inputs:
+      url:
+        required: false
+        type: string
+  # schedule:
+  #   # Re-enable once deploy.yml has shipped to Cloudflare at least once.
+  #   - cron: "0 6 * * *"
 
 jobs:
   verify:
-    # Only production deployments, and only successful ones.
-    #
-    # deployment_status also fires for preview deploys, and Vercel protects
-    # previews by default — so without the environment filter this gate would
-    # fail on every pull request forever, for a reason that is correct
-    # behaviour rather than a defect. A gate that is always red is a gate
-    # everyone learns to ignore.
-    if: >
-      github.event_name != 'deployment_status' ||
-      (github.event.deployment_status.state == 'success' &&
-       github.event.deployment_status.environment == 'Production')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -46,42 +46,28 @@ jobs:
         with:
           node-version-file: .nvmrc
           check-latest: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Resolve target URL
         id: target
         env:
-          # Order matters, and the default is committed on purpose.
-          #
-          # deployment_status.target_url is a per-deployment address
-          # (upsy-<hash>-<team>.vercel.app). Vercel treats those differently
-          # from the production alias: disabling Deployment Protection makes
-          # the alias public while per-deployment URLs can stay behind SSO. So
-          # checking target_url reports an auth wall no real visitor meets — a
-          # false alarm on the one signal this job exists to give. It stays as
-          # a last resort rather than a preference.
-          #
-          # The alias itself comes from package.json, not solely from a repo
-          # variable. This job previously hard-failed when vars.PROD_URL was
-          # unset, which meant the entire production check — the only thing
-          # that verifies the CSP and HSTS in vercel.json are actually served —
-          # was disabled by a dashboard field nobody had filled in. A gate that
-          # needs out-of-band setup before it can run is a gate that does not
-          # run. vars.PROD_URL still wins when set, so the URL can be changed
-          # without a commit.
+          # vars.PROD_URL wins when set, so the target can change without a
+          # commit. The committed package.json "homepage" is the fallback, on
+          # purpose: this job previously hard-failed when the repository
+          # variable was unset, which meant the only check that verifies what
+          # visitors actually receive was disabled by a dashboard field nobody
+          # had filled in.
           MANUAL_URL: ${{ inputs.url }}
           PROD_ALIAS: ${{ vars.PROD_URL }}
-          DEPLOY_URL: ${{ github.event.deployment_status.target_url }}
         run: |
           COMMITTED="$(node -p "require('./package.json').homepage || ''")"
-          URL="${MANUAL_URL:-${PROD_ALIAS:-${COMMITTED:-$DEPLOY_URL}}}"
+          URL="${MANUAL_URL:-${PROD_ALIAS:-$COMMITTED}}"
           if [ -z "$URL" ]; then
             echo "::error::No target. Set \"homepage\" in package.json, or the PROD_URL repository variable, or pass a url via workflow_dispatch."
             exit 1
           fi
-          case "$URL" in
-            *-*-*.vercel.app)
-              echo "::warning::Verifying a per-deployment URL ($URL). These can stay behind Deployment Protection even when the production alias is public. Set \"homepage\" in package.json or the PROD_URL variable to the alias for an accurate result." ;;
-          esac
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "Verifying $URL"
 
@@ -102,9 +88,9 @@ jobs:
       # Only worth installing a browser if the site is reachable and public.
       - name: Install browser
         run: |
-          npm ci --no-audit --no-fund
-          npm install --no-save playwright @axe-core/playwright --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          bun install --frozen-lockfile
+          bun add --no-save playwright @axe-core/playwright
+          bunx playwright install --with-deps chromium
 
       - name: Accessibility audit against production
         env:

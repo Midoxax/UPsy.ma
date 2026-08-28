@@ -10,38 +10,44 @@
  * Each case below is written as an access-control assertion rather than a
  * rendering one: who gets through, who is redirected, and what happens in the
  * indeterminate window before roles have loaded.
+ *
+ * The guard reaches the router only through `@/lib/router-compat` (the shim
+ * left in place by the TanStack migration), so that one module is stubbed
+ * instead of mounting a real router: the subject under test is the decision,
+ * not the navigation machinery.
  */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const authState = vi.hoisted(() => ({ user: null as unknown, loading: false }));
 const roleState = vi.hoisted(() => ({ roles: [] as string[], isAdmin: false, loading: false }));
+const locationState = vi.hoisted(() => ({ pathname: "/dashboard/specialist", search: "" }));
 
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => authState }));
 vi.mock("@/hooks/useUserRole", () => ({ useUserRole: () => roleState }));
+vi.mock("@/lib/router-compat", () => ({
+  // Rendering the target makes the redirect observable and, unlike a spy,
+  // also proves the guard stopped rendering its children.
+  Navigate: ({ to }: { to: string }) => <div>NAVIGATE:{to}</div>,
+  useLocation: () => locationState,
+  useNavigate: () => vi.fn(),
+}));
 
 function renderGuard(role?: string | string[], at = "/dashboard/specialist") {
+  locationState.pathname = at;
+  locationState.search = "";
   return render(
-    <MemoryRouter initialEntries={[at]}>
-      <Routes>
-        <Route path="/auth" element={<div>LOGIN PAGE</div>} />
-        <Route path="/dashboard" element={<div>GENERIC DASHBOARD</div>} />
-        <Route
-          path={at}
-          element={
-            <ProtectedRoute role={role as never}>
-              <div>PROTECTED CONTENT</div>
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </MemoryRouter>
+    <ProtectedRoute role={role as never}>
+      <div>PROTECTED CONTENT</div>
+    </ProtectedRoute>
   );
 }
 
 const shows = (t: string) => screen.queryByText(t) !== null;
+/** The path the guard redirected to, or null when it did not redirect. */
+const navigatedTo = (): string | null =>
+  screen.queryByText(/^NAVIGATE:/)?.textContent?.replace("NAVIGATE:", "") ?? null;
 
 beforeEach(() => {
   authState.user = null;
@@ -55,7 +61,7 @@ describe("unauthenticated access", () => {
   it("redirects an anonymous visitor to login", () => {
     renderGuard();
     expect(shows("PROTECTED CONTENT")).toBe(false);
-    expect(shows("LOGIN PAGE")).toBe(true);
+    expect(navigatedTo()).toMatch(/^\/auth/);
   });
 
   it("does not render protected content while auth is still resolving", () => {
@@ -64,7 +70,7 @@ describe("unauthenticated access", () => {
     authState.loading = true;
     renderGuard();
     expect(shows("PROTECTED CONTENT")).toBe(false);
-    expect(shows("LOGIN PAGE")).toBe(false);
+    expect(navigatedTo()).toBeNull();
   });
 });
 
@@ -88,7 +94,7 @@ describe("authenticated access", () => {
     roleState.roles = ["patient"];
     renderGuard("psychologist");
     expect(shows("PROTECTED CONTENT")).toBe(false);
-    expect(shows("GENERIC DASHBOARD")).toBe(true);
+    expect(navigatedTo()).toBe("/dashboard");
   });
 
   it("admits an admin to a role-gated surface", () => {
@@ -114,29 +120,26 @@ describe("authenticated access", () => {
     //
     // Asserting only that PROTECTED CONTENT is hidden cannot detect that: it
     // is hidden either way. The distinguishing signal is whether we redirected
-    // (GENERIC DASHBOARD) or are still waiting (neither rendered). Verified by
-    // mutation — removing the roleLoading wait fails this test.
+    // or are still waiting. Verified by mutation — removing the roleLoading
+    // wait fails this test.
     authState.user = { id: "u1" };
     roleState.loading = true;
     roleState.roles = [];
     renderGuard("psychologist");
     expect(shows("PROTECTED CONTENT")).toBe(false);
-    expect(shows("GENERIC DASHBOARD")).toBe(false);
+    expect(navigatedTo()).toBeNull();
   });
 });
 
 describe("post-login redirect", () => {
   it("preserves the attempted path so login can return the user to it", () => {
     renderGuard(undefined, "/dashboard/specialist");
-    // Asserted via the rendered login route plus the guard's Navigate target;
-    // the important property is simply that we landed on /auth rather than
-    // silently dropping the destination.
-    expect(shows("LOGIN PAGE")).toBe(true);
+    expect(navigatedTo()).toBe(`/auth?redirect=${encodeURIComponent("/dashboard/specialist")}`);
   });
 
   it("does not build a redirect loop back to /auth", () => {
     renderGuard(undefined, "/auth");
     // Guard must not send /auth -> /auth?redirect=/auth.
-    expect(shows("LOGIN PAGE")).toBe(true);
+    expect(navigatedTo()).toBe("/auth");
   });
 });

@@ -3,9 +3,15 @@
  * Bundle budget — a ratchet, not a permanent allowance.
  *
  * Measures the gzipped bytes the browser must fetch before it can render the
- * homepage: the entry scripts and stylesheets in index.html, plus anything
- * modulepreloaded alongside them. Lazy route chunks are excluded because they
- * are not on the critical path.
+ * homepage: the entry scripts and stylesheets the server-rendered document
+ * references, plus anything modulepreloaded alongside them. Lazy route chunks
+ * are excluded because they are not on the critical path.
+ *
+ * The app renders on the server, so there is no dist/index.html to parse any
+ * more. The document only exists once the Worker produces it, which means this
+ * check runs against a running server: it fetches "/" from BASE and resolves
+ * every referenced asset back to a file in dist/client. In CI that is the same
+ * preview server the accessibility audit uses, so the cost is one extra fetch.
  *
  * The budgets in bundle-budget.json are set to what the build produces today,
  * not to an aspirational target. That is deliberate. A budget above current
@@ -18,8 +24,8 @@
  * then lower the number in the same PR so the win cannot be silently spent.
  *
  * Usage:
- *   npm run build && node scripts/check-bundle-size.mjs
- *   UPDATE_BUDGET=1 node scripts/check-bundle-size.mjs   # rewrite to current
+ *   BASE=http://127.0.0.1:4173 node scripts/check-bundle-size.mjs
+ *   UPDATE_BUDGET=1 BASE=... node scripts/check-bundle-size.mjs  # rewrite to current
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { gzipSync } from "node:zlib";
@@ -27,33 +33,64 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const DIST = resolve(ROOT, "dist");
+const CLIENT = resolve(ROOT, "dist", "client");
 const BUDGET_FILE = resolve(ROOT, "bundle-budget.json");
-const INDEX = resolve(DIST, "index.html");
+const BASE = (process.env.BASE || "http://127.0.0.1:4173").replace(/\/$/, "");
 
-if (!existsSync(INDEX)) {
-  console.error("No dist/index.html — run `npm run build` first.");
+if (!existsSync(CLIENT)) {
+  console.error("No dist/client — run `npm run build` first.");
   process.exit(1);
 }
 
-const html = readFileSync(INDEX, "utf8");
+let html;
+try {
+  const res = await fetch(`${BASE}/`, { headers: { accept: "text/html" } });
+  if (!res.ok) {
+    console.error(`GET ${BASE}/ returned ${res.status} — the preview server is not serving the homepage.`);
+    process.exit(1);
+  }
+  html = await res.text();
+} catch (error) {
+  console.error(
+    `Could not reach ${BASE}/ (${error.message}).\n` +
+      "Start the built Worker first (npm run preview:cf) or set BASE to a running server."
+  );
+  process.exit(1);
+}
 
 // Everything fetched before first render: entry tags plus modulepreload hints.
 const referenced = [...html.matchAll(/(?:src|href)="(\/assets\/[^"]+\.(?:js|css))"/g)].map((m) => m[1]);
 const preloaded = [...html.matchAll(/rel="modulepreload"[^>]*href="(\/assets\/[^"]+)"/g)].map((m) => m[1]);
 const critical = [...new Set([...referenced, ...preloaded])];
 
+if (critical.length === 0) {
+  console.error("The served homepage references no /assets/ bundles at all — is this the production build?");
+  process.exit(1);
+}
+
 let js = 0;
 let css = 0;
 const files = [];
+const missing = [];
 for (const file of critical) {
-  const buf = readFileSync(resolve(DIST, file.replace(/^\//, "")));
-  const gz = gzipSync(buf, { level: 9 }).length;
+  const path = resolve(CLIENT, file.replace(/^\//, ""));
+  if (!existsSync(path)) {
+    missing.push(file);
+    continue;
+  }
+  const gz = gzipSync(readFileSync(path), { level: 9 }).length;
   files.push({ file, gz });
   if (file.endsWith(".js")) js += gz;
   else css += gz;
 }
 files.sort((a, b) => b.gz - a.gz);
+
+if (missing.length) {
+  console.error("The served document references assets that are not in dist/client:\n");
+  for (const m of missing) console.error(`  - ${m}`);
+  console.error("\nThe server and the client build are out of sync — rebuild before measuring.\n");
+  process.exit(1);
+}
 
 const actual = {
   initialJsGzipKb: +(js / 1024).toFixed(1),
