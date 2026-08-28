@@ -219,7 +219,7 @@ const Auth = () => {
 
             <TabsContent value="login">
               <div className="space-y-4">
-                <SocialAuthButtons withDivider />
+                <SocialAuthButtons withDivider redirect={oauthRedirect} />
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="login-email">{t('auth.email')}</Label>
@@ -261,7 +261,7 @@ const Auth = () => {
 
             <TabsContent value="signup">
               <div className="space-y-4">
-                <SocialAuthButtons withDivider />
+                <SocialAuthButtons withDivider redirect={oauthRedirect} />
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="signup-name">{t('auth.fullName')}</Label>
