@@ -163,6 +163,7 @@ import { Route as LocaleLearnSlugRouteImport } from './routes/$locale/learn/$slu
 import { Route as LocalePsychologistsIdRouteImport } from './routes/$locale/psychologists/$id'
 import { Route as LocaleServicesConsultingForOrganizationsRouteImport } from './routes/$locale/services/consulting-for-organizations'
 import { Route as LocaleSessionSessionIdRouteImport } from './routes/$locale/session/$sessionId'
+import { Route as ApiPublicCrmEmailEventsRouteImport } from './routes/api/public/crm-email-events'
 import { Route as BookingRespondTokenRouteImport } from './routes/booking/respond/$token'
 import { Route as CenterCSlugRouteImport } from './routes/center/c/$slug'
 import { Route as OpsWorkspaceIndexRouteImport } from './routes/ops/$workspace/index'
@@ -970,6 +971,11 @@ const LocaleSessionSessionIdRoute = LocaleSessionSessionIdRouteImport.update({
   path: '/$locale/session/$sessionId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCrmEmailEventsRoute = ApiPublicCrmEmailEventsRouteImport.update({
+  id: '/api/public/crm-email-events',
+  path: '/api/public/crm-email-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookingRespondTokenRoute = BookingRespondTokenRouteImport.update({
   id: '/booking/respond/$token',
   path: '/booking/respond/$token',
@@ -1183,6 +1189,7 @@ export interface FileRoutesByFullPath {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
+  '/api/public/crm-email-events': typeof ApiPublicCrmEmailEventsRoute
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
@@ -1349,6 +1356,7 @@ export interface FileRoutesByTo {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
+  '/api/public/crm-email-events': typeof ApiPublicCrmEmailEventsRoute
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
@@ -1517,6 +1525,7 @@ export interface FileRoutesById {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
+  '/api/public/crm-email-events': typeof ApiPublicCrmEmailEventsRoute
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
@@ -1686,6 +1695,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
+    | '/api/public/crm-email-events'
     | '/booking/respond/$token'
     | '/center/c/$slug'
     | '/ops/$workspace/command'
@@ -1852,6 +1862,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
+    | '/api/public/crm-email-events'
     | '/booking/respond/$token'
     | '/center/c/$slug'
     | '/ops/$workspace/command'
@@ -2019,6 +2030,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
+    | '/api/public/crm-email-events'
     | '/booking/respond/$token'
     | '/center/c/$slug'
     | '/ops/$workspace/command'
@@ -2136,6 +2148,7 @@ export interface RootRouteChildren {
   LocaleCampaignsJoinSpecialistRoute: typeof LocaleCampaignsJoinSpecialistRoute
   LocaleInviteCodeRoute: typeof LocaleInviteCodeRoute
   LocaleSessionSessionIdRoute: typeof LocaleSessionSessionIdRoute
+  ApiPublicCrmEmailEventsRoute: typeof ApiPublicCrmEmailEventsRoute
   BookingRespondTokenRoute: typeof BookingRespondTokenRoute
   LocaleBookingRespondTokenRoute: typeof LocaleBookingRespondTokenRoute
 }
@@ -3220,6 +3233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleSessionSessionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/crm-email-events': {
+      id: '/api/public/crm-email-events'
+      path: '/api/public/crm-email-events'
+      fullPath: '/api/public/crm-email-events'
+      preLoaderRoute: typeof ApiPublicCrmEmailEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/booking/respond/$token': {
       id: '/booking/respond/$token'
       path: '/booking/respond/$token'
@@ -3725,6 +3745,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleCampaignsJoinSpecialistRoute: LocaleCampaignsJoinSpecialistRoute,
   LocaleInviteCodeRoute: LocaleInviteCodeRoute,
   LocaleSessionSessionIdRoute: LocaleSessionSessionIdRoute,
+  ApiPublicCrmEmailEventsRoute: ApiPublicCrmEmailEventsRoute,
   BookingRespondTokenRoute: BookingRespondTokenRoute,
   LocaleBookingRespondTokenRoute: LocaleBookingRespondTokenRoute,
 }

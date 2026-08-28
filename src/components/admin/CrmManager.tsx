@@ -515,6 +515,27 @@ const PipelineView = ({ onOpenContact }: { onOpenContact: (id: string) => void }
 
 const CrmManager = () => {
   const [openContact, setOpenContact] = useState<string | null>(null);
+  const { data: role, isLoading: roleLoading } = useCrmRole();
+
+  if (roleLoading) {
+    return (
+      <div className="flex justify-center py-20">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!crmAtLeast(role ?? null, "viewer")) {
+    return (
+      <div className="rounded-u-card border border-destructive/30 bg-destructive/5 p-6 text-sm">
+        <p className="font-medium">CRM access required</p>
+        <p className="mt-1 text-muted-foreground">
+          Your account is not on the CRM staff list. A workspace admin can grant you viewer, agent
+          or manager access.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -523,7 +544,8 @@ const CrmManager = () => {
         <span>
           Internal only. Research survey answers are never linked to a contact — Observatoire figures
           here count opt-ins, collected on a separate screen with explicit consent. No marketing send
-          may go out without a granted consent record.
+          may go out without a granted consent record. You are signed in as{" "}
+          <strong>CRM {role}</strong>.
         </span>
       </div>
 
@@ -532,10 +554,14 @@ const CrmManager = () => {
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="contacts">Contacts</TabsTrigger>
           <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
+          <TabsTrigger value="forecast">Forecast</TabsTrigger>
+          <TabsTrigger value="automations">Automations</TabsTrigger>
         </TabsList>
         <TabsContent value="overview"><OverviewView onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="contacts"><ContactsView onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="pipeline"><PipelineView onOpenContact={setOpenContact} /></TabsContent>
+        <TabsContent value="forecast"><CrmForecastPanel onOpenContact={setOpenContact} /></TabsContent>
+        <TabsContent value="automations"><CrmAutomationsPanel onOpenContact={setOpenContact} /></TabsContent>
       </Tabs>
 
       <ContactDetail contactId={openContact} onClose={() => setOpenContact(null)} />
@@ -544,3 +570,4 @@ const CrmManager = () => {
 };
 
 export default CrmManager;
+
