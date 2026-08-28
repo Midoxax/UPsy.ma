@@ -57,6 +57,10 @@ export const SECURITY_HEADERS: Record<string, string> = {
  * deliberately relaxes a header (an embeddable widget, say) is not overridden.
  */
 export function applySecurityHeaders(response: Response, url: URL): Response {
+  // Dev serves over http on localhost with an HMR socket and eval-heavy
+  // tooling; applying the production policy there only produces noise.
+  if (import.meta.env.DEV) return response;
+
   // A response with an immutable header list (some static-asset responses) has
   // to be cloned before it can be annotated.
   let target = response;
