@@ -35,11 +35,16 @@ describe("OAuth does not depend on Lovable hosting", () => {
   });
 
   it("routes social sign-in through supabase.auth.signInWithOAuth", () => {
-    const auth = read("src/pages/Auth.tsx");
-    expect(auth).toMatch(/supabase\.auth\.signInWithOAuth/);
-    expect(auth, "Auth.tsx must not call the Lovable wrapper").not.toMatch(
+    // The call itself lives in the shared button component every surface
+    // (auth page, booking modal, dashboards) renders.
+    const buttons = read("src/components/auth/SocialAuthButtons.tsx");
+    expect(buttons).toMatch(/supabase\.auth\.signInWithOAuth/);
+    expect(buttons, "sign-in must not call the Lovable wrapper").not.toMatch(
       /lovable\.auth\.signInWithOAuth/
     );
+    // And the auth page must reach OAuth only through that component.
+    const auth = read("src/pages/Auth.tsx");
+    expect(auth).toMatch(/SocialAuthButtons/);
   });
 
   it("keeps detectSessionInUrl enabled, which completes the round trip", () => {
@@ -53,31 +58,37 @@ describe("OAuth does not depend on Lovable hosting", () => {
 /**
  * A social sign-in button must not be shown unless it can succeed.
  *
- * Supabase answered /authorize with 400 `validation_failed — missing OAuth
- * secret`: no client credentials were configured for the provider. That is a
- * dashboard fault, not a code one, and no code change can fix it — but showing
- * a button that always fails is a choice the code does make.
- *
- * Someone arriving to book a first session with a psychologist should not meet
- * a broken door. Email and password sign-in works; the social buttons stay
- * hidden until a provider is deliberately enabled.
+ * Supabase once answered /authorize with 400 `validation_failed — missing OAuth
+ * secret`, and a button that always fails is a worse first impression than no
+ * button at all. Google and Apple are now both configured server-side by
+ * Lovable Cloud, so they are on by default — but the gate itself must stay, so
+ * `VITE_OAUTH_PROVIDERS` can still hide a provider that breaks without a code
+ * change.
  */
 describe("social sign-in buttons are gated on real configuration", () => {
-  it("shows no provider by default", async () => {
-    const { OAUTH_PROVIDERS, hasAnyOAuth } = await import("@/config/auth");
+  it("enables the providers that are actually configured", async () => {
+    const { OAUTH_PROVIDERS, hasAnyOAuth, isOAuthEnabled } = await import("@/config/auth");
+    expect([...OAUTH_PROVIDERS].sort()).toEqual(["apple", "google"]);
+    expect(hasAnyOAuth()).toBe(true);
+    expect(isOAuthEnabled("google")).toBe(true);
+    expect(isOAuthEnabled("apple")).toBe(true);
+  });
+
+  it("keeps the override path, so a broken provider can be hidden without a deploy of code", () => {
+    const config = read("src/config/auth.ts");
     expect(
-      OAUTH_PROVIDERS,
-      "an unset VITE_OAUTH_PROVIDERS must render no social buttons — the providers are unconfigured in Supabase"
-    ).toEqual([]);
-    expect(hasAnyOAuth()).toBe(false);
+      config,
+      "OAUTH_PROVIDERS must still read VITE_OAUTH_PROVIDERS"
+    ).toMatch(/VITE_OAUTH_PROVIDERS/);
   });
 
   it("renders each button behind its own enablement check", () => {
-    const auth = read("src/pages/Auth.tsx");
-    expect(auth).toMatch(/isOAuthEnabled\("google"\)\s*&&/);
-    expect(auth).toMatch(/isOAuthEnabled\("apple"\)\s*&&/);
-    expect(auth, "the whole block should disappear when nothing is enabled").toMatch(
+    const buttons = read("src/components/auth/SocialAuthButtons.tsx");
+    expect(buttons).toMatch(/isOAuthEnabled\("google"\)\s*&&/);
+    expect(buttons).toMatch(/isOAuthEnabled\("apple"\)\s*&&/);
+    expect(buttons, "the whole block should disappear when nothing is enabled").toMatch(
       /if\s*\(!hasAnyOAuth\(\)\)\s*return null/
     );
   });
 });
+
