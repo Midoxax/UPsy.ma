@@ -89,6 +89,10 @@ const Auth = () => {
   const [defaultTab] = useState(() =>
     new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login"
   );
+  // Destination the user was heading to before being bounced to /auth.
+  const [oauthRedirect] = useState(
+    () => new URLSearchParams(window.location.search).get("redirect") || undefined
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [lastAttempt, setLastAttempt] = useState(0);
