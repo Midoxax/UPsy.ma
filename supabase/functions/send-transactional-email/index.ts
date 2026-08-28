@@ -402,6 +402,21 @@ Deno.serve(async (req) => {
 
   console.log('Transactional email enqueued', { templateName, effectiveRecipient })
 
+  // Mirror the send onto the CRM contact timeline so campaign and lifecycle
+  // mail is visible next to every other touchpoint. Never blocks the send.
+  const { error: crmLogError } = await supabase.rpc('crm_log_email', {
+    _email: effectiveRecipient,
+    _subject: resolvedSubject,
+    _direction: 'outbound',
+    _provider_message_id: messageId,
+    _campaign: null,
+    _template: templateName,
+    _preview: null,
+    _status: 'queued',
+    _metadata: { source: 'send-transactional-email' },
+  })
+  if (crmLogError) console.error('CRM email log failed', crmLogError)
+
   return new Response(
     JSON.stringify({ success: true, queued: true }),
     {
