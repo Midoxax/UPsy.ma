@@ -712,6 +712,7 @@ const AdminDashboard = () => {
           <TabsContent value="accreditation"><AccreditationManager /></TabsContent>
           <TabsContent value="org-applications"><OrgApplicationsManager /></TabsContent>
           <TabsContent value="crm"><CrmManager /></TabsContent>
+          <TabsContent value="finance"><FinanceManager /></TabsContent>
           <TabsContent value="audit"><AuditTrail /></TabsContent>
           <TabsContent value="observatoire"><ObservatoireManager /></TabsContent>
           <TabsContent value="pricing"><PricingControl /></TabsContent>
