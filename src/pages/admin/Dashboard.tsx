@@ -738,6 +738,7 @@ const SupportAwareTabs = () => {
     { value: "users", label: "Users", icon: Shield },
     { value: "accreditation", label: "Accreditation", icon: Award },
     { value: "org-applications", label: "Org. Apps", icon: Building2 },
+    { value: "crm", label: "CRM", icon: Contact2 },
     { value: "observatoire", label: "Observatoire", icon: FlaskConical },
     { value: "pricing", label: "Pricing", icon: DollarSign },
     { value: "transactions", label: "Transactions", icon: Database },
