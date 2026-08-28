@@ -1,3 +1,8 @@
+// Anything consuming these components gets the brand tokens and typefaces with
+// them, rather than rendering unstyled against a system font stack.
+import "./styles.css"
+import "./styles/fonts"
+
 export { AdminRoute } from "./components/AdminRoute"
 export { BreadcrumbWrapper } from "./components/BreadcrumbWrapper"
 export { ErrorBoundary } from "./components/ErrorBoundary"
