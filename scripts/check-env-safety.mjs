@@ -25,6 +25,22 @@ import { execSync } from "node:child_process";
 
 const ALLOWED_PREFIX = "VITE_";
 
+/**
+ * Platform-generated, publishable-by-design keys.
+ *
+ * Lovable Cloud writes these three into .env itself and rewrites the file on
+ * every backend change, so they cannot be moved to .env.local without being
+ * regenerated on the next sync. They are the same public project identifier
+ * and publishable key already exposed through their VITE_ twins — row-level
+ * security, not obscurity, is what protects that data. Nothing else is
+ * exempt: a service-role key or a Resend key added to this file still fails.
+ */
+const ALLOWED_KEYS = new Set([
+  "SUPABASE_PROJECT_ID",
+  "SUPABASE_URL",
+  "SUPABASE_PUBLISHABLE_KEY",
+]);
+
 function trackedEnvFiles() {
   try {
     return execSync("git ls-files", { encoding: "utf8" })
