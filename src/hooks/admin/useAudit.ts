@@ -58,11 +58,11 @@ export type AuditStats = {
   overdue_requests: number;
 };
 
-const nullable = (v?: string) => (v && v.trim().length > 0 ? v.trim() : null);
+const nullable = (v?: string) => (v && v.trim().length > 0 ? v.trim() : undefined);
 const uuidOrNull = (v?: string) =>
   v && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v.trim())
     ? v.trim()
-    : null;
+    : undefined;
 
 export const useAuditStats = (days = 30) =>
   useQuery({
@@ -83,10 +83,10 @@ export const useAuditSearch = (filters: AuditFilters) =>
         _actor: uuidOrNull(filters.actor),
         _subject: uuidOrNull(filters.subject),
         _resource: nullable(filters.resource),
-        _class: filters.dataClass && filters.dataClass !== "all" ? filters.dataClass : null,
-        _action: filters.action && filters.action !== "all" ? filters.action : null,
-        _from: nullable(filters.from) ? new Date(filters.from as string).toISOString() : null,
-        _to: nullable(filters.to) ? new Date(filters.to as string).toISOString() : null,
+        _class: filters.dataClass && filters.dataClass !== "all" ? filters.dataClass : undefined,
+        _action: filters.action && filters.action !== "all" ? filters.action : undefined,
+        _from: nullable(filters.from) ? new Date(filters.from as string).toISOString() : undefined,
+        _to: nullable(filters.to) ? new Date(filters.to as string).toISOString() : undefined,
         _limit: filters.limit ?? 200,
       });
       if (error) throw error;
@@ -126,7 +126,7 @@ export const useUpdateDataSubjectRequest = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, status, notes }: { id: string; status: string; notes?: string }) => {
-      const patch: Record<string, unknown> = { status };
+      const patch: { status: string; notes?: string; fulfilled_at?: string } = { status };
       if (notes !== undefined) patch.notes = notes;
       if (status === "fulfilled") patch.fulfilled_at = new Date().toISOString();
       const { error } = await supabase.from("data_subject_requests").update(patch).eq("id", id);
