@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 
 // Marketing type system — see src/styles/fonts.ts for the full face list.
 import "@/styles/fonts";
+import { resolveExperiments } from "@/lib/experiments/experiments.functions";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -174,6 +175,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { type: "application/ld+json", children: JSONLD_ORG },
     ],
   }),
+  // Resolve A/B buckets before the first byte of HTML, so SSR and hydration
+  // agree on which variant the visitor sees. staleTime keeps this from
+  // re-running (and re-hitting the server) on client-side navigation.
+  loader: async () => ({ experiments: await resolveExperiments() }),
+  staleTime: Infinity,
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
