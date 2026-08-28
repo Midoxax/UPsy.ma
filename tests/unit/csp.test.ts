@@ -1,16 +1,14 @@
 /**
  * Content-Security-Policy invariants.
  *
- * The CSP in vercel.json and the third-party services in .env are two halves of
- * one decision that nothing keeps together. Configure a service and forget the
- * policy, and the browser blocks every request to it — silently, in production
- * only, with no build error and no server-side symptom. Error reporting fails
- * this way especially quietly: the tool whose job is to tell you something
- * broke is the thing that is broken, so the first sign is an eerily clean
- * dashboard.
- *
- * That is not hypothetical here. `VITE_SENTRY_DSN` was configured while
- * `connect-src` still had no Sentry host, which would have dropped every event.
+ * The policy used to live in `vercel.json`. It now lives in
+ * `src/lib/security-headers.ts` and is applied by the server entry, so it
+ * survives a host migration — but the failure mode it guards is unchanged: a
+ * third-party service configured in `.env` whose origin is absent from
+ * `connect-src` is blocked by the browser, silently, in production only, with
+ * no build error. Error reporting fails this way especially quietly: the tool
+ * whose job is to tell you something broke is the thing that is broken, so the
+ * first sign is an eerily clean dashboard.
  *
  * These tests hold the policy to two properties: the origins the app is
  * configured to call are allowed, and the directives that make the policy worth
@@ -19,18 +17,14 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
+import { SECURITY_HEADERS } from "@/lib/security-headers";
 
 const ROOT = resolve(__dirname, "../..");
 
 const csp: string = (() => {
-  const vercel = JSON.parse(readFileSync(resolve(ROOT, "vercel.json"), "utf8"));
-  for (const entry of vercel.headers ?? []) {
-    const header = (entry.headers ?? []).find(
-      (h: { key: string }) => h.key.toLowerCase() === "content-security-policy"
-    );
-    if (header) return header.value as string;
-  }
-  throw new Error("No Content-Security-Policy header defined in vercel.json");
+  const value = SECURITY_HEADERS["content-security-policy"];
+  if (!value) throw new Error("No Content-Security-Policy in SECURITY_HEADERS");
+  return value;
 })();
 
 /** The origins a directive allows, e.g. directiveOf("connect-src"). */
@@ -98,7 +92,8 @@ describe("CSP covers configured services", () => {
       expect(
         allows("connect-src", origin),
         `${key} points at ${origin}, which connect-src does not allow. The browser ` +
-          `will block every request to it in production. Add it to the CSP in vercel.json.`
+          `will block every request to it in production. Add it to CONNECT_SRC in ` +
+          `src/lib/security-headers.ts.`
       ).toBe(true);
     }
   });
@@ -132,6 +127,15 @@ describe("CSP keeps its load-bearing directives", () => {
   it("never allows a wildcard origin in connect-src", () => {
     expect(directiveOf("connect-src")).not.toContain("*");
   });
+
+  it("still sends the non-CSP hardening headers", () => {
+    // These moved out of vercel.json with the CSP; losing one is invisible
+    // until someone frames the app or sniffs a MIME type.
+    expect(SECURITY_HEADERS["x-content-type-options"]).toBe("nosniff");
+    expect(SECURITY_HEADERS["x-frame-options"]).toBe("DENY");
+    expect(SECURITY_HEADERS["strict-transport-security"]).toMatch(/max-age=\d+/);
+    expect(SECURITY_HEADERS["referrer-policy"]).toBeTruthy();
+  });
 });
 
 /**
@@ -143,11 +147,20 @@ describe("CSP keeps its load-bearing directives", () => {
  * exist, which suppresses indexing rather than merely misattributing it. The
  * same literal in og:image is why link previews did not render.
  *
- * Nothing in a build catches this: the site renders perfectly, and the damage
- * is entirely off-site and invisible until traffic never arrives.
+ * The static index.html is gone with the move to server rendering; the head is
+ * now declared in the root route, so that is what these read.
  */
+const rootRoute = readFileSync(resolve(ROOT, "src/routes/__root.tsx"), "utf8");
+
+/** Pull a head entry's content, e.g. metaContent("og:url"). */
+function metaContent(name: string): string | undefined {
+  const re = new RegExp(
+    `(?:property|name):\\s*"${name.replace(/[.*+?^$()|[\\]\\\\]/g, "\\\\$&")}"\\s*,\\s*content:\\s*"([^"]+)"`
+  );
+  return rootRoute.match(re)?.[1];
+}
+
 describe("SEO origin is internally consistent", () => {
-  const html = readFileSync(resolve(ROOT, "index.html"), "utf8");
   const robots = readFileSync(resolve(ROOT, "public/robots.txt"), "utf8");
   const homepage: string = JSON.parse(
     readFileSync(resolve(ROOT, "package.json"), "utf8")
@@ -159,11 +172,11 @@ describe("SEO origin is internally consistent", () => {
     );
   });
 
-  it("the static canonical and og:url match the declared homepage", () => {
-    const canonical = html.match(/rel="canonical" href="([^"]+)"/)?.[1];
-    const ogUrl = html.match(/property="og:url" content="([^"]+)"/)?.[1];
+  it("the root canonical and og:url match the declared homepage", () => {
+    const canonical = rootRoute.match(/rel:\s*"canonical",\s*href:\s*"([^"]+)"/)?.[1];
+    const ogUrl = metaContent("og:url");
     for (const [name, value] of [["canonical", canonical], ["og:url", ogUrl]] as const) {
-      expect(value, `${name} is absent from index.html`).toBeTruthy();
+      expect(value, `${name} is absent from src/routes/__root.tsx`).toBeTruthy();
       expect(
         new URL(value!).origin,
         `${name} points at ${value}, but the site is served from ${homepage}`
@@ -177,10 +190,10 @@ describe("SEO origin is internally consistent", () => {
     expect(new URL(advertised!).origin).toBe(homepage);
   });
 
-  it("no absolute URL in index.html points at a different origin than the site", () => {
+  it("no absolute URL in the root head points at a different first-party origin", () => {
     // Third-party hosts are expected; a *different* first-party origin is the bug.
-    const origins = [...html.matchAll(/https:\/\/[a-z0-9.-]+/g)].map((m) => m[0]);
-    const strayFirstParty = origins.filter((o) => /upsy/i.test(o) && o !== homepage);
+    const origins = [...rootRoute.matchAll(/https:\/\/[a-z0-9.-]+/g)].map((m) => m[0]);
+    const strayFirstParty = [...new Set(origins.filter((o) => /upsy/i.test(o) && o !== homepage))];
     expect(strayFirstParty, "a stale first-party origin is still hardcoded").toEqual([]);
   });
 });
@@ -188,10 +201,10 @@ describe("SEO origin is internally consistent", () => {
 /**
  * The social preview image must exist and be what it claims to be.
  *
- * Two separate faults lived here. The og:image pointed at a Lovable-published
- * path absent from the Vercel build, so every share requested a 404. And the
- * asset that *should* have been used, public/og-image.png, is a JPEG carrying a
- * .png extension — served as image/png under `X-Content-Type-Options: nosniff`,
+ * Two separate faults lived here. The og:image pointed at a published path
+ * absent from the build, so every share requested a 404. And the asset that
+ * *should* have been used, public/og-image.png, was a JPEG carrying a .png
+ * extension — served as image/png under `X-Content-Type-Options: nosniff`,
  * which tells the client not to correct the mismatch.
  *
  * Neither is visible from the app: link previews are rendered by other people's
@@ -199,9 +212,8 @@ describe("SEO origin is internally consistent", () => {
  * look.
  */
 describe("og:image is real and correctly typed", () => {
-  const html = readFileSync(resolve(ROOT, "index.html"), "utf8");
-  const ogImage = html.match(/property="og:image" content="([^"]+)"/)?.[1] ?? "";
-  const declaredType = html.match(/property="og:image:type" content="([^"]+)"/)?.[1] ?? "";
+  const ogImage = metaContent("og:image") ?? "";
+  const declaredType = metaContent("og:image:type") ?? "";
 
   /** Magic bytes, because the extension has already lied once. */
   function sniff(buf: Buffer): "png" | "jpeg" | "unknown" {
@@ -211,7 +223,7 @@ describe("og:image is real and correctly typed", () => {
   }
 
   it("points at a file that ships in public/", () => {
-    expect(ogImage, "index.html declares no og:image").toBeTruthy();
+    expect(ogImage, "the root route declares no og:image").toBeTruthy();
     const path = new URL(ogImage).pathname;
     expect(
       existsSync(resolve(ROOT, "public", path.replace(/^\//, ""))),
@@ -239,49 +251,30 @@ describe("og:image is real and correctly typed", () => {
 });
 
 /**
- * Client-side routes must survive a direct request.
+ * Deep links are served by the server, not by a hosting rewrite.
  *
- * This is a single-page app: the server has one document, and every route below
- * `/` exists only once React has booted. Without an explicit rewrite, a request
- * straight to /pricing asks Vercel for a file that does not exist, and Vercel
- * answers 404 — correctly, and catastrophically.
- *
- * It happened. The production check against www.upsy.ma returned 200 for `/`
- * and 404 for every other route: shared links, refreshes, and every one of the
- * 103 URLs in the sitemap. Only visitors who typed the bare domain saw a site.
- *
- * Vercel's `framework: "vite"` preset normally supplies this fallback, which is
- * why nothing declared it. That preset was not applying — the project's
- * Framework Settings are overridden in the dashboard. Relying on a setting that
- * lives outside the repository, and that no test can see, is what made this
- * invisible. The rewrite is now declared here, where it is version-controlled
- * and asserted.
+ * Under the old Vite SPA build, every route below `/` existed only once React
+ * had booted, and a missing `vercel.json` catch-all rewrite 404ed all of them
+ * in production. The app now server-renders through a Worker entry, so the
+ * property to hold is that the entry exists and the route files a link can
+ * point at are real — there is no hosting-level rewrite left to forget.
  */
-describe("SPA deep links are served, not 404ed", () => {
-  const vercel = JSON.parse(readFileSync(resolve(ROOT, "vercel.json"), "utf8"));
-
-  it("declares a catch-all rewrite to index.html", () => {
-    const rewrites: Array<{ source: string; destination: string }> = vercel.rewrites ?? [];
+describe("deep links have a server entry behind them", () => {
+  it("builds from the SSR wrapper entry", () => {
+    expect(existsSync(resolve(ROOT, "src/server.ts"))).toBe(true);
+    const viteConfig = readFileSync(resolve(ROOT, "vite.config.ts"), "utf8");
     expect(
-      rewrites.length,
-      "vercel.json has no rewrites — every route except / will 404 if the " +
-        "framework preset is not applied, and the dashboard can disable that preset"
-    ).toBeGreaterThan(0);
-    expect(
-      rewrites.some((r) => r.destination === "/index.html"),
-      "no rewrite targets /index.html, so client routes have nothing to fall back to"
-    ).toBe(true);
+      viteConfig,
+      "vite.config.ts must point tanstackStart.server.entry at src/server.ts, " +
+        "or the SSR error wrapper is never invoked"
+    ).toMatch(/server:\s*{\s*entry:\s*"server"/);
   });
 
-  it("uses a source form Vercel actually accepts", () => {
-    // A negative-lookahead source ("/((?!api/).*)") was tried first and the
-    // rule was silently ignored in production — every route except / kept
-    // 404ing while the headers from the same file applied. Vercel parses
-    // `source` with path-to-regexp; keep it to the plain catch-all it
-    // unambiguously supports. There is no api/ directory to exclude.
-    const catchAll = (vercel.rewrites ?? []).find(
-      (r: { destination: string }) => r.destination === "/index.html"
-    );
-    expect(catchAll.source).toBe("/(.*)");
+  it("keeps no Vercel routing config that could contradict the server", () => {
+    expect(
+      existsSync(resolve(ROOT, "vercel.json")),
+      "vercel.json is back — routing now lives in the Worker entry, and two " +
+        "sources of routing truth is how the deep-link 404 happened before"
+    ).toBe(false);
   });
 });
