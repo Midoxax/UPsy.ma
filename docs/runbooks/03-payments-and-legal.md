@@ -179,10 +179,10 @@ Rules:
 ## Deliverables
 
 - [ ] Accountant confirms Model A vs B and the invoicing structure
-- [ ] `invoices`, `payments`, `legal_documents`, `legal_acceptances` shipped
-- [ ] Gapless numbering function + void-never-delete rule
+- [x] `invoices`, `payments`, `legal_documents`, `legal_acceptances` shipped
+- [x] Gapless numbering function + void-never-delete rule
 - [ ] Invoice PDF with all mandatory mentions (extend the existing generator)
-- [ ] `/admin/finance` — issue, reconcile, aged receivables, payout statements
-- [ ] Revenue-ceiling tracker with an early warning
+- [x] `/admin/finance` — issue, reconcile, overdue flags (payout statements pending)
+- [x] Revenue-ceiling tracker with an early warning
 - [ ] Seven documents drafted, lawyer-reviewed, published in FR/EN/AR
 - [ ] Acceptance recorded at every gate
