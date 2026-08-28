@@ -9,9 +9,11 @@
         "@fontsource/cormorant-garamond": "^5.2.11",
         "@fontsource/fraunces": "^5.2.9",
         "@fontsource/geist-sans": "^5.2.5",
+        "@fontsource/ibm-plex-sans": "^5.3.0",
         "@fontsource/instrument-serif": "^5.2.8",
         "@fontsource/jetbrains-mono": "^5.2.8",
         "@fontsource/manrope": "^5.2.8",
+        "@fontsource/sora": "^5.3.0",
         "@fontsource/work-sans": "^5.2.8",
         "@hookform/resolvers": "^5.2.2",
         "@lovable.dev/cloud-auth-js": "^1.0.0",
@@ -268,11 +270,15 @@
 
     "@fontsource/geist-sans": ["@fontsource/geist-sans@5.3.0", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/geist-sans/-/geist-sans-5.3.0.tgz", {}, "sha512-AmG7cE1AvE4NHROPaOl1sN+a02cB5xy6pA/ZV76HXqWTCsJTV2SCBc9DTFHfJqnVOODm7HhXIYtUIb75NP5QXQ=="],
 
+    "@fontsource/ibm-plex-sans": ["@fontsource/ibm-plex-sans@5.3.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/ibm-plex-sans/-/ibm-plex-sans-5.3.0.tgz", {}, "sha512-CbE4CbbEEZJX860XyUiRpsksXIQR8Rp2XDva2VO53NJox9tVNtusrysd2x5YkUEY3ErQ66W1IiiQL8/wihhw5w=="],
+
     "@fontsource/instrument-serif": ["@fontsource/instrument-serif@5.3.0", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/instrument-serif/-/instrument-serif-5.3.0.tgz", {}, "sha512-mDiaIg0u67sYV59fie92Wz4sM8UiVlbL7fLxnFPCKkX15DMASEnQTREbaP5S5/3DCcsoAOcQ0sV9E4AeY4QqYQ=="],
 
     "@fontsource/jetbrains-mono": ["@fontsource/jetbrains-mono@5.3.0", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/jetbrains-mono/-/jetbrains-mono-5.3.0.tgz", {}, "sha512-fqDfB5I9f1p1TV486aUgB9t8zP84P0O1FtQR5Ol9vjwPy+S+EIGlVYm1cvj2W5shcZMTg2nZFdVMoH5wFu8a1A=="],
 
     "@fontsource/manrope": ["@fontsource/manrope@5.3.0", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/manrope/-/manrope-5.3.0.tgz", {}, "sha512-obJ1Dv3+uCA6HlHgW8u4BGYxJR9In2HW7gjJhlflEvkrj1X1iSEwu0fToL+JYGC/FEKFfIz1sBuPduvcL2gIAA=="],
+
+    "@fontsource/sora": ["@fontsource/sora@5.3.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/sora/-/sora-5.3.0.tgz", {}, "sha512-SqW3OpKxxfKvxDLPlbdrWf2KooPfbd+W3jaYn483o+Y/JrmU87vjFPNptDqwP428c3vY+gnranLhjcbRaXB0Jw=="],
 
     "@fontsource/work-sans": ["@fontsource/work-sans@5.3.0", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@fontsource/work-sans/-/work-sans-5.3.0.tgz", {}, "sha512-3cKV28+bEiLGdyOl0VgEGCFWE1XdZJu/K+nH4Jt76XC3T//XrRtm2EF7jA61GSMIy8sYp6ZFTE01nD3lLaBV9A=="],
 
