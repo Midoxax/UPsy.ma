@@ -44,8 +44,8 @@ const fmtLift = (n: number | null | undefined) =>
   n == null || !Number.isFinite(n) ? "—" : `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
 
 export default function ExperimentPanel() {
-  const role = useCrmRole();
-  const canPromote = crmAtLeast(role, "manager");
+  const { data: role } = useCrmRole();
+  const canPromote = crmAtLeast(role ?? null, "manager");
 
   const [status, setStatus] = useState<WinnerStatus | null>(null);
   const [variants, setVariants] = useState<Record<string, VariantStat>>({});
