@@ -51,6 +51,7 @@ import {
 import { crmAtLeast, useCrmRole } from "@/hooks/admin/useCrmOps";
 import CrmForecastPanel from "@/components/admin/CrmForecastPanel";
 import CrmAutomationsPanel from "@/components/admin/CrmAutomationsPanel";
+import CrmFunnelPanel from "@/components/admin/CrmFunnelPanel";
 
 const PIPELINES = [
   { key: "b2c_first_session", label: "First session" },
@@ -559,12 +560,14 @@ const CrmManager = () => {
           <TabsTrigger value="pipeline">Pipeline</TabsTrigger>
           <TabsTrigger value="forecast">Forecast</TabsTrigger>
           <TabsTrigger value="automations">Automations</TabsTrigger>
+          <TabsTrigger value="funnels">Funnels</TabsTrigger>
         </TabsList>
         <TabsContent value="overview"><OverviewView onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="contacts"><ContactsView onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="pipeline"><PipelineView onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="forecast"><CrmForecastPanel onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="automations"><CrmAutomationsPanel onOpenContact={setOpenContact} /></TabsContent>
+        <TabsContent value="funnels"><CrmFunnelPanel /></TabsContent>
       </Tabs>
 
       <ContactDetail contactId={openContact} onClose={() => setOpenContact(null)} />

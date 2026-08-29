@@ -2536,6 +2536,93 @@ export type Database = {
         }
         Relationships: []
       }
+      experiment_winners: {
+        Row: {
+          auto: boolean
+          confidence: number | null
+          control_rate: number | null
+          decided_at: string
+          experiment_id: string
+          id: string
+          lift_pct: number | null
+          promoted_by: string | null
+          traffic_per_arm: number | null
+          winner_rate: number | null
+          winning_variant: string
+        }
+        Insert: {
+          auto?: boolean
+          confidence?: number | null
+          control_rate?: number | null
+          decided_at?: string
+          experiment_id: string
+          id?: string
+          lift_pct?: number | null
+          promoted_by?: string | null
+          traffic_per_arm?: number | null
+          winner_rate?: number | null
+          winning_variant: string
+        }
+        Update: {
+          auto?: boolean
+          confidence?: number | null
+          control_rate?: number | null
+          decided_at?: string
+          experiment_id?: string
+          id?: string
+          lift_pct?: number | null
+          promoted_by?: string | null
+          traffic_per_arm?: number | null
+          winner_rate?: number | null
+          winning_variant?: string
+        }
+        Relationships: []
+      }
+      funnel_events: {
+        Row: {
+          contact_id: string | null
+          created_at: string
+          experiment_id: string | null
+          id: string
+          session_token: string | null
+          step: string
+          user_id: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          variant: string | null
+        }
+        Insert: {
+          contact_id?: string | null
+          created_at?: string
+          experiment_id?: string | null
+          id?: string
+          session_token?: string | null
+          step: string
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          variant?: string | null
+        }
+        Update: {
+          contact_id?: string | null
+          created_at?: string
+          experiment_id?: string | null
+          id?: string
+          session_token?: string | null
+          step?: string
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          variant?: string | null
+        }
+        Relationships: []
+      }
       gamification_badges: {
         Row: {
           created_at: string | null
@@ -7123,6 +7210,7 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      funnel_metrics: { Args: { _from?: string; _to?: string }; Returns: Json }
       generate_referral_code: { Args: never; Returns: string }
       generate_slug: { Args: { id: string; name: string }; Returns: string }
       get_ai_tier: { Args: { _user_id: string }; Returns: string }
@@ -7181,6 +7269,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      home_hero_forced_variant: { Args: never; Returns: string }
+      home_hero_winner: { Args: never; Returns: Json }
       increment_ai_usage: { Args: never; Returns: number }
       inspect_provisioning_state: {
         Args: { _application_id: string }
@@ -7275,6 +7365,7 @@ export type Database = {
         Returns: number
       }
       observatoire_answer_stats: { Args: { _track: string }; Returns: Json }
+      observatoire_funnel_report: { Args: { _days?: number }; Returns: Json }
       observatoire_summary: { Args: never; Returns: Json }
       ops_has_workspace_access: {
         Args: { _user: string; _workspace: string }
@@ -7288,6 +7379,7 @@ export type Database = {
         Args: { _org_id: string; _survey_id?: string }
         Returns: Json
       }
+      promote_home_hero_winner: { Args: { _auto?: boolean }; Returns: Json }
       publish_event: {
         Args: {
           p_actor_id?: string
