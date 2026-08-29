@@ -1,13 +1,39 @@
 import { createServerFn } from "@tanstack/react-start";
+import { createClient } from "@supabase/supabase-js";
 
 import {
   EXPERIMENT_COOKIE_MAX_AGE,
   EXPERIMENT_COOKIE_PREFIX,
   EXPERIMENTS,
+  HOME_HERO_EXPERIMENT,
   isValidVariant,
   pickVariant,
   type ExperimentAssignments,
 } from "./config";
+
+type HomeHeroWinnerResult = {
+  status?: string;
+  winning_variant?: string;
+};
+
+/**
+ * If a variant has been promoted (manually or by the auto-promote job), the
+ * experiment is over: every visitor is served the winner, ignoring their cookie
+ * bucket. Returns null while the test is still inconclusive.
+ */
+async function promotedWinner(): Promise<string | null> {
+  const url = process.env["SUPABASE_URL"];
+  const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
+  if (!url || !key) return null;
+  const supabase = createClient(url, key, { auth: { persistSession: false } });
+  const { data } = (await supabase.rpc("home_hero_winner").maybeSingle()) as {
+    data: HomeHeroWinnerResult | null;
+  };
+  if (data?.status === "winner" && HOME_HERO_EXPERIMENT.variants.includes(data.winning_variant as never)) {
+    return data.winning_variant!;
+  }
+  return null;
+}
 
 /**
  * Resolve this visitor's variant for every registered experiment.
