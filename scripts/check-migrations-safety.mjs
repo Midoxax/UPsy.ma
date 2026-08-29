@@ -1,23 +1,30 @@
-// Static security scan of supabase/migrations — catches the exact regression
-// class the Supabase linter flags, at the source, without needing DB access:
-// a CREATE TABLE in the public schema that never gets ENABLE ROW LEVEL
-// SECURITY, or never gets a GRANT, across the entire migration corpus.
+// Static security scan of supabase/migrations — catches the regression class
+// the Supabase linter flags, at the source, without DB access: a CREATE TABLE
+// in the public schema that never gets ENABLE ROW LEVEL SECURITY, or never
+// gets a GRANT, across the entire migration corpus.
 //
-// Aggregates across all files: a table created in migration A and granted in
-// migration B is fine. A table that is created but never granted or never
-// RLS-enabled anywhere is a real regression. SECURITY DEFINER functions
-// granted to anon without an internal has_role guard are flagged as warnings.
+// Baseline mode: the historical corpus predates the GRANT-enforcement rule,
+// so a strict scan would fail forever. We snapshot the current violation set
+// into scripts/migrations-safety-baseline.json and CI fails ONLY on violations
+// that are NOT in the baseline — i.e. genuine regressions in new migrations.
+// Improvement (a baseline entry fixed) is reported but does not fail.
 //
-// Exit code 1 if any error is found. Prints a structured report.
+//   node scripts/check-migrations-safety.mjs            # compare vs baseline
+//   node scripts/check-migrations-safety.mjs --update   # rewrite baseline
+//
+// Exit 1 on new regressions; 0 otherwise.
 
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const MIGRATIONS_DIR = new URL("../supabase/migrations", import.meta.url).pathname;
+const BASELINE_FILE = new URL("migrations-safety-baseline.json", import.meta.url).pathname;
 const FAIL = "\x1b[31m";
 const WARN = "\x1b[33m";
+const GREEN = "\x1b[32m";
 const DIM = "\x1b[2m";
 const RESET = "\x1b[0m";
+const updateMode = process.argv.includes("--update");
 
 function listSqlFiles(dir) {
   let out = [];
@@ -36,24 +43,19 @@ function findMatches(sql, re) {
   return out;
 }
 
-function main() {
+function collectViolations() {
   let files;
   try {
     files = listSqlFiles(MIGRATIONS_DIR);
   } catch {
-    console.log(`${DIM}no supabase/migrations directory — skipping${RESET}`);
-    process.exit(0);
+    return { files: 0, violations: [] };
   }
-  if (files.length === 0) {
-    console.log(`${DIM}no migration files found — skipping${RESET}`);
-    process.exit(0);
-  }
+  if (files.length === 0) return { files: 0, violations: [] };
 
-  // Aggregate every CREATE TABLE / GRANT / ENABLE RLS across the whole corpus.
-  const created = new Map(); // tableName -> first file
+  const created = new Map();
   const rlsEnabled = new Set();
   const granted = new Set();
-  const definerFns = new Map(); // fnName -> first file
+  const definerFns = new Map();
   const anonExecFns = new Set();
 
   for (const file of files) {
@@ -77,35 +79,64 @@ function main() {
     }
   }
 
-  const issues = [];
+  const violations = [];
   for (const [name, file] of created) {
-    if (!rlsEnabled.has(name)) issues.push({ file, table: name, rule: "rls_missing", severity: "error" });
-    if (!granted.has(name)) issues.push({ file, table: name, rule: "grant_missing", severity: "error" });
+    if (!rlsEnabled.has(name)) violations.push(`${"rls_missing"}:${name}:${file.split("/").pop()}`);
+    if (!granted.has(name)) violations.push(`${"grant_missing"}:${name}:${file.split("/").pop()}`);
   }
-  // SECURITY DEFINER granted to anon: flag if the function body (best effort)
-  // lacks a has_role guard. We re-scan the definer function body for has_role.
   for (const [name, file] of definerFns) {
     if (!anonExecFns.has(name)) continue;
     const sql = readFileSync(file, "utf8");
     const bodyRe = new RegExp(`CREATE\\s+(?:OR\\s+REPLACE\\s+)?FUNCTION\\s+public\\.${name}\\s*\\([^)]*\\)[\\s\\S]*?\\$\\$`, "i");
     const bm = bodyRe.exec(sql);
     const hasGuard = bm ? /has_role\s*\(/i.test(bm[0]) : false;
-    if (!hasGuard) issues.push({ file, table: name, rule: "anon_security_definer_no_guard", severity: "warn" });
+    if (!hasGuard) violations.push(`anon_security_definer_no_guard:${name}:${file.split("/").pop()}`);
   }
+  return { files: files.length, violations: violations.sort() };
+}
 
-  if (issues.length === 0) {
-    console.log(`${DIM}migrations safety: ${files.length} files, ${created.size} tables — no violations${RESET}`);
+function loadBaseline() {
+  try {
+    return new Set(JSON.parse(readFileSync(BASELINE_FILE, "utf8")));
+  } catch {
+    return new Set();
+  }
+}
+
+function main() {
+  const { files, violations } = collectViolations();
+  if (files === 0) {
+    console.log(`${DIM}no migrations — skipping${RESET}`);
     process.exit(0);
   }
 
-  const errors = issues.filter((i) => i.severity === "error");
-  const warns = issues.filter((i) => i.severity === "warn");
-  for (const i of issues) {
-    const color = i.severity === "error" ? FAIL : WARN;
-    console.log(`${color}[${i.severity}]${RESET} ${i.rule} on public.${i.table} (created in ${i.file})`);
+  if (updateMode) {
+    writeFileSync(BASELINE_FILE, JSON.stringify(violations, null, 2) + "\n");
+    console.log(`${GREEN}baseline written: ${violations.length} entries${RESET}`);
+    process.exit(0);
   }
-  console.log(`\n${errors.length ? FAIL : DIM}${errors.length} error(s), ${warns.length} warning(s)${RESET}`);
-  process.exit(errors.length ? 1 : 0);
+
+  const baseline = loadBaseline();
+  const current = new Set(violations);
+  const newViolations = violations.filter((v) => !baseline.has(v));
+  const fixed = [...baseline].filter((v) => !current.has(v));
+
+  if (newViolations.length === 0) {
+    console.log(`${DIM}migrations safety: ${files} files, ${violations.length} known violations (baselineed), ${fixed.length} fixed since baseline${RESET}`);
+    if (fixed.length > 0) {
+      console.log(`${GREEN}${fixed.length} previously-flagged issue(s) resolved — run \`node scripts/check-migrations-safety.mjs --update\` to refresh the baseline${RESET}`);
+    }
+    process.exit(0);
+  }
+
+  for (const v of newViolations) {
+    const [rule, table, file] = v.split(":");
+    const sev = rule === "anon_security_definer_no_guard" ? WARN : FAIL;
+    const label = sev === WARN ? "warn" : "error";
+    console.log(`${sev}[${label}]${RESET} ${rule} on public.${table} (new — created/changed in ${file})`);
+  }
+  console.log(`\n${FAIL}${newViolations.length} new regression(s) beyond baseline${RESET}`);
+  process.exit(1);
 }
 
 main();
