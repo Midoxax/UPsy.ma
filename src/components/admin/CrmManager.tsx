@@ -52,6 +52,7 @@ import { crmAtLeast, useCrmRole } from "@/hooks/admin/useCrmOps";
 import CrmForecastPanel from "@/components/admin/CrmForecastPanel";
 import CrmAutomationsPanel from "@/components/admin/CrmAutomationsPanel";
 import CrmFunnelPanel from "@/components/admin/CrmFunnelPanel";
+import ExperimentPanel from "@/components/admin/ExperimentPanel";
 
 const PIPELINES = [
   { key: "b2c_first_session", label: "First session" },
