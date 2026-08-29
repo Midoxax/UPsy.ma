@@ -270,6 +270,57 @@ export type Database = {
         }
         Relationships: []
       }
+      app_logs: {
+        Row: {
+          created_at: string
+          duration_ms: number | null
+          environment: string
+          event: string
+          id: number
+          level: string
+          message: string | null
+          metadata: Json
+          release: string | null
+          request_id: string | null
+          route: string | null
+          source: string
+          status_code: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          duration_ms?: number | null
+          environment?: string
+          event: string
+          id?: number
+          level?: string
+          message?: string | null
+          metadata?: Json
+          release?: string | null
+          request_id?: string | null
+          route?: string | null
+          source?: string
+          status_code?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number | null
+          environment?: string
+          event?: string
+          id?: number
+          level?: string
+          message?: string | null
+          metadata?: Json
+          release?: string | null
+          request_id?: string | null
+          route?: string | null
+          source?: string
+          status_code?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       assessment_premium_reports: {
         Row: {
           amount_eur: number
@@ -1684,32 +1735,56 @@ export type Database = {
       crm_consents: {
         Row: {
           basis: string
+          campaign: string | null
+          channel: string
           contact_id: string
           evidence: Json
+          expires_at: string | null
           granted: boolean
           id: string
+          locale: string | null
+          notice_version: string | null
           purpose: string
+          receipt_ref: string | null
           recorded_at: string
+          source_url: string | null
+          updated_at: string
           withdrawn_at: string | null
         }
         Insert: {
           basis?: string
+          campaign?: string | null
+          channel?: string
           contact_id: string
           evidence?: Json
+          expires_at?: string | null
           granted: boolean
           id?: string
+          locale?: string | null
+          notice_version?: string | null
           purpose: string
+          receipt_ref?: string | null
           recorded_at?: string
+          source_url?: string | null
+          updated_at?: string
           withdrawn_at?: string | null
         }
         Update: {
           basis?: string
+          campaign?: string | null
+          channel?: string
           contact_id?: string
           evidence?: Json
+          expires_at?: string | null
           granted?: boolean
           id?: string
+          locale?: string | null
+          notice_version?: string | null
           purpose?: string
+          receipt_ref?: string | null
           recorded_at?: string
+          source_url?: string | null
+          updated_at?: string
           withdrawn_at?: string | null
         }
         Relationships: [
@@ -2169,46 +2244,70 @@ export type Database = {
       }
       data_subject_requests: {
         Row: {
+          channel: string
           created_at: string
           due_at: string
           email: string
+          evidence: Json
+          export_bytes: number | null
+          exported_at: string | null
           fulfilled_at: string | null
           handled_by: string | null
           id: string
           legal_basis: string | null
           notes: string | null
+          reference: string | null
           request_type: string
+          requested_changes: Json | null
+          resolution: string | null
           status: string
           updated_at: string
           user_id: string | null
+          verified_at: string | null
         }
         Insert: {
+          channel?: string
           created_at?: string
           due_at?: string
           email: string
+          evidence?: Json
+          export_bytes?: number | null
+          exported_at?: string | null
           fulfilled_at?: string | null
           handled_by?: string | null
           id?: string
           legal_basis?: string | null
           notes?: string | null
+          reference?: string | null
           request_type: string
+          requested_changes?: Json | null
+          resolution?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
+          verified_at?: string | null
         }
         Update: {
+          channel?: string
           created_at?: string
           due_at?: string
           email?: string
+          evidence?: Json
+          export_bytes?: number | null
+          exported_at?: string | null
           fulfilled_at?: string | null
           handled_by?: string | null
           id?: string
           legal_basis?: string | null
           notes?: string | null
+          reference?: string | null
           request_type?: string
+          requested_changes?: Json | null
+          resolution?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
+          verified_at?: string | null
         }
         Relationships: []
       }
@@ -6759,6 +6858,33 @@ export type Database = {
         Returns: Json
       }
       admin_user_activity: { Args: { _user_id: string }; Returns: Json }
+      app_logs_search: {
+        Args: {
+          _env?: string
+          _from?: string
+          _level?: string
+          _limit?: number
+          _search?: string
+          _source?: string
+          _to?: string
+        }
+        Returns: {
+          created_at: string
+          duration_ms: number
+          environment: string
+          event: string
+          id: number
+          level: string
+          message: string
+          metadata: Json
+          release: string
+          request_id: string
+          route: string
+          source: string
+          status_code: number
+        }[]
+      }
+      app_logs_stats: { Args: { _hours?: number }; Returns: Json }
       audit_search: {
         Args: {
           _action?: string
@@ -6813,8 +6939,9 @@ export type Database = {
         Args: never
         Returns: {
           basis: string
+          campaign: string
+          channel: string
           contact_created_at: string
-          contact_id: string
           contact_type: string
           email: string
           evidence: Json
@@ -6822,9 +6949,13 @@ export type Database = {
           full_name: string
           granted: boolean
           lifecycle: string
+          locale: string
+          notice_version: string
           purpose: string
+          receipt_ref: string
           recorded_at: string
           source: string
+          source_url: string
           withdrawn_at: string
         }[]
       }
@@ -6875,6 +7006,23 @@ export type Database = {
           weighted_mad: number
         }[]
       }
+      crm_record_consent: {
+        Args: {
+          _basis?: string
+          _campaign?: string
+          _channel?: string
+          _email: string
+          _evidence?: Json
+          _full_name?: string
+          _granted: boolean
+          _locale?: string
+          _notice_version?: string
+          _purpose: string
+          _source_url?: string
+          _user_agent?: string
+        }
+        Returns: string
+      }
       crm_record_email_event: {
         Args: {
           _email?: string
@@ -6908,6 +7056,67 @@ export type Database = {
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
+      }
+      dsr_admin_list: {
+        Args: { _limit?: number; _status?: string }
+        Returns: {
+          created_at: string
+          due_at: string
+          email: string
+          evidence: Json
+          exported_at: string
+          id: string
+          notes: string
+          overdue: boolean
+          reference: string
+          request_type: string
+          requested_changes: Json
+          resolution: string
+          status: string
+          user_id: string
+        }[]
+      }
+      dsr_admin_update: {
+        Args: { _id: string; _resolution?: string; _status: string }
+        Returns: undefined
+      }
+      dsr_export_my_data: { Args: { _user_agent?: string }; Returns: Json }
+      dsr_submit: {
+        Args: {
+          _changes?: Json
+          _locale?: string
+          _notes?: string
+          _request_type: string
+          _user_agent?: string
+        }
+        Returns: {
+          channel: string
+          created_at: string
+          due_at: string
+          email: string
+          evidence: Json
+          export_bytes: number | null
+          exported_at: string | null
+          fulfilled_at: string | null
+          handled_by: string | null
+          id: string
+          legal_basis: string | null
+          notes: string | null
+          reference: string | null
+          request_type: string
+          requested_changes: Json | null
+          resolution: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+          verified_at: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_subject_requests"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       email_queue_dispatch: { Args: never; Returns: undefined }
       enqueue_email: {
@@ -7028,6 +7237,22 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      log_app_event: {
+        Args: {
+          _duration_ms?: number
+          _environment?: string
+          _event: string
+          _level?: string
+          _message?: string
+          _metadata?: Json
+          _release?: string
+          _request_id?: string
+          _route?: string
+          _source?: string
+          _status_code?: number
+        }
+        Returns: number
+      }
       log_sensitive_access: {
         Args: {
           _context?: Json
@@ -7077,6 +7302,7 @@ export type Database = {
         }
         Returns: string
       }
+      purge_app_logs: { Args: never; Returns: number }
       purge_expired_audit_log: { Args: never; Returns: number }
       quest_increment: {
         Args: { _delta?: number; _quest_slug: string; _step_id: string }
