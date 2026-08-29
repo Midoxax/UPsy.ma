@@ -53,6 +53,16 @@ export const resolveExperiments = createServerFn({ method: "GET" }).handler(
 
     const assignments: ExperimentAssignments = {};
 
+    // If a winner has been promoted, the experiment is decided: serve it to
+    // everyone and skip bucketing so returning visitors also see the winner.
+    const winner = await promotedWinner();
+    if (winner) {
+      for (const experiment of EXPERIMENTS) {
+        assignments[experiment.id] = experiment.id === HOME_HERO_EXPERIMENT.id ? winner : experiment.variants[0]!;
+      }
+      return assignments;
+    }
+
     for (const experiment of EXPERIMENTS) {
       const cookieName = `${EXPERIMENT_COOKIE_PREFIX}${experiment.id}`;
       const existing = getCookie(cookieName);
