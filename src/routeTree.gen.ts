@@ -102,6 +102,7 @@ import { Route as LocaleWhyUsRouteImport } from './routes/$locale/why-us'
 import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
 import { Route as AdminAuditRouteImport } from './routes/admin/audit'
 import { Route as AdminCrmRouteImport } from './routes/admin/crm'
+import { Route as AdminDnsRouteImport } from './routes/admin/dns'
 import { Route as AdminFinanceRouteImport } from './routes/admin/finance'
 import { Route as AdminGrowthLeadsRouteImport } from './routes/admin/growth-leads'
 import { Route as ApplyOrganizationRouteImport } from './routes/apply/organization'
@@ -163,7 +164,11 @@ import { Route as LocaleLearnSlugRouteImport } from './routes/$locale/learn/$slu
 import { Route as LocalePsychologistsIdRouteImport } from './routes/$locale/psychologists/$id'
 import { Route as LocaleServicesConsultingForOrganizationsRouteImport } from './routes/$locale/services/consulting-for-organizations'
 import { Route as LocaleSessionSessionIdRouteImport } from './routes/$locale/session/$sessionId'
+import { Route as ApiPublicCiEventsRouteImport } from './routes/api/public/ci-events'
 import { Route as ApiPublicCrmEmailEventsRouteImport } from './routes/api/public/crm-email-events'
+import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
+import { Route as ApiPublicHealthzRouteImport } from './routes/api/public/healthz'
+import { Route as ApiPublicRuntimeLogsRouteImport } from './routes/api/public/runtime-logs'
 import { Route as BookingRespondTokenRouteImport } from './routes/booking/respond/$token'
 import { Route as CenterCSlugRouteImport } from './routes/center/c/$slug'
 import { Route as OpsWorkspaceIndexRouteImport } from './routes/ops/$workspace/index'
@@ -644,6 +649,11 @@ const AdminCrmRoute = AdminCrmRouteImport.update({
   path: '/crm',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDnsRoute = AdminDnsRouteImport.update({
+  id: '/dns',
+  path: '/dns',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminFinanceRoute = AdminFinanceRouteImport.update({
   id: '/finance',
   path: '/finance',
@@ -971,9 +981,29 @@ const LocaleSessionSessionIdRoute = LocaleSessionSessionIdRouteImport.update({
   path: '/$locale/session/$sessionId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCiEventsRoute = ApiPublicCiEventsRouteImport.update({
+  id: '/api/public/ci-events',
+  path: '/api/public/ci-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicCrmEmailEventsRoute = ApiPublicCrmEmailEventsRouteImport.update({
   id: '/api/public/crm-email-events',
   path: '/api/public/crm-email-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
+  id: '/api/public/health',
+  path: '/api/public/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHealthzRoute = ApiPublicHealthzRouteImport.update({
+  id: '/api/public/healthz',
+  path: '/api/public/healthz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicRuntimeLogsRoute = ApiPublicRuntimeLogsRouteImport.update({
+  id: '/api/public/runtime-logs',
+  path: '/api/public/runtime-logs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingRespondTokenRoute = BookingRespondTokenRouteImport.update({
@@ -1127,6 +1157,7 @@ export interface FileRoutesByFullPath {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
+  '/admin/dns': typeof AdminDnsRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
@@ -1189,7 +1220,11 @@ export interface FileRoutesByFullPath {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
+  '/api/public/ci-events': typeof ApiPublicCiEventsRoute
   '/api/public/crm-email-events': typeof ApiPublicCrmEmailEventsRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/healthz': typeof ApiPublicHealthzRoute
+  '/api/public/runtime-logs': typeof ApiPublicRuntimeLogsRoute
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
@@ -1295,6 +1330,7 @@ export interface FileRoutesByTo {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
+  '/admin/dns': typeof AdminDnsRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
@@ -1356,7 +1392,11 @@ export interface FileRoutesByTo {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
+  '/api/public/ci-events': typeof ApiPublicCiEventsRoute
   '/api/public/crm-email-events': typeof ApiPublicCrmEmailEventsRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/healthz': typeof ApiPublicHealthzRoute
+  '/api/public/runtime-logs': typeof ApiPublicRuntimeLogsRoute
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
@@ -1463,6 +1503,7 @@ export interface FileRoutesById {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/crm': typeof AdminCrmRoute
+  '/admin/dns': typeof AdminDnsRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
   '/apply/organization': typeof ApplyOrganizationRoute
@@ -1525,7 +1566,11 @@ export interface FileRoutesById {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
+  '/api/public/ci-events': typeof ApiPublicCiEventsRoute
   '/api/public/crm-email-events': typeof ApiPublicCrmEmailEventsRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/healthz': typeof ApiPublicHealthzRoute
+  '/api/public/runtime-logs': typeof ApiPublicRuntimeLogsRoute
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
@@ -1633,6 +1678,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/audit'
     | '/admin/crm'
+    | '/admin/dns'
     | '/admin/finance'
     | '/admin/growth-leads'
     | '/apply/organization'
@@ -1695,7 +1741,11 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
+    | '/api/public/ci-events'
     | '/api/public/crm-email-events'
+    | '/api/public/health'
+    | '/api/public/healthz'
+    | '/api/public/runtime-logs'
     | '/booking/respond/$token'
     | '/center/c/$slug'
     | '/ops/$workspace/command'
@@ -1801,6 +1851,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/audit'
     | '/admin/crm'
+    | '/admin/dns'
     | '/admin/finance'
     | '/admin/growth-leads'
     | '/apply/organization'
@@ -1862,7 +1913,11 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
+    | '/api/public/ci-events'
     | '/api/public/crm-email-events'
+    | '/api/public/health'
+    | '/api/public/healthz'
+    | '/api/public/runtime-logs'
     | '/booking/respond/$token'
     | '/center/c/$slug'
     | '/ops/$workspace/command'
@@ -1968,6 +2023,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/audit'
     | '/admin/crm'
+    | '/admin/dns'
     | '/admin/finance'
     | '/admin/growth-leads'
     | '/apply/organization'
@@ -2030,7 +2086,11 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
+    | '/api/public/ci-events'
     | '/api/public/crm-email-events'
+    | '/api/public/health'
+    | '/api/public/healthz'
+    | '/api/public/runtime-logs'
     | '/booking/respond/$token'
     | '/center/c/$slug'
     | '/ops/$workspace/command'
@@ -2148,7 +2208,11 @@ export interface RootRouteChildren {
   LocaleCampaignsJoinSpecialistRoute: typeof LocaleCampaignsJoinSpecialistRoute
   LocaleInviteCodeRoute: typeof LocaleInviteCodeRoute
   LocaleSessionSessionIdRoute: typeof LocaleSessionSessionIdRoute
+  ApiPublicCiEventsRoute: typeof ApiPublicCiEventsRoute
   ApiPublicCrmEmailEventsRoute: typeof ApiPublicCrmEmailEventsRoute
+  ApiPublicHealthRoute: typeof ApiPublicHealthRoute
+  ApiPublicHealthzRoute: typeof ApiPublicHealthzRoute
+  ApiPublicRuntimeLogsRoute: typeof ApiPublicRuntimeLogsRoute
   BookingRespondTokenRoute: typeof BookingRespondTokenRoute
   LocaleBookingRespondTokenRoute: typeof LocaleBookingRespondTokenRoute
 }
@@ -2806,6 +2870,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCrmRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/dns': {
+      id: '/admin/dns'
+      path: '/dns'
+      fullPath: '/admin/dns'
+      preLoaderRoute: typeof AdminDnsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/finance': {
       id: '/admin/finance'
       path: '/finance'
@@ -3233,11 +3304,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleSessionSessionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ci-events': {
+      id: '/api/public/ci-events'
+      path: '/api/public/ci-events'
+      fullPath: '/api/public/ci-events'
+      preLoaderRoute: typeof ApiPublicCiEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/crm-email-events': {
       id: '/api/public/crm-email-events'
       path: '/api/public/crm-email-events'
       fullPath: '/api/public/crm-email-events'
       preLoaderRoute: typeof ApiPublicCrmEmailEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/health': {
+      id: '/api/public/health'
+      path: '/api/public/health'
+      fullPath: '/api/public/health'
+      preLoaderRoute: typeof ApiPublicHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/healthz': {
+      id: '/api/public/healthz'
+      path: '/api/public/healthz'
+      fullPath: '/api/public/healthz'
+      preLoaderRoute: typeof ApiPublicHealthzRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/runtime-logs': {
+      id: '/api/public/runtime-logs'
+      path: '/api/public/runtime-logs'
+      fullPath: '/api/public/runtime-logs'
+      preLoaderRoute: typeof ApiPublicRuntimeLogsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/booking/respond/$token': {
@@ -3324,6 +3423,7 @@ interface AdminRouteChildren {
   AdminApplicationsRoute: typeof AdminApplicationsRoute
   AdminAuditRoute: typeof AdminAuditRoute
   AdminCrmRoute: typeof AdminCrmRoute
+  AdminDnsRoute: typeof AdminDnsRoute
   AdminFinanceRoute: typeof AdminFinanceRoute
   AdminGrowthLeadsRoute: typeof AdminGrowthLeadsRoute
 }
@@ -3332,6 +3432,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminApplicationsRoute: AdminApplicationsRoute,
   AdminAuditRoute: AdminAuditRoute,
   AdminCrmRoute: AdminCrmRoute,
+  AdminDnsRoute: AdminDnsRoute,
   AdminFinanceRoute: AdminFinanceRoute,
   AdminGrowthLeadsRoute: AdminGrowthLeadsRoute,
 }
@@ -3745,7 +3846,11 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleCampaignsJoinSpecialistRoute: LocaleCampaignsJoinSpecialistRoute,
   LocaleInviteCodeRoute: LocaleInviteCodeRoute,
   LocaleSessionSessionIdRoute: LocaleSessionSessionIdRoute,
+  ApiPublicCiEventsRoute: ApiPublicCiEventsRoute,
   ApiPublicCrmEmailEventsRoute: ApiPublicCrmEmailEventsRoute,
+  ApiPublicHealthRoute: ApiPublicHealthRoute,
+  ApiPublicHealthzRoute: ApiPublicHealthzRoute,
+  ApiPublicRuntimeLogsRoute: ApiPublicRuntimeLogsRoute,
   BookingRespondTokenRoute: BookingRespondTokenRoute,
   LocaleBookingRespondTokenRoute: LocaleBookingRespondTokenRoute,
 }

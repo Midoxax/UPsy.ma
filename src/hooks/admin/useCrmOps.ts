@@ -238,3 +238,60 @@ export const useCrmOpsMutations = () => {
 
   return { toggleRule, setStageProbability, markNotificationRead, invalidate };
 };
+
+// ---- Campaign funnel performance + Observatoire funnel report ----
+
+export type FunnelMetrics = {
+  window: { from: string; to: string };
+  total_events: number;
+  by_variant: Record<string, { events: number; conversions: number; rate: number }>;
+  by_source: Record<string, { events: number; conversions: number; rate: number }>;
+  by_utm: Record<string, Record<string, { events: number; conversions: number; rate: number }>>;
+  conversion_rate: number;
+};
+
+export function useFunnelMetrics(from?: string, to?: string) {
+  return useQuery({
+    queryKey: ["admin", "crm-ops", "funnel-metrics", from, to],
+    queryFn: async () => {
+      const { data, error } = await db.rpc("funnel_metrics", {
+        _from: from ?? null,
+        _to: to ?? null,
+      });
+      if (error) throw error;
+      return data as FunnelMetrics;
+    },
+    staleTime: 60_000,
+  });
+}
+
+export type ObservatoireFunnelStep = {
+  step: string;
+  label: string;
+  count: number;
+  rate: number;
+};
+
+export type ObservatoireFunnelReport = {
+  window_days: number;
+  from: string;
+  to: string;
+  steps: ObservatoireFunnelStep[];
+  completions: number;
+  completion_rate: number;
+  total_starts: number;
+  by_track: Record<string, { starts: number; completions: number; rate: number }>;
+  lead_tags: Record<string, number>;
+};
+
+export function useObservatoireFunnelReport(days = 7) {
+  return useQuery({
+    queryKey: ["admin", "crm-ops", "observatoire-funnel", days],
+    queryFn: async () => {
+      const { data, error } = await db.rpc("observatoire_funnel_report", { _days: days });
+      if (error) throw error;
+      return data as ObservatoireFunnelReport;
+    },
+    staleTime: 60_000,
+  });
+}

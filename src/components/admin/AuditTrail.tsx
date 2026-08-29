@@ -39,6 +39,7 @@ import {
   type AuditFilters,
   type DataClass,
 } from "@/hooks/admin/useAudit";
+import { OperationsLogsPanel } from "@/components/admin/OperationsLogsPanel";
 
 const CLASS_STYLE: Record<DataClass, string> = {
   C1: "bg-destructive/10 text-destructive border-destructive/30",
@@ -153,6 +154,7 @@ const AuditTrail = () => {
               </span>
             ) : null}
           </TabsTrigger>
+          <TabsTrigger value="ops" className="text-xs">Operations log</TabsTrigger>
         </TabsList>
 
         <TabsContent value="trail" className="space-y-4">
@@ -363,6 +365,10 @@ const AuditTrail = () => {
               );
             })
           )}
+        </TabsContent>
+
+        <TabsContent value="ops" className="space-y-4">
+          <OperationsLogsPanel />
         </TabsContent>
       </Tabs>
     </div>
