@@ -57,7 +57,7 @@ export default function ExperimentPanel() {
     setLoading(true);
     const [w, m, h] = await Promise.all([
       supabase.rpc("home_hero_winner").maybeSingle(),
-      supabase.rpc("funnel_metrics", { _from: null, _to: null }),
+      supabase.rpc("funnel_metrics"),
       supabase
         .from("experiment_winners")
         .select("id,experiment_id,winning_variant,control_rate,winner_rate,lift_pct,confidence,auto,decided_at")
