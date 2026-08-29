@@ -562,6 +562,7 @@ const CrmManager = () => {
           <TabsTrigger value="forecast">Forecast</TabsTrigger>
           <TabsTrigger value="automations">Automations</TabsTrigger>
           <TabsTrigger value="funnels">Funnels</TabsTrigger>
+          <TabsTrigger value="experiments">Experiments</TabsTrigger>
         </TabsList>
         <TabsContent value="overview"><OverviewView onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="contacts"><ContactsView onOpenContact={setOpenContact} /></TabsContent>
@@ -569,6 +570,7 @@ const CrmManager = () => {
         <TabsContent value="forecast"><CrmForecastPanel onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="automations"><CrmAutomationsPanel onOpenContact={setOpenContact} /></TabsContent>
         <TabsContent value="funnels"><CrmFunnelPanel /></TabsContent>
+        <TabsContent value="experiments"><ExperimentPanel /></TabsContent>
       </Tabs>
 
       <ContactDetail contactId={openContact} onClose={() => setOpenContact(null)} />
